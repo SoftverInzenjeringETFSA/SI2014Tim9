@@ -1,5 +1,9 @@
 # SI2014 Tim9
-##       Članovi tima:
+##       NAZIV TIMA:  
+####  <ul><li>CODE9</li> </ul>
+##       PROJEKTNI ZADATAK:
+####   <ul>  <li>SOFTVERSKO RJEŠENJE ZA ŠAHOVSKI TURNIR</li></ul>
+##       ČLANOVI TIMA:
 <ul>
 <li>Kiselica Aldin</li>
 <li>Klico Merima</li>
@@ -9,5 +13,3 @@
 <li>Kušundžija Elma</li>
 <li>Mehanović Adnan</li>
 </ul>
-##       Projektni zadatak:
-###   <strong>  Softversko rješenje za šahovski turnir</strong>
