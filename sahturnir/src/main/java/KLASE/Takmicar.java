@@ -3,7 +3,7 @@ package KLASE;
 import java.util.Date;
 import java.io.Serializable;
 
-public class Takmicar implements Serializable {
+public class Takmicar extends Osoba implements Serializable {
 
 	private long id;
 	private Date datumRodjenja;
