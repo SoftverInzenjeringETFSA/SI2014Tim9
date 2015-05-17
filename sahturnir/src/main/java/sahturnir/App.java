@@ -42,7 +42,7 @@ public class App {
 		Transaction t1 = session.beginTransaction();
 		Takmicar t = new Takmicar();
 		Klub k = new Klub();
-		k.setNaziv("zoooooohoooooo");
+		k.setNaziv("ghjooooohoooooo");
 		k.setSjediste("Uzavreli grad");
 		k.setPredsjednik("Kiss Kiss");
 		k.setDatumOsnivanja(new Date());
@@ -61,9 +61,9 @@ public class App {
 		m.setRezultat2(0.);
 		m.setTakmicar1(t);
 		m.setTakmicar2(t);
-		Long id = (Long) session.save(m);
+		//Long id = (Long) session.save(m);
 		//Long id1 = (Long) session.save(t);
-		//Long id2 = (Long) session.save(k);
+		Long id2 = (Long) session.save(k);
 		System.out.println("Pozz");
 		t1.commit();
 	}
