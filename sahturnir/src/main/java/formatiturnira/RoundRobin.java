@@ -2,6 +2,10 @@ package formatiturnira;
 
 public class RoundRobin {
 
-	public RoundRobin(){}
+	int testAtr; //Obrisati
+	
+	public RoundRobin(){
+		
+	}
 	
 }
