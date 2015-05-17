@@ -18,8 +18,21 @@ public class App {
 		dodajNesto(session);
 		//nadjiNesto(session);
 		session.close();
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Prijava frame = new Prijava();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
+
+	
 	private static void dodajNesto(Session session) {
 		Transaction t1 = session.beginTransaction();
 		Takmicar t = new Takmicar();
