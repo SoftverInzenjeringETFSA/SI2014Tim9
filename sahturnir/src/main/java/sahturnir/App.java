@@ -40,14 +40,14 @@ public class App {
 		Transaction t1 = session.beginTransaction();
 		Takmicar t = new Takmicar();
 		Klub k = new Klub();
-		k.setNaziv("ghxooooohooooox");
+		k.setNaziv("ghzooooohoooooy");
 		k.setSjediste("Uzavreli grad");
 		k.setPredsjednik("Kiss Kiss");
 		k.setDatumOsnivanja(new Date());
 		t.setId(1);
 		t.setIme("imendan");
 		t.setPrezime("prezimendan");
-		t.setJmbg("1266617851954");
+		t.setJmbg("7766617851754");
 		t.setBrojBodova(5);
 		t.setDatumRodjenja(new Date());
 		t.setKategorija("levat");
