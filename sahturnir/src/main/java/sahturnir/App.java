@@ -6,7 +6,7 @@ public class App {
 		String url = "jdbc:mysql://localhost/sahovski_klub_pijun";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection c = DriverManager.getConnection(url, "siuser", "password123");
+			Connection c = DriverManager.getConnection(url, "root", "turnir");
 			try {
 				Statement st = c.createStatement();
 				ResultSet rs = st.executeQuery("select * from klubovi;");
