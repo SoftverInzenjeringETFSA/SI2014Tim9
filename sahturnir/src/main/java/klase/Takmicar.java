@@ -2,7 +2,7 @@ package klase;
 
 import java.util.Date;
 
-public class Takmicar extends Osoba implements java.io.Serializable {
+public class Takmicar extends Osoba implements java.io.Serializable , Comparable<Takmicar>  {
 
 	public Takmicar() {
 		// TODO Auto-generated constructor stub
@@ -53,4 +53,16 @@ public class Takmicar extends Osoba implements java.io.Serializable {
 	public void setKategorija(String kategorija) {
 		this.kategorija = kategorija;
 	}
+	
+	 @Override
+	    public int compareTo(Takmicar t) {
+	       
+	       if ((this.brojBodova - t.brojBodova)>0)
+	        return 1;
+	       else if((this.brojBodova - t.brojBodova)<0)
+	    	   return 0;
+	       return 0;
+	        
+	    }
+	
 }
