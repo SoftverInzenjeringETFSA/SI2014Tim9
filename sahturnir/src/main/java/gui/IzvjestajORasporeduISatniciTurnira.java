@@ -106,14 +106,13 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Naziv turnira", "Datum po\u010Detka turnira", "Trajanje turnira (dani)", "Parovi/me\u010Devi", "Termini me\u010Deva"
+				"Broj me\u010Da","Takmi\u010Dar 1", "Takmi\u010Dar 2", "Termin me\u010Da"
 			}
 		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(150);
 		table.getColumnModel().getColumn(3).setPreferredWidth(150);
-		table.getColumnModel().getColumn(4).setPreferredWidth(150);
 		scrollPane.setViewportView(table);
 		
 		JButton btnPrint = new JButton("Print");
