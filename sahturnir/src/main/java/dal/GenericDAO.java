@@ -5,6 +5,9 @@ import utils.HibernateUtil;
 import org.hibernate.Transaction;
 import org.hibernate.Session;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class GenericDAO<T> {
 
 	public boolean create(T o) {
@@ -79,6 +82,24 @@ public class GenericDAO<T> {
 		} finally {
 			session.close();
 			return isDone;
+		}
+	}
+	
+	public static <T> List<T> getAll(Class<T> classType) {
+		Session session = null;
+		Transaction transaction = null;
+		List<T> l = new ArrayList<T>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			l = session.createCriteria(classType).list();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null)
+				transaction.rollback();
+		} finally {
+			session.close();
+			return l;
 		}
 	}
 }
