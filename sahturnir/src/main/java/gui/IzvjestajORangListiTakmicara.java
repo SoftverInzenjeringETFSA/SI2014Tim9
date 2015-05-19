@@ -2,15 +2,22 @@ package gui;
 
 import java.awt.EventQueue;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.DialogTypeSelection;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Color;
 import java.awt.Toolkit;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextPane;
+
 import java.awt.Font;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -19,8 +26,15 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+
 import java.util.Date;
 import java.util.Calendar;
+
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.print.PrinterJob;
 
 public class IzvjestajORangListiTakmicara extends JFrame {
 
@@ -56,14 +70,11 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORangListiTakmicara.class.getResource("/gui/Screenshot_2.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 534, 623);
+		setBounds(100, 100, 534, 558);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-		JTextPane txtpnIzvjetajORang = new JTextPane();
-		txtpnIzvjetajORang.setText("Izvje\u0161taj o rang listi takmi\u010Dara");
 		
 		JTextPane textPane = new JTextPane();
 		
@@ -79,43 +90,64 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
+		
+		JButton btnPrint = new JButton("Print");
+		btnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				final PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+		        attributes.add(DialogTypeSelection.COMMON);
+		        PrinterJob printJob = PrinterJob.getPrinterJob();
+		        printJob.printDialog(attributes);
+			}
+		});
+		
+		JTextPane txtpnIzvjetajORang = new JTextPane();
+		txtpnIzvjetajORang.setText("Izvje\u0161taj o rang listi takmi\u010Dara");
+		txtpnIzvjetajORang.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtpnIzvjetajORang.setBackground(Color.WHITE);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtpnIzvjetajORang, GroupLayout.PREFERRED_SIZE, 228, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)
 							.addGap(37)
 							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 483, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, 222, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE))
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 483, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
+							.addComponent(txtpnIzvjetajORang, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(txtpnIzvjetajORang, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(txtpnIzvjetajORang, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+							.addGap(8)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(btnPrint))
 					.addGap(42)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
-					.addGap(41)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGap(26)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(59, Short.MAX_VALUE))
+					.addGap(24))
 		);
 		
 		table = new JTable();
