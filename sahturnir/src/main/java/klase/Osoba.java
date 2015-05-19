@@ -42,4 +42,9 @@ public abstract class Osoba implements java.io.Serializable {
 	public void setJmbg(String jmbg) {
 		this.jmbg = jmbg;
 	}
+
+	public int compareTo(Takmicar t) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
