@@ -57,10 +57,10 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 	 @Override
 	    public int compareTo(Takmicar t) {
 	       
-	       if ((this.brojBodova - t.brojBodova)>0)
+	       if ((this.brojBodova - t.brojBodova)>(double)0)
 	        return 1;
-	       else if((this.brojBodova - t.brojBodova)<0)
-	    	   return 0;
+	       else if((this.brojBodova - t.brojBodova)<(double)0)
+	    	   return -1;
 	       return 0;
 	        
 	    }
