@@ -33,7 +33,6 @@ public class JednostrukaEliminacija {
  	List<Mec> GenerisiRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda){
  		if (prvaRunda){
  			Collections.shuffle(takmicari);
- 			prvaRunda = true;
  		}
  		for (int i = 0; i < takmicari.size() - 1; i = i + 2){
  			m.setTakmicar1(takmicari.get(i));
