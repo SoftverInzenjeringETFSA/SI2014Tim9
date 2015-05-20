@@ -10,10 +10,8 @@ public class TurnirDAO extends GenericDAO {
 	public int getNumberOfContestants(long id) {
 		int resultValue = 0;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection connection = DriverManager.getConnection(
-					"jdbc:mysql://localhost/sahovski_klub_pijun", "siuser",
-					"password123");
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
 			try {
 				PreparedStatement statement = connection
 						.prepareStatement("SELECT count(v.takmicar) FROM takmicar_turnir_veza v WHERE v.turnir = ?;");

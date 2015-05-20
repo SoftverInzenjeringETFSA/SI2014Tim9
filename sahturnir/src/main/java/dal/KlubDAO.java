@@ -7,10 +7,8 @@ public class KlubDAO extends GenericDAO {
 	public double calculateClubPoints(long id) {
 		double resultValue = 0.;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection connection = DriverManager.getConnection(
-					"jdbc:mysql://localhost/sahovski_klub_pijun", "siuser",
-					"password123");
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
 			try {
 				PreparedStatement statement = connection
 						.prepareStatement("SELECT sum(t.brojBodova) FROM takmicari t WHERE t.klub = ?;");
