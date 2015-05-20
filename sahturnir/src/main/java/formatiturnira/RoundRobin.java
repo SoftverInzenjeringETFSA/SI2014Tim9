@@ -9,14 +9,18 @@ import klase.Takmicar;
 import klase.Turnir;
 
 public class RoundRobin { // NIJE TESTIRANO, TREBA PROVJERITI
+	List<Mec> mecevi;
+	Mec m;
+	List<Takmicar> tmp;
 
-	public RoundRobin(){}
-
-
-	public List<Mec> RoundRobinGenerator(List<Takmicar> takmicari, Turnir t) {
+	public RoundRobin(){
 		List<Mec> mecevi = new ArrayList<Mec>();
 		Mec m = new Mec();
 		List<Takmicar> tmp = new LinkedList<Takmicar>();
+	}
+
+
+	public List<Mec> RoundRobinGenerator(List<Takmicar> takmicari, Turnir t) {
 		tmp = takmicari;
 		int half = tmp.size() / 2;
 		int rounds = tmp.size() - 1;
