@@ -68,6 +68,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 	 * Create the frame.
 	 */
 	public IzvjestajORasporeduISatniciTurnira() {
+		setResizable(false);
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORasporeduISatniciTurnira.class.getResource("/gui/Screenshot_2.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,6 +79,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		setContentPane(contentPane);
 		
 		JTextPane txtpnIzvjetajORasporedu = new JTextPane();
+		txtpnIzvjetajORasporedu.setEditable(false);
 		txtpnIzvjetajORasporedu.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtpnIzvjetajORasporedu.setBackground(Color.WHITE);
 		txtpnIzvjetajORasporedu.setText("Izvje\u0161taj o rasporedu i satnici turnira");
@@ -85,6 +87,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JTextPane txtpnDatumIVrijeme = new JTextPane();
+		txtpnDatumIVrijeme.setEditable(false);
 		txtpnDatumIVrijeme.setBackground(Color.WHITE);
 		txtpnDatumIVrijeme.setText("Datum i vrijeme generisanja izvje\u0161taja:");
 		
@@ -92,11 +95,13 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		textField.setColumns(10);
 		
 		JTextPane textPane = new JTextPane();
+		textPane.setEditable(false);
 		textPane.setText("Naziv turnira:");
 		
 		JComboBox comboBox = new JComboBox();
 		
 		JTextPane txtpnDatumPoetkaTurnira = new JTextPane();
+		txtpnDatumPoetkaTurnira.setEditable(false);
 		txtpnDatumPoetkaTurnira.setText("Datum po\u010Detka turnira:");
 		JSpinner spinner = new JSpinner();
 		spinner.setModel(new SpinnerDateModel(new Date(1431986400000L), null, null, Calendar.DAY_OF_YEAR));
@@ -130,28 +135,29 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 					.addGap(10)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtpnIzvjetajORasporedu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 510, Short.MAX_VALUE)
-							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 802, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, 513, Short.MAX_VALUE)
+							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(txtpnDatumPoetkaTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(spinner_1)
-								.addComponent(comboBox, 0, 153, Short.MAX_VALUE))
-							.addContainerGap())))
+								.addComponent(comboBox, 0, 153, Short.MAX_VALUE))))
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -159,8 +165,9 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 					.addGap(11)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtpnIzvjetajORasporedu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -169,10 +176,10 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 								.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtpnDatumPoetkaTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(btnPrint))
-					.addGap(20)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 301, GroupLayout.PREFERRED_SIZE)
-					.addGap(47)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
+					.addGap(41)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 		);
