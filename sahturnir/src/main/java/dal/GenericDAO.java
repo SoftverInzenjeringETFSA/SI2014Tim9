@@ -10,6 +10,11 @@ import java.util.ArrayList;
 
 public class GenericDAO<T> {
 
+	protected String driver = "com.mysql.jdbc.Driver";
+	protected String cs1 = "jdbc:mysql://localhost/sahovski_klub_pijun";
+	protected String cs2 = "siuser";
+	protected String cs3 = "password123";
+			
 	public boolean create(T o) {
 		Session session = null;
 		Transaction transaction = null;
