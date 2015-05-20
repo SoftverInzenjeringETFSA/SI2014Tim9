@@ -2,6 +2,7 @@ package utils;
 
 import gui.GlavniProzor;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import klase.Klub;
 import klase.Korisnik;
@@ -21,8 +23,8 @@ import dal.TakmicarDAO;
 import dal.TurnirDAO;
 
 public class JTableUtil {
-
-	public JTable populateJTableTakmicari() {
+	
+	public TableModel populateJTableTakmicari() {
 		List<Takmicar> takmicari = new ArrayList<Takmicar>();
 		TakmicarDAO tdao = new TakmicarDAO();
 		takmicari = tdao.getAll(Takmicar.class);
@@ -37,10 +39,10 @@ public class JTableUtil {
 			data[i][3] = String.valueOf(takmicari.get(i).getBrojBodova());
 			data[i][4] = takmicari.get(i).getKategorija();
 		}
-		return new JTable(data, columnNames);
+		return new DefaultTableModel(data, columnNames);
 	}
 
-	public JTable populateJTableKorisnici() {
+	public TableModel populateJTableKorisnici() {
 		List<Korisnik> korisnici = new ArrayList<Korisnik>();
 		KorisnikDAO kdao = new KorisnikDAO();
 		korisnici = kdao.getAll(Korisnik.class);
@@ -52,27 +54,49 @@ public class JTableUtil {
 					+ korisnici.get(i).getPrezime();
 			data[i][2] = korisnici.get(i).getJmbg();
 		}
-		return new JTable(data, columnNames);
+		return new DefaultTableModel(data, columnNames);
 	}
 
-	public JTable populateJTableKlubovi() {
+	public TableModel populateJTableKlubovi() {
 		List<Klub> klubovi = new ArrayList<Klub>();
 		KlubDAO kdao = new KlubDAO();
 		klubovi = kdao.getAll(Klub.class);
-		String[] columnNames = { "Naziv", "Sjedište", "Predsjednik",
-				"Datum osnivanja", "Broj bodova", "Opcije" };
-		Object[][] data = new String[klubovi.size()][6];
+		String[] columnNames = { "ID", "Naziv", "Sjedište", "Predsjednik",
+				"Datum osnivanja", "Broj bodova", "" };
+		String[][] data = new String[klubovi.size()][7];
 		for (int i = 0; i < klubovi.size(); i++) {
-			data[i][0] = klubovi.get(i).getNaziv();
-			data[i][1] = klubovi.get(i).getSjediste();
-			data[i][2] = klubovi.get(i).getPredsjednik();
-			data[i][3] = String.valueOf(klubovi.get(i).getDatumOsnivanja());
-			data[i][4] = String.valueOf(kdao.calculateClubPoints(klubovi.get(i).getId()));
+			data[i][0] = String.valueOf(klubovi.get(i).getId());
+			data[i][1] = klubovi.get(i).getNaziv();
+			data[i][2] = klubovi.get(i).getSjediste();
+			data[i][3] = klubovi.get(i).getPredsjednik();
+			data[i][4] = String.valueOf(klubovi.get(i).getDatumOsnivanja());
+			data[i][5] = String.valueOf(kdao.calculateClubPoints(klubovi.get(i).getId()));
+			data[i][6] = "UREDI";
 		}
-		return new JTable(data, columnNames);
+		return new DefaultTableModel(data, columnNames);
+	}
+	
+	public TableModel searchKlubovi(int criteria, String parameter) {
+		if(parameter == "")
+			return populateJTableKlubovi();
+		KlubDAO kdao = new KlubDAO();
+		List<Klub> klubovi = kdao.search(criteria, parameter);
+		String[] columnNames = { "ID", "Naziv", "Sjedište", "Predsjednik",
+				"Datum osnivanja", "Broj bodova", "" };
+		String[][] data = new String[klubovi.size()][7];
+		for (int i = 0; i < klubovi.size(); i++) {
+			data[i][0] = String.valueOf(klubovi.get(i).getId());
+			data[i][1] = klubovi.get(i).getNaziv();
+			data[i][2] = klubovi.get(i).getSjediste();
+			data[i][3] = klubovi.get(i).getPredsjednik();
+			data[i][4] = String.valueOf(klubovi.get(i).getDatumOsnivanja());
+			data[i][5] = String.valueOf(kdao.calculateClubPoints(klubovi.get(i).getId()));
+			data[i][6] = "UREDI";
+		}
+		return new DefaultTableModel(data, columnNames);
 	}
 
-	public JTable populateJTableTurniri() {
+	public TableModel populateJTableTurniri() {
 		List<Turnir> turniri = new ArrayList<Turnir>();
 		TurnirDAO tdao = new TurnirDAO();
 		turniri = tdao.getAll(Turnir.class);
@@ -87,6 +111,6 @@ public class JTableUtil {
 			data[i][4] = String.valueOf(tdao.getNumberOfContestants(turniri
 					.get(i).getId()));
 		}
-		return new JTable(data, columnNames);
+		return new DefaultTableModel(data, columnNames);
 	}
 }

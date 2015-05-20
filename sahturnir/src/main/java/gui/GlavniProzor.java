@@ -42,6 +42,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.SwingConstants;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -61,6 +62,7 @@ import utils.JTableUtil;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.SystemColor;
 
 public class GlavniProzor extends JFrame {
 
@@ -77,6 +79,7 @@ public class GlavniProzor extends JFrame {
 	private JPanel panel_2 = new JPanel();
 	private JPanel panel_8 = new JPanel();
 	JTable table = new JTable();
+	private JTextField textField_2;
 	
 	/**
 	 * Launch the application.
@@ -118,6 +121,7 @@ public class GlavniProzor extends JFrame {
 				.getResource("/gui/Screenshot_2.png")));
 
 		txtpnahovskiKlubPijun = new JTextPane();
+		txtpnahovskiKlubPijun.setEditable(false);
 		txtpnahovskiKlubPijun.setFont(new Font("Tahoma", Font.BOLD, 22));
 		txtpnahovskiKlubPijun.setText("\u0160AHOVSKI KLUB PIJUN");
 
@@ -134,9 +138,30 @@ public class GlavniProzor extends JFrame {
 		label_6.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label_6.setIcon(new ImageIcon(GlavniProzor.class
 				.getResource("/gui/postavke.png")));
+		JTable sss = new JTable();
+		
+		sss.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);	
+				return c;
+			}
+		});
 		
 		JTableUtil jtutil = new JTableUtil();
-		table = jtutil.populateJTableKlubovi();
+		table.setModel(jtutil.populateJTableKlubovi());
 		panel.setLayout(new BorderLayout());
 		panel.add(table.getTableHeader(), BorderLayout.NORTH);
 		panel.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -155,7 +180,7 @@ public class GlavniProzor extends JFrame {
 				JTableHeader h = table.getTableHeader();
 				h.setOpaque(false);
 				h.setBackground(c3);
-				h.setForeground(Color.white);
+				h.setForeground(Color.white);	
 				return c;
 			}
 		});
@@ -164,22 +189,23 @@ public class GlavniProzor extends JFrame {
 		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
 				.setHorizontalAlignment(JLabel.CENTER);
 		table.getTableHeader().setPreferredSize(new Dimension(0, 40));
-		TableColumn sportColumn = table.getColumnModel().getColumn(5);
-		JComboBox comboBoxs = new JComboBox();
-		comboBoxs.addItem("Snowboarding");
-		comboBoxs.addItem("Rowing");
-		comboBoxs.addItem("Chasing toddlers");
-		comboBoxs.addItem("Speed reading");
-		comboBoxs.addItem("Teaching high school");
-		comboBoxs.addItem("None");
-		comboBoxs.addActionListener (new ActionListener () {
-			public void actionPerformed(ActionEvent e) {
-		        JComboBox cb = (JComboBox)e.getSource();
-		        String petName = (String)cb.getSelectedItem();
-		        table.setValueAt("loooooooooool", 5, 5);
+			
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer = ((DefaultTableCellRenderer) sss.getDefaultRenderer(Object.class));
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
+		table.setEnabled(false);
+		table.removeColumn(table.getColumnModel().getColumn(0));
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = table.rowAtPoint(evt.getPoint());
+		        int col = table.columnAtPoint(evt.getPoint());
+		        if (row >= 0 && col >= 0) {
+		            table.setValueAt(table.getModel().getValueAt(row, 0), row, col);
+		        }
 		    }
 		});
-		sportColumn.setCellEditor(new DefaultCellEditor(comboBoxs));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
@@ -341,21 +367,59 @@ public class GlavniProzor extends JFrame {
 		panel_1.setLayout(gl_panel_1);
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("Klubovi", null, panel_4, null);
+				
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setToolTipText("");
+		
+		JButton button = new JButton("Pretra\u017Ei");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JTableUtil jtutil2 = new JTableUtil();
+				table.setModel(jtutil2.searchKlubovi(0, textField_2.getText()));
+			}
+		});
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setText("Kriterij za pretra\u017Eivanje:");
+		textPane.setBackground(SystemColor.menu);
 		GroupLayout gl_panel_4 = new GroupLayout(panel_4);
-		gl_panel_4.setHorizontalGroup(gl_panel_4.createParallelGroup(
-				Alignment.LEADING).addGroup(
-				gl_panel_4
-						.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 756,
-								Short.MAX_VALUE).addContainerGap()));
-		gl_panel_4.setVerticalGroup(gl_panel_4.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				gl_panel_4
-						.createSequentialGroup()
-						.addGap(71)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 222,
-								Short.MAX_VALUE).addContainerGap()));
+		gl_panel_4.setHorizontalGroup(
+			gl_panel_4.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(button, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_panel_4.setVerticalGroup(
+			gl_panel_4.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_4.createSequentialGroup()
+					.addContainerGap()
+					.addGap(1)
+					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(6)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addGap(1)
+							.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_4.createSequentialGroup()
+							.addGap(1)
+							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(button))
+					.addGap(11)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		panel_4.setLayout(gl_panel_4);
 
 		JPanel panel_5 = new JPanel();
