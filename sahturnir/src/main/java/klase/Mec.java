@@ -12,6 +12,30 @@ public class Mec implements java.io.Serializable {
 	private Takmicar takmicar2;
 	private Double rezultat1;
 	private Double rezultat2;
+	private int round;
+	
+	public Mec(int r) {
+		setRound(r);
+	}
+	
+	public Mec(int r, Takmicar t, int i) {
+		setRound(r); 
+		if (i==1) this.takmicar1 = t;
+		else if (i==2) this.takmicar2=t;
+	}
+	
+	public Mec(int r, Takmicar t1, Takmicar t2)
+	{
+		setRound(r);
+		this.takmicar1 = t1;
+		this.takmicar2 = t2;
+	}
+	
+	public Mec(Takmicar t1, Takmicar t2)
+	{
+		this.takmicar1 = t1;
+		this.takmicar2 = t2;
+	}
 
 	public long getId() {
 		return id;
@@ -59,5 +83,13 @@ public class Mec implements java.io.Serializable {
 
 	public void setRezultat2(Double rezultat2) {
 		this.rezultat2 = rezultat2;
+	}
+
+	public int getRound() {
+		return round;
+	}
+
+	public void setRound(int round) {
+		this.round = round;
 	}
 }
