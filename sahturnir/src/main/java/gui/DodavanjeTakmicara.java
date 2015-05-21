@@ -61,7 +61,7 @@ public class DodavanjeTakmicara extends JFrame {
 	 * Create the frame.
 	 */
 	public DodavanjeTakmicara() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeTakmicara.class.getResource("/gui/Screenshot_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeTakmicara.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 337, 520);

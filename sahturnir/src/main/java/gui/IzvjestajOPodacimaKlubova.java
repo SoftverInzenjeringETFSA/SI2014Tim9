@@ -60,7 +60,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 	public IzvjestajOPodacimaKlubova() {
 		setResizable(false);
 		setTitle("\u0160ahovski klub Pijun");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajOPodacimaKlubova.class.getResource("/gui/Screenshot_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajOPodacimaKlubova.class.getResource("/gui/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 845, 540);
 		contentPane = new JPanel();

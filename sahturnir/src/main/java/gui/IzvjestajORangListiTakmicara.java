@@ -68,7 +68,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 	public IzvjestajORangListiTakmicara() {
 		setResizable(false);
 		setFont(new Font("Dialog", Font.PLAIN, 11));
-		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORangListiTakmicara.class.getResource("/gui/Screenshot_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORangListiTakmicara.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 845, 540);

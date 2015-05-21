@@ -69,7 +69,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 	 */
 	public IzvjestajORangListiKlubova() {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORangListiKlubova.class.getResource("/gui/Screenshot_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORangListiKlubova.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
