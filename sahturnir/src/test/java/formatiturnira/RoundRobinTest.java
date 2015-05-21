@@ -112,6 +112,14 @@ public class RoundRobinTest {
 			assertTrue(mecevi.get(0).getTakmicar2().getIme().equals("elma3"));
 			assertTrue(mecevi.get(1).getTakmicar1().getIme().equals("elma1"));
 			assertTrue(mecevi.get(1).getTakmicar2().getIme().equals("elma2"));
+			assertTrue(mecevi.get(2).getTakmicar1().getIme().equals("elma0"));
+			assertTrue(mecevi.get(2).getTakmicar2().getIme().equals("elma2"));
+			assertTrue(mecevi.get(3).getTakmicar1().getIme().equals("elma3"));
+			assertTrue(mecevi.get(3).getTakmicar2().getIme().equals("elma1"));
+			assertTrue(mecevi.get(4).getTakmicar1().getIme().equals("elma0"));
+			assertTrue(mecevi.get(4).getTakmicar2().getIme().equals("elma1"));
+			assertTrue(mecevi.get(5).getTakmicar1().getIme().equals("elma2"));
+			assertTrue(mecevi.get(5).getTakmicar2().getIme().equals("elma3"));
 			
 			} catch (Exception e) {
 			fail(e.getMessage());
