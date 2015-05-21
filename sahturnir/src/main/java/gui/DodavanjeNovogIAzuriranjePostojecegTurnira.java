@@ -32,13 +32,18 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 
 import javax.swing.JList;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 	private JTextField textField;
+	protected final JTextPane textPane;
 
 	/**
 	 * Launch the application.
@@ -55,6 +60,34 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 			}
 		});
 	}
+	
+	public static Boolean validirajPrazno(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String a = t1.getText();
+		
+		if(a.isEmpty()) 
+			t2.setText("Polje ne smije biti prazno");
+		else
+			izlaz = true;
+		
+		return izlaz;
+	}
+	
+	public static Boolean validirajAlphaNum(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "^[a-zA-Z0-9 ]*";
+		String a = t1.getText();
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(a);
+		
+		if(!(m.matches())) {
+			t2.setText("Neispravni karakteri");
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
 
 	/**
 	 * Create the frame.
@@ -99,8 +132,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Jednostruki eliminacioni", "Dvostruki eliminacioni", "Round Robin", "Swiss"}));
 		
-		final JTextPane textPane = new JTextPane();
-		textPane.setEditable(false);
+		textPane = new JTextPane();
 		textPane.setForeground(Color.RED);
 		textPane.setBackground(Color.WHITE);
 		
@@ -190,32 +222,11 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		btnPotvrdi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textPane.setText("");
-				textPane_1.setText("");
-				textPane_2.setText("");
-				String a = textField.getText();
-				if (a.isEmpty()) textPane.setText("Morate unijeti naziv");
-				
-				int i = 1;
-				boolean flag = false;
-				while(i < (Integer)spinner.getValue()){
-					i = i*2;
-					if((Integer)spinner.getValue() == i){
-						flag = true;
-					}					
-				}
-				if (!flag)
-				{
-					textPane_1.setText("Broj takmi\u010Dara nije validan");
-				}
-				//	TO DO:	if(list_2.size() == spinner.value) zabrani dodavanje novih na turnir
-				
-				if (textPane.getText()=="" && textPane_1.getText()=="" && textPane_2.getText()=="") // VALIDNO JE
-				{
-					// GENERISI TURNIR TO DO:
-				}
-				else{
-					// DO NOTHING
-				}
+				if(validirajPrazno(textField, textPane))
+					textPane.setText("");
+				if(validirajPrazno(textField, textPane))
+					if(validirajAlphaNum(textField, textPane))
+						textPane.setText("");
 			}			
 		}
 			);

@@ -7,21 +7,31 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
 import java.awt.Toolkit;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextPane;
+
 import java.awt.Color;
+
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+
 import java.util.Date;
 import java.util.Calendar;
+import java.util.regex.Pattern;
 import java.awt.Choice;
+
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
+
+import org.hamcrest.Matcher;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -39,8 +49,8 @@ public class DodavanjeTakmicara extends JFrame {
 	private JTextPane txtpnBrojBodova;
 	private JTextPane txtpnKategorija;
 	private JSpinner spinner_1;
-	private JTextPane textPane;
-	private JTextPane textPane_1;
+	protected final JTextPane textPane;
+	protected final JTextPane textPane_1;
 	/**
 	 * Launch the application.
 	 */
@@ -56,6 +66,51 @@ public class DodavanjeTakmicara extends JFrame {
 			}
 		});
 	}
+	public static Boolean validirajPrazno(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String a = t1.getText();
+		
+		if(a.isEmpty()) 
+			t2.setText("Polje ne smije biti prazno");
+		else
+			izlaz = true;
+		
+		return izlaz;
+	}
+	
+    public static Boolean validirajImePrezime(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
+		String a = t1.getText();
+		Pattern p = Pattern.compile(pattern);
+		java.util.regex.Matcher m = p.matcher(a);
+		
+		if(!(m.matches())) {
+			t2.setText("Neispravni karakteri");
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
+    
+    public static Boolean validirajAlphaNum(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "^[a-zA-Z0-9 ]*";
+		String a = t1.getText();
+		Pattern p = Pattern.compile(pattern);
+		java.util.regex.Matcher m = p.matcher(a);
+		
+		Object anchor;
+		if(!(m.matches())) {
+			t2.setText("Neispravni karakteri");
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
+	
 
 	/**
 	 * Create the frame.
@@ -77,6 +132,18 @@ public class DodavanjeTakmicara extends JFrame {
 		JButton btnPotvrdi = new JButton("Potvrdi");
 		btnPotvrdi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				textPane.setText("");
+				textPane_1.setText("");
+				
+				if(validirajPrazno(textField, textPane))
+					textPane.setText("");
+				if(validirajPrazno(textField, textPane))
+					if(validirajImePrezime(textField, textPane))
+						textPane.setText("");
+				if(validirajPrazno(textField_1, textPane_1))
+					textPane_1.setText("");	
+				
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -141,9 +208,11 @@ public class DodavanjeTakmicara extends JFrame {
 		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
+		textPane.setForeground(Color.red);
 		
 		textPane_1 = new JTextPane();
 		textPane_1.setEditable(false);
+		textPane_1.setForeground(Color.red);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
