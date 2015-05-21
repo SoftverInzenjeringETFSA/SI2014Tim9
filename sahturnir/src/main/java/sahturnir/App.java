@@ -23,11 +23,5 @@ public class App {
 				}
 			}
 		});
-		
-		/*List<Takmicar> takmicari = new ArrayList<Takmicar>();
-		TakmicarDAO tdao = new TakmicarDAO();
-		takmicari = tdao.getAll(Takmicar.class);
-		for (int i = 0; i < takmicari.size(); i++)
-			System.out.println(takmicari.get(i).getIme());*/
 	}	
 }

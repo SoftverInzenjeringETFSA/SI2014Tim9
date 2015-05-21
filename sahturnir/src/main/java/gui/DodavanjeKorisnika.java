@@ -9,15 +9,23 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.TitledBorder;
+
 import java.awt.Toolkit;
+
 import javax.swing.JTextPane;
+
 import java.awt.Color;
+
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DodavanjeKorisnika extends JFrame {
 
@@ -27,7 +35,7 @@ public class DodavanjeKorisnika extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
+	private JFrame parentFrame;
 	/**
 	 * Launch the application.
 	 */
@@ -35,8 +43,8 @@ public class DodavanjeKorisnika extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DodavanjeKorisnika frame = new DodavanjeKorisnika();
-					frame.setVisible(true);
+					//DodavanjeKorisnika frame = new DodavanjeKorisnika();
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,16 +55,22 @@ public class DodavanjeKorisnika extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DodavanjeKorisnika() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeKorisnika.class.getResource("/gui/Screenshot_2.png")));
+	public DodavanjeKorisnika(JFrame pf) {
+		parentFrame = pf;
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				parentFrame.setEnabled(true);
+			}
+		});
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeKorisnika.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 590);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(new TitledBorder(null, "Korisni\u010Dki podaci", TitledBorder.LEADING, TitledBorder.TOP, null, null));

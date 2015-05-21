@@ -20,6 +20,7 @@ import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.BorderLayout;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Component;
@@ -43,6 +44,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -62,7 +64,10 @@ import utils.JTableUtil;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
 import java.awt.SystemColor;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GlavniProzor extends JFrame {
 
@@ -80,6 +85,7 @@ public class GlavniProzor extends JFrame {
 	private JPanel panel_8 = new JPanel();
 	JTable table = new JTable();
 	private JTextField textField_2;
+	private JComboBox comboBox_2;
 	
 	/**
 	 * Launch the application.
@@ -106,11 +112,16 @@ public class GlavniProzor extends JFrame {
 	 * Create the frame.
 	 */
 	public GlavniProzor() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				System.exit(0);		
+			}
+		});
 		setBackground(Color.WHITE);
 		setTitle("\u0160ahovski klub Pijun - Glavni prozor");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				GlavniProzor.class.getResource("/gui/Screenshot_2.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				GlavniProzor.class.getResource("/gui/logo.png")));
 		setBounds(100, 100, 827, 500);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -118,11 +129,11 @@ public class GlavniProzor extends JFrame {
 		setContentPane(contentPane);
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(GlavniProzor.class
-				.getResource("/gui/Screenshot_2.png")));
+				.getResource("/gui/logo.png")));
 
 		txtpnahovskiKlubPijun = new JTextPane();
 		txtpnahovskiKlubPijun.setEditable(false);
-		txtpnahovskiKlubPijun.setFont(new Font("Tahoma", Font.BOLD, 22));
+		txtpnahovskiKlubPijun.setFont(new Font("Tahoma", Font.BOLD, 30));
 		txtpnahovskiKlubPijun.setText("\u0160AHOVSKI KLUB PIJUN");
 
 		JLabel label = new JLabel("");
@@ -130,14 +141,35 @@ public class GlavniProzor extends JFrame {
 		JLabel label_1 = new JLabel("");
 
 		JLabel label_5 = new JLabel("");
+		label_5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				java.awt.Window win[] = java.awt.Window.getWindows(); 
+				for(int i=0; i< win.length; i++) { 
+					win[i].dispose(); 
+				} 
+				Prijava frame = new Prijava();
+				frame.setVisible(true);
+			}
+		});
 		label_5.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label_5.setIcon(new ImageIcon(GlavniProzor.class
-				.getResource("/gui/odjava1.jpg")));
-
+				.getResource("/gui/sign_out.png")));
+		label_5.setToolTipText("Odjava");
 		JLabel label_6 = new JLabel("");
+		label_6.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(e.getComponent());
+				DodavanjeKorisnika frame = new DodavanjeKorisnika(parentFrame);
+				frame.setVisible(true);
+				parentFrame.setEnabled(false);
+			}
+		});
 		label_6.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label_6.setIcon(new ImageIcon(GlavniProzor.class
-				.getResource("/gui/postavke.png")));
+				.getResource("/gui/settings.png")));
+		label_6.setToolTipText("Postavke korisnièkog raèuna");
 		JTable sss = new JTable();
 		
 		sss.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -201,7 +233,7 @@ public class GlavniProzor extends JFrame {
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
 		        int row = table.rowAtPoint(evt.getPoint());
 		        int col = table.columnAtPoint(evt.getPoint());
-		        if (row >= 0 && col >= 0) {
+		        if (row >= 0 && col == table.getColumnCount() - 1) {
 		            table.setValueAt(table.getModel().getValueAt(row, 0), row, col);
 		        }
 		    }
@@ -216,7 +248,7 @@ public class GlavniProzor extends JFrame {
 
 		JLabel label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(GlavniProzor.class
-				.getResource("/gui/plusic.jpg")));
+				.getResource("/gui/add.png")));
 
 		panel_2.setLayout(new BorderLayout());
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
@@ -266,104 +298,46 @@ public class GlavniProzor extends JFrame {
 
 		JLabel label_3 = new JLabel("");
 		label_3.setIcon(new ImageIcon(GlavniProzor.class
-				.getResource("/gui/plusic.jpg")));
+				.getResource("/gui/add.png")));
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1
-				.setHorizontalGroup(gl_panel_1
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								Alignment.TRAILING,
-								gl_panel_1
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_panel_1
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addComponent(
-																panel_7,
-																Alignment.LEADING,
-																GroupLayout.DEFAULT_SIZE,
-																756,
-																Short.MAX_VALUE)
-														.addGroup(
-																Alignment.LEADING,
-																gl_panel_1
-																		.createSequentialGroup()
-																		.addComponent(
-																				comboBox,
-																				GroupLayout.PREFERRED_SIZE,
-																				146,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(18)
-																		.addComponent(
-																				textField,
-																				GroupLayout.PREFERRED_SIZE,
-																				133,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(18)
-																		.addComponent(
-																				btnPretrai))
-														.addGroup(
-																Alignment.LEADING,
-																gl_panel_1
-																		.createSequentialGroup()
-																		.addComponent(
-																				txtpnKriterijZaPretraivanje,
-																				GroupLayout.PREFERRED_SIZE,
-																				130,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED,
-																				601,
-																				Short.MAX_VALUE)
-																		.addComponent(
-																				label_3)))
-										.addContainerGap()));
-		gl_panel_1
-				.setVerticalGroup(gl_panel_1
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panel_1
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_panel_1
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(label_3)
-														.addGroup(
-																gl_panel_1
-																		.createSequentialGroup()
-																		.addComponent(
-																				txtpnKriterijZaPretraivanje,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addGroup(
-																				gl_panel_1
-																						.createParallelGroup(
-																								Alignment.BASELINE)
-																						.addComponent(
-																								comboBox,
-																								GroupLayout.PREFERRED_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								textField,
-																								GroupLayout.PREFERRED_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								btnPretrai))))
-										.addPreferredGap(
-												ComponentPlacement.UNRELATED)
-										.addComponent(panel_7,
-												GroupLayout.DEFAULT_SIZE, 222,
-												Short.MAX_VALUE)
-										.addContainerGap()));
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtpnKriterijZaPretraivanje, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_7, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(btnPretrai)
+							.addPreferredGap(ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+							.addComponent(label_3)))
+					.addContainerGap())
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(label_3)
+							.addGap(13))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnPretrai)
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(16))
+						.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(txtpnKriterijZaPretraivanje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addComponent(panel_7, GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		panel_1.setLayout(gl_panel_1);
 		JPanel panel_4 = new JPanel();
 		tabbedPane.addTab("Klubovi", null, panel_4, null);
@@ -371,14 +345,16 @@ public class GlavniProzor extends JFrame {
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
 		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setToolTipText("");
-		
+		comboBox_2 = new JComboBox();
+		comboBox_2.addItem("Naziv");
+		comboBox_2.addItem("Sjedište");
+		comboBox_2.addItem("Predsjednik");
 		JButton button = new JButton("Pretra\u017Ei");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JTableUtil jtutil2 = new JTableUtil();
-				table.setModel(jtutil2.searchKlubovi(0, textField_2.getText()));
+					table.setModel(jtutil2.searchKlubovi(comboBox_2.getSelectedIndex(), textField_2.getText()));
+					table.removeColumn(table.getColumnModel().getColumn(0));
 			}
 		});
 		
@@ -392,42 +368,36 @@ public class GlavniProzor extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
-						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel_4.createSequentialGroup()
 							.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 133, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(button, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(button, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		gl_panel_4.setVerticalGroup(
 			gl_panel_4.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_4.createSequentialGroup()
-					.addContainerGap()
-					.addGap(1)
 					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addGroup(gl_panel_4.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addGap(1)
-							.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_4.createSequentialGroup()
-							.addGap(1)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_4.createParallelGroup(Alignment.BASELINE)
+						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(button))
-					.addGap(11)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		panel_4.setLayout(gl_panel_4);
-
+		this.getRootPane().setDefaultButton(button);
 		JPanel panel_5 = new JPanel();
 		tabbedPane.addTab("Turniri", null, panel_5, null);
 
 		JLabel label_8 = new JLabel("");
 		label_8.setIcon(new ImageIcon(GlavniProzor.class
-				.getResource("/gui/plusic.jpg")));
+				.getResource("/gui/add.png")));
 
 		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
 		gl_panel_5.setHorizontalGroup(
@@ -481,228 +451,90 @@ public class GlavniProzor extends JFrame {
 		JButton btnIzvjetajORang_1 = new JButton(
 				"Izvje\u0161taj o rang listi klubova");
 		GroupLayout gl_panel_6 = new GroupLayout(panel_6);
-		gl_panel_6
-				.setHorizontalGroup(gl_panel_6
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panel_6
-										.createSequentialGroup()
-										.addGap(18)
-										.addGroup(
-												gl_panel_6
-														.createParallelGroup(
-																Alignment.LEADING,
-																false)
-														.addComponent(
-																btnNewButton,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE)
-														.addComponent(
-																btnIzvjetajORasporedu,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																Short.MAX_VALUE))
-										.addGap(18)
-										.addGroup(
-												gl_panel_6
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_panel_6
-																		.createSequentialGroup()
-																		.addComponent(
-																				btnIzvjetajOPodacima,
-																				GroupLayout.PREFERRED_SIZE,
-																				181,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(18)
-																		.addComponent(
-																				btnIzvjetajZaJedan))
-														.addGroup(
-																gl_panel_6
-																		.createSequentialGroup()
-																		.addComponent(
-																				btnIzvjetajORang,
-																				GroupLayout.PREFERRED_SIZE,
-																				181,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(18)
-																		.addComponent(
-																				btnIzvjetajORang_1,
-																				GroupLayout.DEFAULT_SIZE,
-																				196,
-																				Short.MAX_VALUE)))
-										.addContainerGap()));
-		gl_panel_6
-				.setVerticalGroup(gl_panel_6
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panel_6
-										.createSequentialGroup()
-										.addGap(51)
-										.addGroup(
-												gl_panel_6
-														.createParallelGroup(
-																Alignment.BASELINE)
-														.addComponent(
-																btnNewButton,
-																GroupLayout.PREFERRED_SIZE,
-																50,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																btnIzvjetajOPodacima,
-																GroupLayout.PREFERRED_SIZE,
-																50,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																btnIzvjetajZaJedan,
-																GroupLayout.PREFERRED_SIZE,
-																50,
-																GroupLayout.PREFERRED_SIZE))
-										.addGroup(
-												gl_panel_6
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_panel_6
-																		.createSequentialGroup()
-																		.addGap(36)
-																		.addGroup(
-																				gl_panel_6
-																						.createParallelGroup(
-																								Alignment.BASELINE)
-																						.addComponent(
-																								btnIzvjetajORang,
-																								GroupLayout.PREFERRED_SIZE,
-																								50,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								btnIzvjetajORasporedu,
-																								GroupLayout.PREFERRED_SIZE,
-																								52,
-																								GroupLayout.PREFERRED_SIZE)))
-														.addGroup(
-																gl_panel_6
-																		.createSequentialGroup()
-																		.addGap(35)
-																		.addComponent(
-																				btnIzvjetajORang_1,
-																				GroupLayout.PREFERRED_SIZE,
-																				50,
-																				GroupLayout.PREFERRED_SIZE)))
-										.addContainerGap(74, Short.MAX_VALUE)));
+		gl_panel_6.setHorizontalGroup(
+			gl_panel_6.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_6.createSequentialGroup()
+					.addGap(31)
+					.addGroup(gl_panel_6.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+						.addComponent(btnIzvjetajORasporedu, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
+					.addGap(26)
+					.addGroup(gl_panel_6.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnIzvjetajOPodacima, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+						.addComponent(btnIzvjetajORang, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+					.addGap(26)
+					.addGroup(gl_panel_6.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnIzvjetajORang_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnIzvjetajZaJedan, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+					.addGap(27))
+		);
+		gl_panel_6.setVerticalGroup(
+			gl_panel_6.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_6.createSequentialGroup()
+					.addGap(51)
+					.addGroup(gl_panel_6.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+						.addComponent(btnIzvjetajOPodacima, GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+						.addComponent(btnIzvjetajZaJedan, GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE))
+					.addGap(50)
+					.addGroup(gl_panel_6.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnIzvjetajORang, GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+						.addComponent(btnIzvjetajORang_1, GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+						.addComponent(btnIzvjetajORasporedu, GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE))
+					.addGap(56))
+		);
 		panel_6.setLayout(gl_panel_6);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane
-				.setHorizontalGroup(gl_contentPane
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addGap(10)
-										.addComponent(lblNewLabel)
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGap(4)
-																		.addComponent(
-																				txtpnahovskiKlubPijun,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED,
-																				399,
-																				Short.MAX_VALUE)
-																		.addComponent(
-																				label))
-														.addComponent(label_6))
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGap(13)
-																		.addComponent(
-																				label_1))
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				label_5)))
-										.addGap(5))
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(tabbedPane,
-												GroupLayout.DEFAULT_SIZE, 781,
-												Short.MAX_VALUE)
-										.addContainerGap()));
-		gl_contentPane
-				.setVerticalGroup(gl_contentPane
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGap(11)
-																		.addGroup(
-																				gl_contentPane
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addGroup(
-																								gl_contentPane
-																										.createSequentialGroup()
-																										.addGap(47)
-																										.addComponent(
-																												label_1))
-																						.addGroup(
-																								gl_contentPane
-																										.createSequentialGroup()
-																										.addGap(23)
-																										.addComponent(
-																												txtpnahovskiKlubPijun,
-																												GroupLayout.PREFERRED_SIZE,
-																												GroupLayout.DEFAULT_SIZE,
-																												GroupLayout.PREFERRED_SIZE))
-																						.addComponent(
-																								lblNewLabel)))
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGap(8)
-																		.addGroup(
-																				gl_contentPane
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(
-																								label_5)
-																						.addGroup(
-																								gl_contentPane
-																										.createSequentialGroup()
-																										.addComponent(
-																												label_6)
-																										.addGap(11)
-																										.addComponent(
-																												label)))))
-										.addGap(18).addComponent(tabbedPane)
-										.addContainerGap()));
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtpnahovskiKlubPijun, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(label)
+						.addComponent(label_6))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(13)
+							.addComponent(label_1))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(label_5)))
+					.addGap(5))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(11)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(47)
+									.addComponent(label_1))
+								.addComponent(lblNewLabel)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(8)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(label_5)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(label_6)
+									.addGap(11)
+									.addComponent(label))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(38)
+							.addComponent(txtpnahovskiKlubPijun, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		JTextPane txtpnKriterijZaPretraivanje_1 = new JTextPane();
 		txtpnKriterijZaPretraivanje_1.setBackground(UIManager
 				.getColor("Button.background"));
@@ -719,7 +551,7 @@ public class GlavniProzor extends JFrame {
 		JButton btnPretrai_1 = new JButton("Pretra\u017Ei");
 		JLabel label_7 = new JLabel("");
 		label_7.setIcon(new ImageIcon(GlavniProzor.class
-				.getResource("/gui/plusic.jpg")));
+				.getResource("/gui/add.png")));
 		contentPane.setLayout(gl_contentPane);
 	}
 

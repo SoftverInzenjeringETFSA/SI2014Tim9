@@ -38,7 +38,7 @@ public class Prijava extends JFrame {
 	 * Create the frame.
 	 */
 	public Prijava() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Prijava.class.getResource("/gui/Screenshot_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Prijava.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun - Prijava");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 470, 424);
@@ -61,7 +61,7 @@ public class Prijava extends JFrame {
 
 		
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(Prijava.class.getResource("/gui/Screenshot_2.png")));
+		label.setIcon(new ImageIcon(Prijava.class.getResource("/gui/logo.png")));
 		
 		JTextPane txtpnahovskiKlubPijun = new JTextPane();
 		txtpnahovskiKlubPijun.setEditable(false);
