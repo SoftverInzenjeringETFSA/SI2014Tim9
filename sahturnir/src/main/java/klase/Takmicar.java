@@ -4,15 +4,19 @@ import java.util.Date;
 
 public class Takmicar extends Osoba implements java.io.Serializable , Comparable<Takmicar>  {
 
-	public Takmicar() {
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	private long id;
 	private Date datumRodjenja;
 	private double brojBodova;
 	private Klub klub;
 	private String kategorija;
+	private int brojacPoraza;
+	
+	public Takmicar() {
+		// TODO Auto-generated constructor stub
+		brojacPoraza =0;
+	}
 
 	public long getId() {
 		return id;
@@ -64,5 +68,13 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 	       return 0;
 	        
 	    }
+
+	public int getBrojacPoraza() {
+		return brojacPoraza;
+	}
+
+	public void setBrojacPoraza(int brojacPoraza) {
+		this.brojacPoraza = brojacPoraza;
+	}
 	
 }
