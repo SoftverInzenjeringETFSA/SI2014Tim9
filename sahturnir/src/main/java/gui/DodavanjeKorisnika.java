@@ -52,8 +52,8 @@ public class DodavanjeKorisnika extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//DodavanjeKorisnika frame = new DodavanjeKorisnika();
-					//frame.setVisible(true);
+					DodavanjeKorisnika frame = new DodavanjeKorisnika();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,9 +73,22 @@ public class DodavanjeKorisnika extends JFrame {
 		return izlaz;
 	}
 	
-    public static Boolean validirajImePrezime(JTextField t1, JTextPane t2) {
+	
+	public static Boolean validirajPraznoPass(JPasswordField t1, JTextPane t2) {
 		Boolean izlaz = false;
-		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
+		char[] a = t1.getPassword();
+		
+		if(a.length==0) 
+			t2.setText("Polje ne smije biti prazno");
+		else
+			izlaz = true;
+		
+		return izlaz;
+	}
+	
+    public static Boolean validirajAlpha(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "^([A-Z][a-z]*)";
 		String a = t1.getText();
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(a);
@@ -138,15 +151,14 @@ public class DodavanjeKorisnika extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DodavanjeKorisnika(JFrame pf) {
-		parentFrame = pf;
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				parentFrame.setEnabled(true);
-			}
-		});
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	public DodavanjeKorisnika() {
+		//addWindowListener(new WindowAdapter() {
+			//@Override
+			//public void windowClosing(WindowEvent arg0) {
+				//parentFrame.setEnabled(true);
+			//}
+		//});
+		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeKorisnika.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setBounds(100, 100, 350, 590);
@@ -164,27 +176,27 @@ public class DodavanjeKorisnika extends JFrame {
 				textPane.setText("");
 				textPane_1.setText("");
 				textPane_2.setText("");
+				textPane_3.setText("");
+				textPane_4.setText("");
 				if(validirajPrazno(textField, textPane))
 					textPane.setText("");
 				if(validirajPrazno(textField, textPane))
 					if(validirajAlphaNum(textField, textPane))
 						textPane.setText("");
-				if(validirajSifru(passwordField, textPane_1))
+				if(validirajPraznoPass(passwordField, textPane_1))
 					textPane_1.setText("");
+				if(validirajPraznoPass(passwordField, textPane_1))
+					if(validirajSifru(passwordField, textPane_1))
+						textPane_1.setText("");
 				if(validirajPrazno(textField_1, textPane_2))
 					textPane_2.setText("");
 				if(validirajPrazno(textField_1, textPane_2))
-					if(validirajAlphaNum(textField_1, textPane_2))
+					if(validirajAlpha(textField_1, textPane_2))
 						textPane_2.setText("");
 				if(validirajPrazno(textField_2, textPane_3))
 					textPane_3.setText("");
 				if(validirajPrazno(textField_2, textPane_3))
-					if(validirajImePrezime(textField_2, textPane_3))
-						textPane_3.setText("");
-				if(validirajPrazno(textField_2, textPane_3))
-					textPane_3.setText("");
-				if(validirajPrazno(textField_2, textPane_3))
-					if(validirajImePrezime(textField_2, textPane_3))
+					if(validirajAlpha(textField_2, textPane_3))
 						textPane_3.setText("");
 				if(validirajPrazno(textField_3, textPane_4))
 					textPane_4.setText("");
@@ -251,19 +263,19 @@ public class DodavanjeKorisnika extends JFrame {
 		textField_3.setColumns(10);
 		
 		textPane = new JTextPane();
-		textPane.setEditable(false);
+		textPane.setForeground(Color.red);
 		
 	    textPane_1 = new JTextPane();
-		textPane_1.setEditable(false);
+	    textPane_1.setForeground(Color.red);
 		
 		textPane_2 = new JTextPane();
-		textPane_2.setEditable(false);
+		textPane_2.setForeground(Color.red);
 		
 		textPane_3 = new JTextPane();
-		textPane_3.setEditable(false);
+		textPane_3.setForeground(Color.red);
 		
 		textPane_4 = new JTextPane();
-		textPane_4.setEditable(false);
+		textPane_4.setForeground(Color.red);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
