@@ -30,7 +30,12 @@ public class JednostrukaEliminacija {
 }
 	
 	
- 	List<Mec> GenerisiRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda){
+ 	List<Mec> GenerisiRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda) throws Exception{
+ 		if (takmicari.size()==0) throw new Exception ("Nema takmicara");
+ 		if (turnir == null || turnir.getId()==0) throw new Exception ("Nema turnira");
+ 		int p=takmicari.size();
+ 		if (!provjeriStepen(p)) throw new Exception("Broj takmicara nije stepen od 2");
+ 		
  		if (prvaRunda){
  			Collections.shuffle(takmicari);
  		}
@@ -41,8 +46,18 @@ public class JednostrukaEliminacija {
  		}
  		return mecevi;
  	}
+ 	
+ 	boolean provjeriStepen (int n)
+ 	
+ 	{
+ 		if (n%2!=0) return false;
+ 		if (n==2) return true;
+ 		n=n/2; return provjeriStepen(n); 
+ 
+ 		
+ 	}
 }
-
+			
 
 // MERIMIN ALGORITAM
  /*

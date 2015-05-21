@@ -134,12 +134,12 @@ public class DodavanjeKluba extends JFrame {
 					textPane.setText("");
 				if(validirajPrazno(textField, textPane))
 					if(validirajAlphaNum(textField, textPane))
-						textPane_2.setText("");
+						textPane.setText("");
 				if(validirajPrazno(textField_1, textPane_1))
 					textPane_1.setText("");
 				if(validirajPrazno(textField_1, textPane_1))
 					if(validirajAlphaNum(textField_1, textPane_1))
-						textPane_2.setText("");
+						textPane_1.setText("");
 				if(validirajPrazno(textField_2, textPane_2))
 					textPane_2.setText("");
 				if(validirajPrazno(textField_2, textPane_2))
