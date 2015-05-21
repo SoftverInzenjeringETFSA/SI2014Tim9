@@ -9,7 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.GroupLayout;
@@ -20,8 +23,11 @@ import java.awt.Font;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
@@ -31,6 +37,8 @@ import java.util.Date;
 import java.util.Calendar;
 
 import javax.swing.JButton;
+
+import utils.JTableUtil;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -92,6 +100,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		textField = new JTextField();
+		textField.setEditable(false);
 		textField.setColumns(10);
 		
 		JButton btnPrint = new JButton("Print");
@@ -114,19 +123,19 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
-						.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 							.addGap(56)
 							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnIzvjetajORang, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 551, Short.MAX_VALUE)
 							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)))
@@ -145,9 +154,9 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(btnPrint))
-					.addGap(26)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 372, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -155,18 +164,47 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		JTableUtil jtutil = new JTableUtil();
+		table.setModel(jtutil.populateJTableTakmicari());
+		//panel.add(table.getTableHeader(), BorderLayout.NORTH);
+		//panel.add(new JScrollPane(table), BorderLayout.CENTER);
+		
+/*		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
-				"Pozicija", "Ime i prezime","Klub", "Broj bodova"
+				"Pozicija", "Ime i prezime","Klub", "Broj bodova","Broj turnira", "Broj titula"
 			}
-		));
+		));*/
 		table.getColumnModel().getColumn(0).setPreferredWidth(15);
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setPreferredWidth(15);
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);	
+				return c;
+			}
+		});
+		table.setAutoCreateRowSorter(true);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
+				.setHorizontalAlignment(JLabel.CENTER);
+		table.getTableHeader().setPreferredSize(new Dimension(0, 40));
 	}
 }
