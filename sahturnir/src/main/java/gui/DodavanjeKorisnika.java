@@ -15,6 +15,9 @@ import javax.swing.JTextPane;
 
 import java.awt.Color;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JPasswordField;
@@ -35,8 +38,13 @@ public class DodavanjeKorisnika extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textField_3;	
 	private JFrame parentFrame;
+	protected final JTextPane textPane;
+	protected final JTextPane textPane_1;
+	protected final JTextPane textPane_2;
+	protected final JTextPane textPane_3;
+	protected final JTextPane textPane_4;
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +60,81 @@ public class DodavanjeKorisnika extends JFrame {
 			}
 		});
 	}
-
+   
+	public static Boolean validirajPrazno(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String a = t1.getText();
+		
+		if(a.isEmpty()) 
+			t2.setText("Polje ne smije biti prazno");
+		else
+			izlaz = true;
+		
+		return izlaz;
+	}
+	
+    public static Boolean validirajImePrezime(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
+		String a = t1.getText();
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(a);
+		
+		if(!(m.matches())) {
+			t2.setText("Neispravni karakteri");
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
+    
+    public static Boolean validirajAlphaNum(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "^[a-zA-Z0-9 ]*";
+		String a = t1.getText();
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(a);
+		
+		if(!(m.matches())) {
+			t2.setText("Neispravni karakteri");
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
+    public static Boolean validirajJmbg(JTextField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "/^[0-9]+.{13}$";
+		String a = t1.getText();
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(a);
+		
+		if(!(m.matches())) {
+			t2.setText("Greska");
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
+    
+    public static Boolean validirajSifru(JPasswordField t1, JTextPane t2) {
+		Boolean izlaz = false;
+		String pattern = "^(?=.*[0-9])(?=\\S+$).{6,}$"; //mora sadrzavati minimalno 6 karaktera od kojih je jedna cifra, nije dozvoljen whitespace
+		String a = t1.getPassword().toString();
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(a);
+		
+		if(!(m.matches())) {
+			t2.setText("Mozete unijeti samo brojeve");
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
 	/**
 	 * Create the frame.
 	 */
@@ -79,11 +161,36 @@ public class DodavanjeKorisnika extends JFrame {
 		JButton btnPotvrdi = new JButton("Potvrdi");
 		btnPotvrdi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TO DO: 	VALIDACIJA KORISNICKOG IMENA
-
-				// TO DO: VALIDACIJA KOMPLEKSNOSTI SIFRE if (passwordField.size() < 6 || passwordField.contains())
-				
-				// TO DO: VALIDACIJA MATICNOG BROJA
+				textPane.setText("");
+				textPane_1.setText("");
+				textPane_2.setText("");
+				if(validirajPrazno(textField, textPane))
+					textPane.setText("");
+				if(validirajPrazno(textField, textPane))
+					if(validirajAlphaNum(textField, textPane))
+						textPane.setText("");
+				if(validirajSifru(passwordField, textPane_1))
+					textPane_1.setText("");
+				if(validirajPrazno(textField_1, textPane_2))
+					textPane_2.setText("");
+				if(validirajPrazno(textField_1, textPane_2))
+					if(validirajAlphaNum(textField_1, textPane_2))
+						textPane_2.setText("");
+				if(validirajPrazno(textField_2, textPane_3))
+					textPane_3.setText("");
+				if(validirajPrazno(textField_2, textPane_3))
+					if(validirajImePrezime(textField_2, textPane_3))
+						textPane_3.setText("");
+				if(validirajPrazno(textField_2, textPane_3))
+					textPane_3.setText("");
+				if(validirajPrazno(textField_2, textPane_3))
+					if(validirajImePrezime(textField_2, textPane_3))
+						textPane_3.setText("");
+				if(validirajPrazno(textField_3, textPane_4))
+					textPane_4.setText("");
+				if(validirajPrazno(textField_3, textPane_4))
+					if(validirajJmbg(textField_3, textPane_4))
+						textPane_4.setText("");
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -143,19 +250,19 @@ public class DodavanjeKorisnika extends JFrame {
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
 		
-		JTextPane textPane = new JTextPane();
+		textPane = new JTextPane();
 		textPane.setEditable(false);
 		
-		JTextPane textPane_1 = new JTextPane();
+	    textPane_1 = new JTextPane();
 		textPane_1.setEditable(false);
 		
-		JTextPane textPane_2 = new JTextPane();
+		textPane_2 = new JTextPane();
 		textPane_2.setEditable(false);
 		
-		JTextPane textPane_3 = new JTextPane();
+		textPane_3 = new JTextPane();
 		textPane_3.setEditable(false);
 		
-		JTextPane textPane_4 = new JTextPane();
+		textPane_4 = new JTextPane();
 		textPane_4.setEditable(false);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
