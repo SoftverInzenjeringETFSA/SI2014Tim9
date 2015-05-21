@@ -39,7 +39,7 @@ public class JednostrukaEliminacijaTest {
 			
 			List<Mec> mecevi = new ArrayList<Mec>();
 			mecevi = el.GenerisiRundu(takmicari, turnir, true);
-			assertTrue(true);
+			assertTrue(mecevi.size()==2);
 			
 		} catch(Exception e)
 		{
@@ -97,14 +97,14 @@ public class JednostrukaEliminacijaTest {
 	
 
 	@Test
-	public void testGenerisiRunduSaNePravilnimBrojemTakmicara() {
+	public void testGenerisiRunduSaNepravilnimBrojemTakmicara() {
 		try
 		{
 			JednostrukaEliminacija el = new JednostrukaEliminacija();
 			Turnir turnir = new Turnir(); 
 			turnir.setId(123);
 			List<Takmicar> takmicari = new ArrayList<Takmicar>();
-			for (int i=0; i<15; i++)
+			for (int i=0; i<3; i++)
 			{
 				Takmicar t = new Takmicar();
 				t.setId(i+1);
@@ -113,11 +113,11 @@ public class JednostrukaEliminacijaTest {
 			
 			List<Mec> mecevi = new ArrayList<Mec>();
 			mecevi = el.GenerisiRundu(takmicari, turnir, true);
-			assertFalse(true);
+			fail("Izuzetak!");
 			
 		} catch(Exception e)
 		{
-		   //fail(e.getMessage());			
+		  		assertTrue(true);		
 		}
 	}
 		
@@ -132,11 +132,11 @@ public class JednostrukaEliminacijaTest {
 			List<Takmicar> takmicari = new ArrayList<Takmicar>();
 			List<Mec> mecevi = new ArrayList<Mec>();
 			mecevi = el.GenerisiRundu(takmicari, turnir, true);
-			assertFalse(true);
+			fail("greska!");
 			
 		} catch(Exception e)
 		{
-		  // fail(e.getMessage());			
+		  assertTrue(true);			
 		}
 	}
 	@Test
@@ -154,14 +154,14 @@ public class JednostrukaEliminacijaTest {
 			}
 			List<Mec> mecevi = new ArrayList<Mec>();
 			mecevi = el.GenerisiRundu(takmicari, turnir, true);
-			assertFalse(true);
+			fail("greska!");
 			
 		} catch(Exception e)
 		{
-		  // fail(e.getMessage());			
+		  assertTrue(true);			
 		}
 	}  
-/*	@Test
+	@Test
 	public void testGenerisiRundu() {
 		try
 		{
@@ -169,33 +169,28 @@ public class JednostrukaEliminacijaTest {
 			Turnir turnir = new Turnir(); 
 			turnir.setId(123);
 			List<Takmicar> takmicari = new ArrayList<Takmicar>();
-			for (int i=1; i<6; i++)
-			{
-				Takmicar t = new Takmicar();
-				t.setId(i);
-				takmicari.add(t);
-			}
+
 			List<Mec> mecevi = new ArrayList<Mec>();
-			mecevi = el.GenerisiRundu(takmicari, turnir, false);
-			Takmicar a = new Takmicar(); a.setId(1);
-			Takmicar b = new Takmicar(); a.setId(2);
-			Takmicar c = new Takmicar(); a.setId(3);
-			Takmicar d = new Takmicar(); a.setId(4);
 			
+			Takmicar a = new Takmicar(); a.setId(1);
+			Takmicar b = new Takmicar(); b.setId(2);
+			Takmicar c = new Takmicar(); c.setId(3);
+			Takmicar d = new Takmicar(); d.setId(4);
+			takmicari.add(a);
+			takmicari.add(b);
+			takmicari.add(c);
+			takmicari.add(d);
+			mecevi = el.GenerisiRundu(takmicari, turnir, false);
 			assertTrue (1==mecevi.get(0).getTakmicar1().getId());
 			assertTrue (2==mecevi.get(0).getTakmicar2().getId());
 			assertTrue (3==mecevi.get(1).getTakmicar1().getId());
 			assertTrue (4==mecevi.get(1).getTakmicar2().getId());
 			
-			assertEquals (a.getId(), mecevi.get(0).getTakmicar1().getId());
-			assertEquals (b.getId(), mecevi.get(0).getTakmicar2().getId());
-			assertEquals (c.getId(), mecevi.get(1).getTakmicar1().getId());
-			assertEquals (d.getId(), mecevi.get(1).getTakmicar2().getId());
 			
 		} catch(Exception e)
 		{
-		   fail("Izuzetak");			
+		   fail(e.getMessage());			
 		}
-	} */
+	} 
 
 }
