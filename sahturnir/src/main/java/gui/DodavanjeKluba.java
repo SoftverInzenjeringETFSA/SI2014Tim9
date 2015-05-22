@@ -3,7 +3,6 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
@@ -26,15 +25,10 @@ import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
 
-import dal.KlubDAO;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 
-import klase.Klub;
-
-import java.util.Date;
 public class DodavanjeKluba extends JFrame {
 
 	/**
@@ -48,8 +42,6 @@ public class DodavanjeKluba extends JFrame {
 	protected final JTextPane textPane;
 	protected final JTextPane textPane_1;
 	protected final JTextPane textPane_2;
-	private JSpinner spinner = new JSpinner();		
-	private JSpinner spinner_1 = new JSpinner();
 	
 
 	/**
@@ -121,7 +113,7 @@ public class DodavanjeKluba extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeKluba.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 324, 520);
+		setBounds(100, 100, 324, 506);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -131,12 +123,6 @@ public class DodavanjeKluba extends JFrame {
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(new TitledBorder(null, "Podaci o klubu", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		spinner.setModel(new SpinnerDateModel(new Date(-2197242000000L), null, null, Calendar.DAY_OF_YEAR));
-
-		spinner_1.setEnabled(false);
-		spinner_1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(0.5d)));
-
-		
 		JButton btnPotvrdi = new JButton("Potvrdi");
 		btnPotvrdi.setBackground(Color.WHITE);
 		btnPotvrdi.addActionListener(new ActionListener() {
@@ -144,112 +130,41 @@ public class DodavanjeKluba extends JFrame {
 				textPane.setText("");
 				textPane_1.setText("");
 				textPane_2.setText("");
-				boolean flag = false;
 				if(validirajPrazno(textField, textPane))
-				{
 					textPane.setText("");
-				}
-				else
-				{
-					flag = true;
-				}
 				if(validirajPrazno(textField, textPane))
-				{
 					if(validirajAlphaNum(textField, textPane))
-					{
 						textPane.setText("");
-					}
-				}
-				if(validirajPrazno(textField, textPane))
-				{
-					if(!validirajAlphaNum(textField, textPane))
-					{
-						flag = true;
-					}
-				}
 				if(validirajPrazno(textField_1, textPane_1))
-				{
 					textPane_1.setText("");
-				}
-				else
-				{
-					flag = true;
-				}
 				if(validirajPrazno(textField_1, textPane_1))
-				{
 					if(validirajAlphaNum(textField_1, textPane_1))
-					{
 						textPane_1.setText("");
-					}
-				}
-				if(validirajPrazno(textField_1, textPane_1))
-				{
-					if(!validirajAlphaNum(textField_1, textPane_1))
-					{
-						flag = true;
-					}
-				}
 				if(validirajPrazno(textField_2, textPane_2))
-				{
 					textPane_2.setText("");
-				}
-				else
-				{
-					flag = true;
-				}
 				if(validirajPrazno(textField_2, textPane_2))
-				{	
 					if(validirajImePrezime(textField_2, textPane_2))
-					{
 						textPane_2.setText("");
-					}
-				}
-				if(validirajPrazno(textField_2, textPane_2))
-				{	
-					if(!validirajImePrezime(textField_2, textPane_2))
-					{
-						flag = true;
-					}
-				}
-				if (!flag)
-				{
-					Klub k = new Klub();
-					KlubDAO kdao = new KlubDAO();
-					
-					k.setNaziv(textField.getText());
-					k.setSjediste(textField_1.getText());
-					k.setPredsjednik(textField_2.getText());
-					k.setDatumOsnivanja((Date)spinner.getValue());
-
-					kdao.create(k);
-			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
-			        textField.setText("");
-			        textField_1.setText("");
-			        textField_2.setText("");
-					textPane.setText("");
-					textPane_1.setText("");
-					textPane_2.setText("");
-				}
 			}
 	});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(221, Short.MAX_VALUE)
-					.addComponent(btnPotvrdi)
-					.addContainerGap())
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(11, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap(199, Short.MAX_VALUE)
+					.addComponent(btnPotvrdi)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnPotvrdi)
 					.addContainerGap())
 		);
@@ -281,20 +196,24 @@ public class DodavanjeKluba extends JFrame {
 		txtpnDatumOsnivanja.setEditable(false);
 		txtpnDatumOsnivanja.setText("Datum osnivanja: *");
 		
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerDateModel(new Date(-2197242000000L), null, null, Calendar.DAY_OF_YEAR));
+		
 		JTextPane txtpnBrojBodova = new JTextPane();
 		txtpnBrojBodova.setEditable(false);
 		txtpnBrojBodova.setText("Broj bodova:");
 		
+		JSpinner spinner_1 = new JSpinner();
+		spinner_1.setEnabled(false);
+		spinner_1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(0.5d)));
+		
 		textPane = new JTextPane();
-		textPane.setEditable(false);
 		textPane.setForeground(Color.red);
 		
 		textPane_1 = new JTextPane();
-		textPane_1.setEditable(false);
 		textPane_1.setForeground(Color.red);
 		
 		textPane_2 = new JTextPane();
-		textPane_2.setEditable(false);
 		textPane_2.setForeground(Color.red);
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -303,20 +222,19 @@ public class DodavanjeKluba extends JFrame {
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
 						.addComponent(txtpnNaziv, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnDatumOsnivanja, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnPredsjednik, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnSjedite, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(spinner, Alignment.LEADING)
-							.addComponent(textField_1, Alignment.LEADING)
-							.addComponent(textPane, Alignment.LEADING)
-							.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
-						.addComponent(textPane_1, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-						.addComponent(textPane_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+						.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
 						.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinner_1))
+						.addComponent(txtpnDatumOsnivanja, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinner, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+						.addComponent(txtpnPredsjednik, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+						.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 245, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textPane_2, GroupLayout.PREFERRED_SIZE, 245, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtpnSjedite, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -328,27 +246,27 @@ public class DodavanjeKluba extends JFrame {
 					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(txtpnSjedite, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtpnSjedite, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+					.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
 					.addComponent(txtpnPredsjednik, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textPane_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(16)
+					.addGap(4)
 					.addComponent(txtpnDatumOsnivanja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(18)
 					.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18))
+					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
