@@ -160,10 +160,10 @@ public class GlavniProzor extends JFrame {
 		label_6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(e.getComponent());
-				DodavanjeKorisnika frame = new DodavanjeKorisnika(parentFrame);
-				frame.setVisible(true);
-				parentFrame.setEnabled(false);
+//				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(e.getComponent());
+//				DodavanjeKorisnika frame = new DodavanjeKorisnika(parentFrame);
+//				frame.setVisible(true);
+//				parentFrame.setEnabled(false);
 			}
 		});
 		label_6.setAlignmentX(Component.CENTER_ALIGNMENT);
