@@ -165,28 +165,22 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		
 		table = new JTable();
 		JTableUtil jtutil = new JTableUtil();
-		table.setModel(jtutil.populateJTableTakmicari());
-		//panel.add(table.getTableHeader(), BorderLayout.NORTH);
-		//panel.add(new JScrollPane(table), BorderLayout.CENTER);
+		table.setModel(jtutil.populateJTableRangListaTakmicari());
 		
-/*		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Pozicija", "Ime i prezime","Klub", "Broj bodova","Broj turnira", "Broj titula"
-			}
-		));*/
 		table.getColumnModel().getColumn(0).setPreferredWidth(15);
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setPreferredWidth(15);
+		table.getColumnModel().getColumn(4).setPreferredWidth(90);
+		table.getColumnModel().getColumn(5).setPreferredWidth(15);
+		table.getColumnModel().getColumn(6).setPreferredWidth(90);
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			@Override
 			public Component getTableCellRendererComponent(JTable table,
 					Object value, boolean isSelected, boolean hasFocus,
-					int row, int column) {
+				int row, int column) {
 				Color c1 = new Color(0x67FD9A);
 				Color c2 = new Color(0xC0C0C0);
 				Color c3 = new Color(0x343434);

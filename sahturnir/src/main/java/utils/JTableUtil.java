@@ -42,6 +42,35 @@ public class JTableUtil {
 		return new DefaultTableModel(data, columnNames);
 	}
 
+	public TableModel populateJTableRangListaTakmicari() {
+		List<Takmicar> takmicari = new ArrayList<Takmicar>();
+		List<Klub> klubovi = new ArrayList<Klub>();
+
+		TakmicarDAO tdao = new TakmicarDAO();
+		takmicari = tdao.getAll(Takmicar.class);
+		
+		KlubDAO kdao = new KlubDAO();
+		klubovi = kdao.getAll(Klub.class);
+		
+		String[] columnNames = {"Pozicija", "Ime i prezime","Datum roðenja","Klub", "Broj bodova","Broj turnira", "Broj titula"};
+		String[][] data = new String[takmicari.size()][7];
+		for (int i = 0; i < takmicari.size(); i++) {
+			data[i][0] = Integer.toString(i+1);
+			data[i][1] = takmicari.get(i).getIme() + " " + takmicari.get(i).getPrezime();
+			data[i][2] = String.valueOf(takmicari.get(i).getDatumRodjenja());
+			for(int j = 0; j<klubovi.size(); j++)
+			{
+				if(klubovi.get(j).getId() == takmicari.get(i).getKlub().getId())
+					data[i][3] = klubovi.get(j).getNaziv();
+			}
+			data[i][4] = String.valueOf(takmicari.get(i).getBrojBodova());
+//			data[i][5] = takmicari.get(i).getKategorija();
+			data[i][5] = "0";
+			data[i][6] = "0";
+		}
+		return new DefaultTableModel(data, columnNames);
+	}
+	
 	public TableModel populateJTableKorisnici() {
 		List<Korisnik> korisnici = new ArrayList<Korisnik>();
 		KorisnikDAO kdao = new KorisnikDAO();
