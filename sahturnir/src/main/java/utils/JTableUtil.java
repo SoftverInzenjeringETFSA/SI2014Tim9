@@ -71,6 +71,39 @@ public class JTableUtil {
 		return new DefaultTableModel(data, columnNames);
 	}
 	
+	public TableModel populateJTableRangListaKlubovi() {
+		List<Takmicar> takmicari = new ArrayList<Takmicar>();
+		List<Klub> klubovi = new ArrayList<Klub>();
+
+		TakmicarDAO tdao = new TakmicarDAO();
+		takmicari = tdao.getAll(Takmicar.class);
+		
+		KlubDAO kdao = new KlubDAO();
+		klubovi = kdao.getAll(Klub.class);
+		int prebroj = 0;
+		double sumaBodova = 0.0d;
+		String[] columnNames = {"Pozicija", "Naziv kluba", "Broj takmièara", "Ime i prezime predsjednika", "Ukupan broj bodova"};
+		String[][] data = new String[klubovi.size()][5];
+		for (int i = 0; i < klubovi.size(); i++) {
+			data[i][0] = Integer.toString(i+1);
+			data[i][1] = klubovi.get(i).getNaziv();
+			for(int j = 0; j < takmicari.size(); j++)
+			{
+				if (takmicari.get(j).getKlub().getId() == klubovi.get(i).getId())
+				{
+					sumaBodova = sumaBodova + takmicari.get(j).getBrojBodova();
+					prebroj++;
+				}
+			}
+			data[i][2] = Integer.toString(prebroj);
+			data[i][3] = klubovi.get(i).getPredsjednik();
+			data[i][4] = Double.toString(sumaBodova);
+			sumaBodova = 0;
+			prebroj = 0;
+		}
+		return new DefaultTableModel(data, columnNames);
+	}
+	
 	public TableModel populateJTableKorisnici() {
 		List<Korisnik> korisnici = new ArrayList<Korisnik>();
 		KorisnikDAO kdao = new KorisnikDAO();

@@ -167,13 +167,13 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		JTableUtil jtutil = new JTableUtil();
 		table.setModel(jtutil.populateJTableRangListaTakmicari());
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(15);
+		table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-		table.getColumnModel().getColumn(3).setPreferredWidth(15);
-		table.getColumnModel().getColumn(4).setPreferredWidth(90);
-		table.getColumnModel().getColumn(5).setPreferredWidth(15);
-		table.getColumnModel().getColumn(6).setPreferredWidth(90);
+		table.getColumnModel().getColumn(3).setPreferredWidth(90);
+		table.getColumnModel().getColumn(4).setPreferredWidth(25);
+		table.getColumnModel().getColumn(5).setPreferredWidth(25);
+		table.getColumnModel().getColumn(6).setPreferredWidth(25);
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {

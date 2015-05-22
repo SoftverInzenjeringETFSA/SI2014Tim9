@@ -34,6 +34,8 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
+import utils.JTableUtil;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterJob;
@@ -152,17 +154,14 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Pozicija", "Naziv kluba", "Ukupan broj bodova", "Broj takmi\u010Dara"
-			}
-		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(15);
+		JTableUtil jtutil = new JTableUtil();
+		table.setModel(jtutil.populateJTableRangListaKlubovi());
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
-		table.getColumnModel().getColumn(2).setPreferredWidth(15);
-		table.getColumnModel().getColumn(3).setPreferredWidth(15);
+		table.getColumnModel().getColumn(2).setPreferredWidth(25);
+		table.getColumnModel().getColumn(3).setPreferredWidth(55);
+		table.getColumnModel().getColumn(4).setPreferredWidth(25);
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
 	}
