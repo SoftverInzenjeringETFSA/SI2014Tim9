@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Toolkit;
 
 public class UparivanjeJednostrukaEliminacija extends JFrame {
 
@@ -31,6 +32,8 @@ public class UparivanjeJednostrukaEliminacija extends JFrame {
 	 * Create the frame.
 	 */
 	public UparivanjeJednostrukaEliminacija() {
+		setTitle("\u0160ahovski klub Pijun");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UparivanjeJednostrukaEliminacija.class.getResource("/gui/logo.png")));
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 845, 540);
