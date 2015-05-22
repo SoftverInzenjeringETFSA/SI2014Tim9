@@ -14,19 +14,23 @@ import java.awt.Toolkit;
 import javax.swing.JTextPane;
 
 import java.awt.Color;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import klase.Korisnik;
+import dal.GenericDAO;
+import dal.KorisnikDAO;
 public class DodavanjeKorisnika extends JFrame {
 
 	/**
@@ -119,17 +123,16 @@ public class DodavanjeKorisnika extends JFrame {
     }
     public static Boolean validirajJmbg(JTextField t1, JTextPane t2) {
 		Boolean izlaz = false;
-		String pattern = "/^[0-9]+.{13}$";
+//		String pattern = "/^[0-9]+.{13}$";
 		String a = t1.getText();
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(a);
-		
-		if(!(m.matches())) {
-			t2.setText("Greska");
+//		Pattern p = Pattern.compile(pattern);
+//		Matcher m = p.matcher(a);
+		if (!(a.length() == 13))
+		{
+			t2.setText("GreskaJMBG");
 		}
 		else
 			izlaz = true;
-		
 		return izlaz;
     }
     
@@ -178,31 +181,129 @@ public class DodavanjeKorisnika extends JFrame {
 				textPane_2.setText("");
 				textPane_3.setText("");
 				textPane_4.setText("");
+				boolean flag = false;
 				if(validirajPrazno(textField, textPane))
+				{
 					textPane.setText("");
+				}
+				if(!validirajPrazno(textField, textPane))
+				{
+					flag = true;
+				}
 				if(validirajPrazno(textField, textPane))
 					if(validirajAlphaNum(textField, textPane))
 						textPane.setText("");
+				if(validirajPrazno(textField, textPane))
+				{
+					if(!validirajAlphaNum(textField, textPane))
+					{
+						flag = true;
+					}
+				}
 				if(validirajPraznoPass(passwordField, textPane_1))
+				{
 					textPane_1.setText("");
+				}
 				if(validirajPraznoPass(passwordField, textPane_1))
+				{
 					if(validirajSifru(passwordField, textPane_1))
+					{
 						textPane_1.setText("");
+					}
+				}
+				if(!validirajPraznoPass(passwordField, textPane_1))
+				{
+					flag = true;
+				}
 				if(validirajPrazno(textField_1, textPane_2))
+				{
 					textPane_2.setText("");
+				}
+				if(!validirajPrazno(textField_1, textPane_2))
+				{
+					flag = true;
+				}
 				if(validirajPrazno(textField_1, textPane_2))
+				{
 					if(validirajAlpha(textField_1, textPane_2))
+					{
 						textPane_2.setText("");
+					}
+				}
+				if (validirajPrazno(textField_1, textPane_2))
+				{
+					if(!validirajAlpha(textField_1, textPane_2))
+					{
+						flag = true;
+					}
+				}
 				if(validirajPrazno(textField_2, textPane_3))
+				{
 					textPane_3.setText("");
+				}
+				if(!validirajPrazno(textField_2, textPane_3))
+				{
+					flag = true;
+				}
 				if(validirajPrazno(textField_2, textPane_3))
+				{
 					if(validirajAlpha(textField_2, textPane_3))
+					{
 						textPane_3.setText("");
+					}
+				}
+				if(validirajPrazno(textField_2, textPane_3))
+				{
+					if(!validirajAlpha(textField_2, textPane_3))
+					{
+						flag = true;
+					}
+				}
 				if(validirajPrazno(textField_3, textPane_4))
+				{
 					textPane_4.setText("");
+				}
+				if(!validirajPrazno(textField_3, textPane_4))
+				{
+					flag = true;
+				}
 				if(validirajPrazno(textField_3, textPane_4))
+				{
 					if(validirajJmbg(textField_3, textPane_4))
+					{
 						textPane_4.setText("");
+					}
+				}
+				if(validirajPrazno(textField_3, textPane_4))
+				{
+					if(!validirajJmbg(textField_3, textPane_4))
+					{
+						flag = true;
+					}
+				}
+				if (!flag)
+				{
+					Korisnik k = new Korisnik();
+					k.setKorisnickoIme(textField.getText());
+					k.setSifra(passwordField.getPassword().toString());
+					k.setIme(textField_1.getText());
+					k.setPrezime(textField_2.getText());
+					k.setJmbg(textField_3.getText());
+					KorisnikDAO kdao = new KorisnikDAO();
+					kdao.create(k);
+			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali korisnika!", "OK", JOptionPane.INFORMATION_MESSAGE);
+			        textField.setText("");
+			        textField_1.setText("");
+			        textField_2.setText("");
+			        textField_3.setText("");
+			        passwordField.setText("");
+					textPane.setText("");
+					textPane_1.setText("");
+					textPane_2.setText("");
+					textPane_3.setText("");
+					textPane_4.setText("");
+
+				}
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -263,18 +364,23 @@ public class DodavanjeKorisnika extends JFrame {
 		textField_3.setColumns(10);
 		
 		textPane = new JTextPane();
+		textPane.setEditable(false);
 		textPane.setForeground(Color.red);
 		
 	    textPane_1 = new JTextPane();
+	    textPane_1.setEditable(false);
 	    textPane_1.setForeground(Color.red);
 		
 		textPane_2 = new JTextPane();
+		textPane_2.setEditable(false);
 		textPane_2.setForeground(Color.red);
 		
 		textPane_3 = new JTextPane();
+		textPane_3.setEditable(false);
 		textPane_3.setForeground(Color.red);
 		
 		textPane_4 = new JTextPane();
+		textPane_4.setEditable(false);
 		textPane_4.setForeground(Color.red);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
