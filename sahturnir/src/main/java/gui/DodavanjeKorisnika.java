@@ -65,12 +65,12 @@ public class DodavanjeKorisnika extends JFrame {
 		});
 	}
    
-	public static Boolean validirajPrazno(JTextField t1, JTextPane t2) {
+	public static Boolean validirajPrazno(String t1) {
 		Boolean izlaz = false;
-		String a = t1.getText();
+		//String a = t1.getText();
 		
-		if(a.isEmpty()) 
-			t2.setText("Polje ne smije biti prazno");
+		if(t1.isEmpty()) 
+			izlaz = false;//t2textPane.setText("Polje ne smije biti prazno");
 		else
 			izlaz = true;
 		
@@ -78,27 +78,27 @@ public class DodavanjeKorisnika extends JFrame {
 	}
 	
 	
-	public static Boolean validirajPraznoPass(JPasswordField t1, JTextPane t2) {
+	public static Boolean validirajPraznoPass(char[] t1) {
 		Boolean izlaz = false;
-		char[] a = t1.getPassword();
+		//char[] a = t1.getPassword();
 		
-		if(a.length==0) 
-			t2.setText("Polje ne smije biti prazno");
+		if(t1.length==0) 
+			izlaz = false;//t2textPane.setText("Polje ne smije biti prazno");
 		else
 			izlaz = true;
 		
 		return izlaz;
 	}
 	
-    public static Boolean validirajAlpha(JTextField t1, JTextPane t2) {
+    public static Boolean validirajAlpha(String t1) {
 		Boolean izlaz = false;
 		String pattern = "^([A-Z][a-z]*)";
-		String a = t1.getText();
+		//String a = t1.getText();
 		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(a);
+		Matcher m = p.matcher(t1);
 		
 		if(!(m.matches())) {
-			t2.setText("Neispravni karakteri");
+			izlaz = false;//t2textPane.setText("Neispravni karakteri");
 		}
 		else
 			izlaz = true;
@@ -182,99 +182,107 @@ public class DodavanjeKorisnika extends JFrame {
 				textPane_3.setText("");
 				textPane_4.setText("");
 				boolean flag = false;
-				if(validirajPrazno(textField, textPane))
+				if(validirajPrazno(textField.getText()))
 				{
 					textPane.setText("");
 				}
-				if(!validirajPrazno(textField, textPane))
+				if(!validirajPrazno(textField.getText()))
 				{
 					flag = true;
+					textPane.setText("Polje ne smije biti prazno");
 				}
-				if(validirajPrazno(textField, textPane))
+				if(validirajPrazno(textField.getText()))
 					if(validirajAlphaNum(textField, textPane))
 						textPane.setText("");
-				if(validirajPrazno(textField, textPane))
+				if(validirajPrazno(textField.getText()))
 				{
 					if(!validirajAlphaNum(textField, textPane))
 					{
 						flag = true;
 					}
 				}
-				if(validirajPraznoPass(passwordField, textPane_1))
+				if(validirajPraznoPass(passwordField.getPassword()))
 				{
 					textPane_1.setText("");
 				}
-				if(validirajPraznoPass(passwordField, textPane_1))
+				if(validirajPraznoPass(passwordField.getPassword()))
 				{
 					if(validirajSifru(passwordField, textPane_1))
 					{
 						textPane_1.setText("");
 					}
 				}
-				if(!validirajPraznoPass(passwordField, textPane_1))
+				if(!validirajPraznoPass(passwordField.getPassword()))
 				{
 					flag = true;
+					textPane.setText("Polje ne smije biti prazno");
+					
 				}
-				if(validirajPrazno(textField_1, textPane_2))
+				if(validirajPrazno(textField_1.getText()))
 				{
 					textPane_2.setText("");
 				}
-				if(!validirajPrazno(textField_1, textPane_2))
+				if(!validirajPrazno(textField_1.getText()))
 				{
 					flag = true;
+					textPane.setText("Polje ne smije biti prazno");
 				}
-				if(validirajPrazno(textField_1, textPane_2))
+				if(validirajPrazno(textField_1.getText()))
 				{
-					if(validirajAlpha(textField_1, textPane_2))
+					if(validirajAlpha(textField_1.getText()))
 					{
 						textPane_2.setText("");
 					}
 				}
-				if (validirajPrazno(textField_1, textPane_2))
+				if (validirajPrazno(textField_1.getText()))
 				{
-					if(!validirajAlpha(textField_1, textPane_2))
+					if(!validirajAlpha(textField_1.getText()))
 					{
 						flag = true;
+						textPane.setText("Neispravni karakteri");
 					}
 				}
-				if(validirajPrazno(textField_2, textPane_3))
+				if(validirajPrazno(textField_2.getText()))
 				{
 					textPane_3.setText("");
 				}
-				if(!validirajPrazno(textField_2, textPane_3))
+				if(!validirajPrazno(textField_2.getText()))
 				{
 					flag = true;
+					textPane.setText("Polje ne smije biti prazno");
 				}
-				if(validirajPrazno(textField_2, textPane_3))
+				if(validirajPrazno(textField_2.getText()))
 				{
-					if(validirajAlpha(textField_2, textPane_3))
+					if(validirajAlpha(textField_2.getText()))
 					{
 						textPane_3.setText("");
 					}
 				}
-				if(validirajPrazno(textField_2, textPane_3))
+				if(validirajPrazno(textField_2.getText()))
 				{
-					if(!validirajAlpha(textField_2, textPane_3))
+					if(!validirajAlpha(textField_2.getText()))
 					{
 						flag = true;
+						textPane.setText("Neispravni karakteri");
 					}
 				}
-				if(validirajPrazno(textField_3, textPane_4))
+				if(validirajPrazno(textField_3.getText()))
 				{
 					textPane_4.setText("");
 				}
-				if(!validirajPrazno(textField_3, textPane_4))
+				if(!validirajPrazno(textField_3.getText()))
 				{
 					flag = true;
+					textPane.setText("Polje ne smije biti prazno");
 				}
-				if(validirajPrazno(textField_3, textPane_4))
+				if(validirajPrazno(textField_3.getText()))
 				{
 					if(validirajJmbg(textField_3, textPane_4))
 					{
 						textPane_4.setText("");
 					}
 				}
-				if(validirajPrazno(textField_3, textPane_4))
+				if(validirajPrazno(textField_3.getText()))
 				{
 					if(!validirajJmbg(textField_3, textPane_4))
 					{
