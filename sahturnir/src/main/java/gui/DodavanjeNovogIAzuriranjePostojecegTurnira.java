@@ -1,4 +1,9 @@
 package gui;
+import formatiturnira.Swiss;
+import formatiturnira.RoundRobin;
+import formatiturnira.DvostrukaEliminacija;
+import formatiturnira.JednostrukaEliminacija;
+import klase.Takmicar;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -49,13 +54,13 @@ import javax.swing.SpinnerDateModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import klase.Takmicar;
 import klase.Turnir;
 import dal.TurnirDAO;
 import dal.TakmicarDAO;
+import formatiturnira.JednostrukaEliminacija;
 
 
 public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
@@ -65,10 +70,13 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 	private JSpinner spinner = new JSpinner();
 	private JSpinner spinner_1 = new JSpinner();
 	private	JSpinner spinner_2 = new JSpinner();
-	private JList list_2;		
-	private JList list;
-	private String[] red2;
-	private int iterator;
+	private JList<String> list_2 ;	
+	private JList<String>  list ;
+	DefaultListModel<String> prvaLista = new DefaultListModel<String>();
+	DefaultListModel<String> drugaLista = new DefaultListModel<String>();
+	List<Takmicar> t1=new ArrayList<Takmicar>();
+	List<Takmicar> t2=new ArrayList<Takmicar>();
+	//private JList list;
 	/**
 	 * Launch the application.
 	 */
@@ -307,15 +315,21 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		
 		List<Takmicar> t = new ArrayList<Takmicar>();
 		TakmicarDAO tdao = new TakmicarDAO();
-
+		
 		
 		t = tdao.getAll(Takmicar.class);
+		t1= tdao.getAll(Takmicar.class);
+		
 		String[] red = new String[t.size()];
 		for(int i=0;i<t.size();i++)
 		{
-			red[i]=t.get(i).getIme()+" "+t.get(i).getPrezime(); 
+			//red[i]=t.get(i).getIme()+" "+t.get(i).getPrezime(); 
+			prvaLista.addElement(t.get(i).getIme()+" "+t.get(i).getPrezime());
 		}
-		list = new JList(red);
+		
+		list = new JList<String>(prvaLista);
+		list_2=new JList<String>(drugaLista);
+		
 //			list.setModel((ListModel) t);
 //			list.add(t.get(i).getIme() + " " + t.get(i).getPrezime(), t.get(i));
 		JButton btnPotvrdi = new JButton("Potvrdi");
@@ -369,7 +383,50 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					t.setDatumPocetka((Date)spinner_2.getValue());
 					textField.setText("");
 					textPane.setText("");
-					
+					if(comboBox.getSelectedItem().toString().equals("Jednostruki eliminacioni"))
+					{
+						JednostrukaEliminacija j=new JednostrukaEliminacija();
+						try{
+							j.GenerisiRundu(t2, t,true);
+						}
+						catch(Exception ex)
+						{
+							
+						}
+					}
+					else if(comboBox.getSelectedItem().toString().equals("Dvostruki eliminacioni"))
+					{
+						DvostrukaEliminacija j=new DvostrukaEliminacija();
+						try{
+							j.GenerisiPrvuRundu(t2, t,true);
+						}
+						catch(Exception ex)
+						{
+							
+						}
+					}
+					else if(comboBox.getSelectedItem().toString().equals("Round Robin"))
+					{
+						RoundRobin j=new RoundRobin();
+						try{
+							j.RoundRobinGenerator(t2, t);
+						}
+						catch(Exception ex)
+						{
+							
+						}
+					}
+					else
+					{
+						Swiss j=new Swiss();
+						try{
+							j.GenerisiMeceve(t2, t);
+						}
+						catch(Exception ex)
+						{
+							
+						}
+					}
 					tdao.create(t);
 			        JOptionPane.showMessageDialog(null, "Uspješno ste kreirali turnir!", "OK", JOptionPane.INFORMATION_MESSAGE);										
 				}
@@ -402,25 +459,47 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					.addComponent(btnPotvrdi)
 					.addContainerGap())
 		);
-		
 		JButton button = new JButton(">");
-		red2 = new String[t.size()];
-		iterator = 0;
-//		list_2 = new JList(red2);
-//		list_2.setSelectedIndex(1);
-			button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-	//			list_2.removeAll();
-				red2[iterator] = list.getSelectedValue().toString();
-				iterator++;
-//				list_2.setSelectedValue(list.getSelectedValue(), true);
-				list_2 = new JList(red2);
-//				list_2.setSelectedValue(list.getSelectedValue(), false);
+		
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				
+				drugaLista.addElement(list.getSelectedValue().toString());
+				prvaLista.removeElement(list.getSelectedValue());
+				int broj=0;
+				for(int i=0;i<t1.size();i++)
+				{
+					if(list.getSelectedValue().toString().equals(t1.get(i).getIme()+" "+t1.get(i).getPrezime()))
+					{
+						broj=i;
+					}
+				}
+				t2.add(t1.get(broj));
+				t1.remove(broj);
 				
 			}
 		});
 		
+	
 		JButton button_1 = new JButton("<");
+		
+		button_1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				
+				prvaLista.addElement(list_2.getSelectedValue().toString());
+				drugaLista.removeElement(list_2.getSelectedValue());
+				int broj=0;
+				for(int i=0;i<t2.size();i++)
+				{
+					if(list_2.getSelectedValue().toString().equals(t2.get(i).getIme()+" "+t2.get(i).getPrezime()))
+					{
+						broj=i;
+					}
+				}
+				t1.add(t2.get(broj));
+				t2.remove(broj);
+			}
+		});
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		
