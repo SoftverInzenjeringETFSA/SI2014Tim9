@@ -85,7 +85,7 @@ public class DodavanjeTakmicara extends JFrame {
 	public static Boolean validirajPrazno(String t1) {
 		Boolean izlaz = false;
 		
-		if(t1.isEmpty()) 
+		if(t1.isEmpty() || t1.trim().length() == 0) 
 			izlaz = false;
 		else
 			izlaz = true;
