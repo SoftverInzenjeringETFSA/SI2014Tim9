@@ -40,12 +40,39 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterJob;
 
+import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.JComboBox;
+import javax.swing.SpinnerDateModel;
+
+import utils.JTableUtil;
+import dal.TakmicarDAO;
+import dal.TurnirDAO;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.List;
+
+import klase.Klub;
+import klase.Takmicar;
+import klase.Turnir;
+
 public class IzvjestajOPodacimaTakmicara extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private JTextField textField;
 	private JButton btnPrint;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	JTableUtil jtutil;
+	private List<Takmicar> takmicari;
+	private TakmicarDAO tdao;
+	private List<Turnir> turniri;
+	private TurnirDAO turnirdao;
+	private JTextField textField_4;
+	
 
 	/**
 	 * Launch the application.
@@ -71,7 +98,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajOPodacimaTakmicara.class.getResource("/gui/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 845, 540);
+		setBounds(100, 100, 608, 615);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,8 +109,6 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		txtpnPodaciOTakmiarima.setBackground(Color.WHITE);
 		txtpnPodaciOTakmiarima.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtpnPodaciOTakmiarima.setText("Izvje\u0161taj o podacima takmi\u010Dara");
-		
-		JScrollPane scrollPane = new JScrollPane();
 		
 		JTextPane txtpnDatumIzvjetaja = new JTextPane();
 		txtpnDatumIzvjetaja.setEditable(false);
@@ -102,21 +127,27 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        printJob.printDialog(attributes);
 			}
 		});
+		
+		JPanel panel = new JPanel();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addComponent(txtpnPodaciOTakmiarima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 551, Short.MAX_VALUE)
-							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(txtpnPodaciOTakmiarima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 423, Short.MAX_VALUE)
+									.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(24)
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -126,32 +157,185 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtpnPodaciOTakmiarima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnPrint))
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-					.addGap(18)
+					.addGap(30)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Ime i prezime", "Datum ro\u0111enja", "Broj bodova", "Rang", "Klub", "Broj u\u010De\u0161\u0107a", "Broj titula", "Omjer pobjeda - poraza"
-			}
-		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(130);
-		table.getColumnModel().getColumn(1).setPreferredWidth(110);
-		table.getColumnModel().getColumn(2).setPreferredWidth(110);
-		table.getColumnModel().getColumn(3).setPreferredWidth(130);
-		table.getColumnModel().getColumn(4).setPreferredWidth(130);
-		table.getColumnModel().getColumn(5).setPreferredWidth(100);
-		table.getColumnModel().getColumn(6).setPreferredWidth(100);
-		table.getColumnModel().getColumn(7).setPreferredWidth(170);
-		scrollPane.setViewportView(table);
+		JLabel lblIzaberiTakmiara = new JLabel("Izaberi takmi\u010Dara:");
+		lblIzaberiTakmiara.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblImeIPrezime = new JLabel("Ime i prezime:");
+		lblImeIPrezime.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblDatumRoenja = new JLabel("Datum ro\u0111enja:");
+		lblDatumRoenja.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblBrojBodova = new JLabel("Broj bodova:");
+		lblBrojBodova.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblRang = new JLabel("Rang:");
+		lblRang.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblKlub = new JLabel("Klub:");
+		lblKlub.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblBrojUea = new JLabel("Broj u\u010De\u0161\u0107a:");
+		lblBrojUea.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblBrojTitula = new JLabel("Broj titula:");
+		lblBrojTitula.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		JLabel lblOmjerPobjedaI = new JLabel("Omjer pobjeda i poraza:");
+		lblOmjerPobjedaI.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		
+		final JSpinner spinner = new JSpinner();
+		
+		final JSpinner spinner_1 = new JSpinner();
+		
+		final JSpinner spinner_2 = new JSpinner();
+		
+		JComboBox comboBox = new JComboBox();
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		
+		final JSpinner spinner_3 = new JSpinner();
+		spinner_3.setModel(new SpinnerDateModel(new Date(1432332000000L), null, null, Calendar.DAY_OF_YEAR));
+		
+		jtutil = new JTableUtil();
+		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
+		
+		takmicari = new ArrayList<Takmicar>();
+		tdao = new TakmicarDAO();
+		takmicari = tdao.getAll(Takmicar.class);
+		
+		turniri = new ArrayList<Turnir>();
+		turnirdao = new TurnirDAO();
+		turniri = turnirdao.getAll(Turnir.class);
+		
+		final List<String> imenaPrezimena = new ArrayList<String>();
+		
+		for(int i=0; i<takmicari.size(); i++)
+		{
+			String ime = takmicari.get(i).getIme();
+			String prezime = takmicari.get(i).getPrezime();
+			String s= ime + " " + prezime;
+			imenaPrezimena.add(s);
+			comboBox.addItem(s);
+		}
+		
+		comboBox.addActionListener(new ActionListener() {
+			 
+		    public void actionPerformed(ActionEvent event) {
+		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
+		        String selectedTakmicar = (String) combo.getSelectedItem();
+		 
+		        for (int i=0; i<takmicari.size(); i++)
+		        {
+		        	 if (selectedTakmicar.equals(imenaPrezimena.get(i)))
+		        	 {
+		        		 int brojUcesca=0, brojTitula=0, brojPobjeda=0, brojPoraza=0;
+		        	     Takmicar takmicar = takmicari.get(i);
+		        		 textField_1.setText(selectedTakmicar);
+		        		 spinner.setValue(takmicar.getBrojBodova());
+		        		 textField_4.setText(takmicar.getKategorija());
+		        		 textField_2.setText(takmicar.getKlub().getNaziv());
+		        		 spinner_1.setValue(brojUcesca);
+		        		 spinner_2.setValue(brojTitula);
+		        		 textField_3.setText(Integer.toString(brojPobjeda)+" : " + Integer.toString(brojPoraza));
+		        		 spinner_3.setValue(takmicar.getDatumRodjenja());
+		        		 
+		        	 }
+		        } 
+		    }
+		});
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		
+		
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(66)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblImeIPrezime, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblKlub, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBrojBodova, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBrojUea, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBrojTitula, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblIzaberiTakmiara, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblRang, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblOmjerPobjedaI, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDatumRoenja, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
+					.addGap(32)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(spinner_2, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addComponent(comboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(textField_3)
+						.addComponent(textField_4)
+						.addComponent(spinner)
+						.addComponent(spinner_3))
+					.addContainerGap(89, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(32)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblIzaberiTakmiara, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(27)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblImeIPrezime, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblDatumRoenja, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBrojBodova, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblRang, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblKlub, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBrojUea, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBrojTitula, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblOmjerPobjedaI, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(70, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
 	}
 }

@@ -30,13 +30,46 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterJob;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.JComboBox;
+
+import dal.KlubDAO;
+import dal.TakmicarDAO;
+import dal.TurnirDAO;
+import klase.Klub;
+import klase.Takmicar;
+import klase.Turnir;
+import utils.JTableUtil;
 
 public class IzvjestajOPodacimaKlubova extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
 	private JTextField textField;
 	private JButton btnPrint;
+	private JPanel panel;
+	private JLabel lblUkupniBrojTitula;
+	private JTextField textField_1;
+	private JSpinner spinner;
+	private JSpinner spinner_1;
+	private JSpinner spinner_2;
+	private JComboBox comboBox;
+	private JSpinner spinner_3;
+	private JLabel lblBrojTitulaTakmiara;
+	private JLabel lblBrojTurnira;
+	private JLabel lblUkupniBrojBodova;
+	private JLabel lblBrojTakmiara;
+	private JLabel lblImeKluba;
+	private JLabel lblIzaberiKlub;
+	private JSpinner spinner_4;
+	private JTableUtil jtutil;
+	private List<Takmicar> takmicari;
+	private TakmicarDAO tdao;
+	private List<Turnir> turniri;
+	private TurnirDAO turnirdao;
 
 	/**
 	 * Launch the application.
@@ -62,7 +95,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajOPodacimaKlubova.class.getResource("/gui/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 845, 540);
+		setBounds(100, 100, 582, 494);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,9 +104,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		JTextPane txtpnIzvjetajOPodacima = new JTextPane();
 		txtpnIzvjetajOPodacima.setBackground(Color.WHITE);
 		txtpnIzvjetajOPodacima.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtpnIzvjetajOPodacima.setText("Izvje\u0161taj o podacima klubova");
-		
-		JScrollPane scrollPane = new JScrollPane();
+		txtpnIzvjetajOPodacima.setText("Izvje\u0161taj o podacima kluba");
 		
 		JTextPane txtpnDatumIVrijeme = new JTextPane();
 		txtpnDatumIVrijeme.setBackground(Color.WHITE);
@@ -91,20 +122,173 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		        printJob.printDialog(attributes);
 			}
 		});
+		
+		panel = new JPanel();
+		
+		lblUkupniBrojTitula = new JLabel("Ukupni broj titula:");
+		lblUkupniBrojTitula.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		
+		spinner = new JSpinner();
+		
+		spinner_1 = new JSpinner();
+		
+		spinner_2 = new JSpinner();
+		
+		comboBox = new JComboBox();
+		
+		spinner_3 = new JSpinner();
+		
+		lblBrojTitulaTakmiara = new JLabel("Broj titula takmi\u010Dara:");
+		lblBrojTitulaTakmiara.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblBrojTurnira = new JLabel("Broj turnira:");
+		lblBrojTurnira.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblUkupniBrojBodova = new JLabel("Ukupni broj bodova:");
+		lblUkupniBrojBodova.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblBrojTakmiara = new JLabel("Broj takmi\u010Dara:");
+		lblBrojTakmiara.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblImeKluba = new JLabel("Ime kluba:");
+		lblImeKluba.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		lblIzaberiKlub = new JLabel("Izaberi klub:");
+		lblIzaberiKlub.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		spinner_4 = new JSpinner();
+		
+		jtutil = new JTableUtil();
+		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
+		
+		takmicari = new ArrayList<Takmicar>();
+		tdao = new TakmicarDAO();
+		takmicari = tdao.getAll(Takmicar.class);
+		
+		turniri = new ArrayList<Turnir>();
+		turnirdao = new TurnirDAO();
+		turniri = turnirdao.getAll(Turnir.class);
+		
+		for(int i=0; i<klubovi.size(); i++)
+		{
+			comboBox.addItem(klubovi.get(i).getNaziv());
+		}
+		
+		comboBox.addActionListener(new ActionListener() {
+			 
+		    public void actionPerformed(ActionEvent event) {
+		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
+		        String selectedKlub = (String) combo.getSelectedItem();
+		 
+		        for (int i=0; i<klubovi.size(); i++)
+		        {
+		        	if (selectedKlub.equals(klubovi.get(i).getNaziv()))
+		        	 {
+		        		 textField_1.setText(selectedKlub);
+		        		 
+		        		 int brojacTakmicaraKluba=0;
+		        		 double brojBodovaSvihTakmicaraKluba=0;
+		        		// int brojTitulaTakmicara=0;
+		        		 int brojTurnira=0, ukupanBrojTitula=0;
+		        		 
+		        		 for (int j=0; j<takmicari.size(); j++)
+		        		 {
+		        			 Klub k = takmicari.get(j).getKlub();
+		        			 if (k.getNaziv()==selectedKlub) brojacTakmicaraKluba++;
+		        			 Takmicar t=takmicari.get(j);
+		        			 double a=t.getBrojBodova();
+		        			 brojBodovaSvihTakmicaraKluba+=a;	    
+		        		 }
+		        		 spinner_3.setValue(brojacTakmicaraKluba);
+		        		 spinner.setValue(brojBodovaSvihTakmicaraKluba);
+		        		 spinner_2.setValue(brojTurnira);	
+		        		 spinner_1.setValue(ukupanBrojTitula);
+		        	 }
+		        } 
+		    }
+		});
+		
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(66)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblImeKluba, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblIzaberiKlub, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBrojTakmiara, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblUkupniBrojTitula, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBrojTurnira, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblUkupniBrojBodova, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblBrojTitulaTakmiara, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+					.addGap(20)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(spinner_4, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addComponent(spinner_2, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(spinner_3)
+							.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+							.addComponent(spinner)
+							.addComponent(comboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+					.addGap(89))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(32)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblIzaberiKlub, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(27)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblImeKluba, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBrojTakmiara, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblUkupniBrojBodova, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBrojTurnira, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBrojTitulaTakmiara, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(17)
+									.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(18)
+									.addComponent(lblUkupniBrojTitula, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))))
+					.addContainerGap(154, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnIzvjetajOPodacima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 577, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 626, Short.MAX_VALUE)
 							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(22)
 							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGap(30)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
@@ -116,29 +300,13 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 						.addComponent(txtpnIzvjetajOPodacima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnPrint))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(15))
 		);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Ime kluba", "Broj takmi\u010Dara", "Ukupni broj bodova", "Broj turnira", "Broj titula takmi\u010Dara", "Ukupan broj titula"
-			}
-		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(150);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		table.getColumnModel().getColumn(2).setPreferredWidth(150);
-		table.getColumnModel().getColumn(3).setPreferredWidth(150);
-		table.getColumnModel().getColumn(4).setPreferredWidth(150);
-		table.getColumnModel().getColumn(5).setPreferredWidth(150);
-		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
 	}
 
