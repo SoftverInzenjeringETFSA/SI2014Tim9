@@ -258,7 +258,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		    }
 		    
 		    
-		});
+		    }});
 		
 		
 	}
