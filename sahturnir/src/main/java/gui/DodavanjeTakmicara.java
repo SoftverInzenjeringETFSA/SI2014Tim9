@@ -82,42 +82,36 @@ public class DodavanjeTakmicara extends JFrame {
 			}
 		});
 	}
-	public static Boolean validirajPrazno(JTextField t1, JTextPane t2) {
+	public static Boolean validirajPrazno(String t1) {
 		Boolean izlaz = false;
-		String a = t1.getText();
 		
-		if(a.isEmpty()) 
-			t2.setText("Polje ne smije biti prazno");
+		if(t1.isEmpty()) 
+			izlaz = false;
 		else
 			izlaz = true;
 		
 		return izlaz;
 	}
 	
-	public static Boolean validirajJmbg(JTextField t1, JTextPane t2) {
+	public static Boolean validirajJmbg(String t1) {
 		Boolean izlaz = false;
-//		String pattern = "/^[0-9]+.{13}$";
-		String a = t1.getText();
-//		Pattern p = Pattern.compile(pattern);
-//		Matcher m = p.matcher(a);
-		if (!(a.length() == 13))
+		if (!(t1.length() == 13))
 		{
-			t2.setText("GreskaJMBG");
+			izlaz = false;
 		}
 		else
 			izlaz = true;
 		return izlaz;
     }
 	
-    public static Boolean validirajImePrezime(JTextField t1, JTextPane t2) {
+    public static Boolean validirajImePrezime(String t1) {
 		Boolean izlaz = false;
 		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
-		String a = t1.getText();
 		Pattern p = Pattern.compile(pattern);
-		java.util.regex.Matcher m = p.matcher(a);
+		java.util.regex.Matcher m = p.matcher(t1);
 		
 		if(!(m.matches())) {
-			t2.setText("Neispravni karakteri");
+			izlaz = false;
 		}
 		else
 			izlaz = true;
@@ -125,15 +119,14 @@ public class DodavanjeTakmicara extends JFrame {
 		return izlaz;
     }
 
-    public static Boolean validirajAlpha(JTextField t1, JTextPane t2) {
+    public static Boolean validirajAlpha(String t1) {
 		Boolean izlaz = false;
 		String pattern = "^([A-Z][a-z]*)";
-		String a = t1.getText();
 		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(a);
+		Matcher m = p.matcher(t1);
 		
 		if(!(m.matches())) {
-			t2.setText("Neispravni karakteri");
+			izlaz = false;
 		}
 		else
 			izlaz = true;
@@ -141,16 +134,14 @@ public class DodavanjeTakmicara extends JFrame {
 		return izlaz;
     }
     
-    public static Boolean validirajAlphaNum(JTextField t1, JTextPane t2) {
+    public static Boolean validirajAlphaNum(String t1) {
 		Boolean izlaz = false;
 		String pattern = "^[a-zA-Z0-9 ]*";
-		String a = t1.getText();
 		Pattern p = Pattern.compile(pattern);
-		java.util.regex.Matcher m = p.matcher(a);
+		java.util.regex.Matcher m = p.matcher(t1);
 		
-		Object anchor;
 		if(!(m.matches())) {
-			t2.setText("Neispravni karakteri");
+			izlaz = false;
 		}
 		else
 			izlaz = true;
@@ -193,57 +184,62 @@ public class DodavanjeTakmicara extends JFrame {
 				
 				boolean flag = false;
 				
-				if(validirajPrazno(textField, textPane_3))
+				if(validirajPrazno(textField.getText()))
 				{
 					textPane_3.setText("");
 				}
-				if(!validirajPrazno(textField, textPane_3))
+				if(!validirajPrazno(textField.getText()))
 				{
+					textPane_3.setText("greškaPrazno");
 					flag = true;
 				}
-				if(validirajPrazno(textField, textPane_3))
+				if(validirajPrazno(textField.getText()))
 				{
-					if(validirajAlpha(textField, textPane_3))
+					if(validirajAlpha(textField.getText()))
 					{
 						textPane_3.setText("");
 					}
 				}
-				if (validirajPrazno(textField, textPane_3))
+				if (validirajPrazno(textField.getText()))
 				{
-					if(!validirajAlpha(textField, textPane_3))
+					if(!validirajAlpha(textField.getText()))
 					{
+						textPane_3.setText("greškaAlpha");
 						flag = true;
 					}
 				}// ODAVDE POPRAVI
-				if(validirajPrazno(textField_2, textPane_4))
+				if(validirajPrazno(textField_2.getText()))
 				{
 					textPane_4.setText("");
 				}
-				if(!validirajPrazno(textField_2, textPane_4))
+				if(!validirajPrazno(textField_2.getText()))
 				{
+					textPane_4.setText("greškaPrazno");
 					flag = true;
 				}
-				if(validirajPrazno(textField_2, textPane_4))
+				if(validirajPrazno(textField_2.getText()))
 				{
-					if(validirajAlpha(textField_2, textPane_4))
+					if(validirajAlpha(textField_2.getText()))
 					{
 						textPane_4.setText("");
 					}
 				}
-				if(validirajPrazno(textField_2, textPane_4))
+				if(validirajPrazno(textField_2.getText()))
 				{
-					if(!validirajAlpha(textField_2, textPane_4))
+					if(!validirajAlpha(textField_2.getText()))
 					{
+						textPane_4.setText("greškaAlpha");
 						flag = true;
 					}
 				}
 //popravi
-				if(validirajJmbg(textField_1, textPane_1))
+				if(validirajJmbg(textField_1.getText()))
 				{
 					textPane_1.setText("");	
 				}
 				else
 				{
+					textPane_1.setText("greškaJmbg");	
 					flag = true;
 				}
 				if(!flag)
