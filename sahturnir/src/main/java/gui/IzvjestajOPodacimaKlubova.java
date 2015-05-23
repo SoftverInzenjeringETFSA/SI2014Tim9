@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterJob;
 import java.awt.Color;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,6 @@ import utils.JTableUtil;
 public class IzvjestajOPodacimaKlubova extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 	private JButton btnPrint;
 	private JPanel panel;
 	private JLabel lblUkupniBrojTitula;
@@ -70,6 +70,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 	private TakmicarDAO tdao;
 	private List<Turnir> turniri;
 	private TurnirDAO turnirdao;
+	private JSpinner spinner_5;
 
 	/**
 	 * Launch the application.
@@ -110,9 +111,6 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		txtpnDatumIVrijeme.setBackground(Color.WHITE);
 		txtpnDatumIVrijeme.setText("Datum i vrijeme generisanja izvje\u0161taja:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
 		btnPrint = new JButton("Print");
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,17 +127,22 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		lblUkupniBrojTitula.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		textField_1 = new JTextField();
+		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		
 		spinner = new JSpinner();
+		spinner.setEnabled(false);
 		
 		spinner_1 = new JSpinner();
+		spinner_1.setEnabled(false);
 		
 		spinner_2 = new JSpinner();
+		spinner_2.setEnabled(false);
 		
 		comboBox = new JComboBox();
 		
 		spinner_3 = new JSpinner();
+		spinner_3.setEnabled(false);
 		
 		lblBrojTitulaTakmiara = new JLabel("Broj titula takmi\u010Dara:");
 		lblBrojTitulaTakmiara.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -160,6 +163,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		lblIzaberiKlub.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		spinner_4 = new JSpinner();
+		spinner_4.setEnabled(false);
 		
 		jtutil = new JTableUtil();
 		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
@@ -208,13 +212,14 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		        		 spinner_1.setValue(ukupanBrojTitula);
 		        	 }
 		        } 
+		        spinner_4.setValue(LocalDateTime.now());
 		    }
 		});
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 					.addGap(66)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblImeKluba, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
@@ -225,15 +230,15 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 						.addComponent(lblUkupniBrojBodova, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblBrojTitulaTakmiara, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
 					.addGap(20)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(spinner_4, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-						.addComponent(spinner_2, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-						.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(spinner_3)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(spinner_4, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addComponent(spinner_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_panel.createParallelGroup(Alignment.LEADING, false)
 							.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
 							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-							.addComponent(spinner)
-							.addComponent(comboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addComponent(comboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(spinner_3)
+							.addComponent(spinner)))
 					.addGap(89))
 		);
 		gl_panel.setVerticalGroup(
@@ -271,26 +276,30 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGap(18)
 									.addComponent(lblUkupniBrojTitula, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(154, Short.MAX_VALUE))
+					.addContainerGap(34, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
+		
+		spinner_5 = new JSpinner();
+		spinner_5.setEnabled(false);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(txtpnIzvjetajOPodacima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 626, Short.MAX_VALUE)
-							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(22)
 							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(30)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
+							.addGap(26)
+							.addComponent(spinner_5, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(txtpnIzvjetajOPodacima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+							.addComponent(panel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(15, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -303,8 +312,8 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinner_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(15))
 		);
 		contentPane.setLayout(gl_contentPane);

@@ -49,6 +49,7 @@ import utils.JTableUtil;
 import dal.TakmicarDAO;
 import dal.TurnirDAO;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
@@ -61,7 +62,6 @@ import klase.Turnir;
 public class IzvjestajOPodacimaTakmicara extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 	private JButton btnPrint;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -98,7 +98,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajOPodacimaTakmicara.class.getResource("/gui/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 608, 615);
+		setBounds(100, 100, 575, 615);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -115,9 +115,6 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		txtpnDatumIzvjetaja.setBackground(Color.WHITE);
 		txtpnDatumIzvjetaja.setText("Datum i vrijeme generisanja izvje\u0161taja:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
 		btnPrint = new JButton("Print");
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,26 +126,27 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		});
 		
 		JPanel panel = new JPanel();
+		
+		final JSpinner spinner_4 = new JSpinner();
+		spinner_4.setEnabled(false);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(txtpnPodaciOTakmiarima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 423, Short.MAX_VALUE)
-									.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(24)
-							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
+							.addGap(37)
+							.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(spinner_4, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addComponent(txtpnPodaciOTakmiarima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+							.addComponent(panel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(41, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -157,12 +155,12 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtpnPodaciOTakmiarima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnPrint))
-					.addGap(30)
+					.addGap(18)
 					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+					.addGap(23)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(spinner_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		
@@ -194,23 +192,30 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		lblOmjerPobjedaI.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		textField_1 = new JTextField();
+		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		
 		textField_2 = new JTextField();
+		textField_2.setEditable(false);
 		textField_2.setColumns(10);
 		
 		final JSpinner spinner = new JSpinner();
+		spinner.setEnabled(false);
 		
 		final JSpinner spinner_1 = new JSpinner();
+		spinner_1.setEnabled(false);
 		
 		final JSpinner spinner_2 = new JSpinner();
+		spinner_2.setEnabled(false);
 		
 		JComboBox comboBox = new JComboBox();
 		
 		textField_3 = new JTextField();
+		textField_3.setEditable(false);
 		textField_3.setColumns(10);
 		
 		final JSpinner spinner_3 = new JSpinner();
+		spinner_3.setEnabled(false);
 		spinner_3.setModel(new SpinnerDateModel(new Date(1432332000000L), null, null, Calendar.DAY_OF_YEAR));
 		
 		jtutil = new JTableUtil();
@@ -254,14 +259,18 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        		 spinner_1.setValue(brojUcesca);
 		        		 spinner_2.setValue(brojTitula);
 		        		 textField_3.setText(Integer.toString(brojPobjeda)+" : " + Integer.toString(brojPoraza));
-		        		 spinner_3.setValue(takmicar.getDatumRodjenja());
-		        		 
+		        		 spinner_3.setValue(takmicar.getDatumRodjenja());       		 
 		        	 }
-		        } 
+		        }
+		        
+		        spinner_4.setValue(LocalDateTime.now());
 		    }
+		    
+		    
 		});
 		
 		textField_4 = new JTextField();
+		textField_4.setEditable(false);
 		textField_4.setColumns(10);
 		
 		
