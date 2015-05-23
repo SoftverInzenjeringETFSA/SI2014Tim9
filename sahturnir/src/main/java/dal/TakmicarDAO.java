@@ -31,14 +31,21 @@ public class TakmicarDAO extends GenericDAO {
 					t.setKlub(loadById(Klub.class, result.getLong("klub")));
 					takmicari.add(t);
 				}
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				throw e;
-			} finally {
+			} 
+			finally 
+			{
 				connection.close();
 			}
-		} catch (Exception e) {
-		} finally {
-			return takmicari;
+		} catch (Exception e) 
+		{
+		} 
+		finally 
+		{
 		}
+		return takmicari;		
 	}
 }

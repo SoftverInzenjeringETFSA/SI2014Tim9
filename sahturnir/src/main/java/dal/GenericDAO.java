@@ -29,9 +29,12 @@ public class GenericDAO<T> {
 				transaction.rollback();
 			isDone = false;
 		} finally {
-			session.close();
-			return isDone;
+			if(session != null)
+			{
+				session.close();
+			}
 		}
+		return isDone;
 	}
 
 	public static <T> T loadById(Class<T> classType, long id) {
@@ -47,9 +50,12 @@ public class GenericDAO<T> {
 			if (transaction != null)
 				transaction.rollback();
 		} finally {
+			if(session != null)
+			{
 			session.close();
-			return o;
+			}
 		}
+		return o;
 	}
 	
 	public boolean update(T o) {
@@ -66,9 +72,12 @@ public class GenericDAO<T> {
 				transaction.rollback();
 			isDone = false;
 		} finally {
-			session.close();
-			return isDone;
+			if(session != null)
+			{
+				session.close();
+			}
 		}
+		return isDone;
 	}
 	
 	public boolean delete(T o) {
@@ -85,9 +94,12 @@ public class GenericDAO<T> {
 				transaction.rollback();
 			isDone = false;
 		} finally {
-			session.close();
-			return isDone;
+			if(session != null)
+			{
+				session.close();
+			}
 		}
+		return isDone;
 	}
 	
 	public static <T> List<T> getAll(Class<T> classType) {
@@ -103,8 +115,11 @@ public class GenericDAO<T> {
 			if (transaction != null)
 				transaction.rollback();
 		} finally {
+			if(session != null)
+			{
 			session.close();
-			return l;
+			}
 		}
+		return l;
 	}
 }

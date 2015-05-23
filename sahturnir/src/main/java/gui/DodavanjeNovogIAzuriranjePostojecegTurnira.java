@@ -49,6 +49,7 @@ import javax.swing.SpinnerDateModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import klase.Takmicar;
@@ -64,9 +65,10 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 	private JSpinner spinner = new JSpinner();
 	private JSpinner spinner_1 = new JSpinner();
 	private	JSpinner spinner_2 = new JSpinner();
-	private JList<?> list_2 = new JList();		
-	private JList list = new JList<Object>();
-	
+	private JList list_2;		
+	private JList list;
+	private String[] red2;
+	private int iterator;
 	/**
 	 * Launch the application.
 	 */
@@ -308,7 +310,12 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 
 		
 		t = tdao.getAll(Takmicar.class);
-
+		String[] red = new String[t.size()];
+		for(int i=0;i<t.size();i++)
+		{
+			red[i]=t.get(i).getIme()+" "+t.get(i).getPrezime(); 
+		}
+		list = new JList(red);
 //			list.setModel((ListModel) t);
 //			list.add(t.get(i).getIme() + " " + t.get(i).getPrezime(), t.get(i));
 		JButton btnPotvrdi = new JButton("Potvrdi");
@@ -397,6 +404,21 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		);
 		
 		JButton button = new JButton(">");
+		red2 = new String[t.size()];
+		iterator = 0;
+//		list_2 = new JList(red2);
+//		list_2.setSelectedIndex(1);
+			button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+	//			list_2.removeAll();
+				red2[iterator] = list.getSelectedValue().toString();
+				iterator++;
+//				list_2.setSelectedValue(list.getSelectedValue(), true);
+				list_2 = new JList(red2);
+//				list_2.setSelectedValue(list.getSelectedValue(), false);
+				
+			}
+		});
 		
 		JButton button_1 = new JButton("<");
 		

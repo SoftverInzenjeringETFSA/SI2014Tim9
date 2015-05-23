@@ -20,14 +20,22 @@ public class TurnirDAO extends GenericDAO {
 				result.next();
 				String sum = result.getString(1);
 				resultValue = Integer.parseInt(sum);
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				throw e;
-			} finally {
+			} 
+			finally 
+			{
 				connection.close();
 			}
-		} catch (Exception e) {
-		} finally {
-			return resultValue;
+		} 
+		catch (Exception e) 
+		{
+		} 
+		finally 
+		{
 		}
+		return resultValue;
 	}
 }

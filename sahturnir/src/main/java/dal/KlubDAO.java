@@ -27,15 +27,22 @@ public class KlubDAO extends GenericDAO {
 					k.setDatumOsnivanja(result.getDate("datumOsnivanja"));
 					klubovi.add(k);
 				}
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				throw e;
-			} finally {
+			} 
+			finally 
+			{
 				connection.close();
 			}
-		} catch (Exception e) {
-		} finally {
-			return klubovi;
+		} 
+		catch (Exception e) {
+		} 
+		finally 
+		{
 		}
+		return klubovi;
 	}
 
 	public double calculateClubPoints(long id) {
@@ -51,14 +58,22 @@ public class KlubDAO extends GenericDAO {
 				result.next();
 				String sum = result.getString(1);
 				resultValue = Double.parseDouble(sum);
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				throw e;
-			} finally {
+			} 
+			finally 
+			{
 				connection.close();
 			}
-		} catch (Exception e) {
-		} finally {
-			return resultValue;
+		} 
+		catch (Exception e) 
+		{
 		}
+		finally 
+		{
+		}
+		return resultValue;
 	}
 }
