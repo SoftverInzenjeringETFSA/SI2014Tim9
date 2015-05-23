@@ -19,10 +19,13 @@ public class App {
 		final Logger logger = Logger.getLogger(App.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					Prijava frame = new Prijava();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
 					logger.error("Sorry, something wrong!", e);
 				}

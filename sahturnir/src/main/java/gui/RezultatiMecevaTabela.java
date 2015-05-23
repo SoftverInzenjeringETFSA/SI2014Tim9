@@ -36,6 +36,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;
 
+import org.apache.log4j.Logger;
+
 import utils.JTableUtil;
 
 public class RezultatiMecevaTabela extends JFrame {
@@ -48,13 +50,18 @@ public class RezultatiMecevaTabela extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(RezultatiMecevaTabela.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					RezultatiMecevaTabela frame = new RezultatiMecevaTabela();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});

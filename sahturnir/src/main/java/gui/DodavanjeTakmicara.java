@@ -34,6 +34,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
 
+import org.apache.log4j.Logger;
+
 import utils.JTableUtil;
 import dal.TakmicarDAO;
 
@@ -58,26 +60,31 @@ public class DodavanjeTakmicara extends JFrame {
 	private JTextPane txtpnKategorija;
 	private JSpinner spinner_1;
 	protected final JTextPane textPane_1;
-	private JSpinner timeSpinner = new JSpinner( new SpinnerDateModel() );
-	private JSpinner spinner = new JSpinner();
-	JComboBox comboBox = new JComboBox();
-	JComboBox comboBox_1 = new JComboBox();
+	private JSpinner timeSpinner;
+	private JSpinner spinner;
+	private JComboBox comboBox;
+	private JComboBox comboBox_1;
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextPane textPane_4;
-	JTextPane textPane_3 = new JTextPane();
+	private JTextPane textPane_3;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		final Logger logger = Logger.getLogger(DodavanjeTakmicara.class);
+				EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					DodavanjeTakmicara frame = new DodavanjeTakmicara();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
@@ -162,16 +169,17 @@ public class DodavanjeTakmicara extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+		spinner = new JSpinner();
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(new TitledBorder(null, "Podaci o takmi\u010Daru", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
+		timeSpinner = new JSpinner( new SpinnerDateModel() );
 		JButton btnPotvrdi = new JButton("Potvrdi");
-		
+		comboBox_1 = new JComboBox();
+		comboBox = new JComboBox();
 		JTableUtil jtutil = new JTableUtil();
 		List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
-		
+		textPane_3 = new JTextPane();
 		for(int i=0; i<klubovi.size(); i++)
 		{
 			comboBox_1.addItem(klubovi.get(i).getNaziv());

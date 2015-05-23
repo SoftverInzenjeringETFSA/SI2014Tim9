@@ -21,6 +21,7 @@ import javax.swing.JSpinner;
 import javax.swing.JButton;
 import javax.transaction.Transaction;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import utils.HibernateUtil;
@@ -42,13 +43,18 @@ public class RezultatiMecevaUnos extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(RezultatiMecevaUnos.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					RezultatiMecevaUnos frame = new RezultatiMecevaUnos();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
