@@ -190,7 +190,7 @@ public class DodavanjeTakmicara extends JFrame {
 				}
 				if(!validirajPrazno(textField.getText()))
 				{
-					textPane_3.setText("greškaPrazno");
+					textPane_3.setText("Polje ne smije biti prazno");
 					flag = true;
 				}
 				if(validirajPrazno(textField.getText()))
@@ -204,7 +204,7 @@ public class DodavanjeTakmicara extends JFrame {
 				{
 					if(!validirajAlpha(textField.getText()))
 					{
-						textPane_3.setText("greškaAlpha");
+						textPane_3.setText("Neispravni karakteri");
 						flag = true;
 					}
 				}// ODAVDE POPRAVI
@@ -214,7 +214,7 @@ public class DodavanjeTakmicara extends JFrame {
 				}
 				if(!validirajPrazno(textField_2.getText()))
 				{
-					textPane_4.setText("greškaPrazno");
+					textPane_4.setText("Polje ne smije biti prazno");
 					flag = true;
 				}
 				if(validirajPrazno(textField_2.getText()))
@@ -228,7 +228,7 @@ public class DodavanjeTakmicara extends JFrame {
 				{
 					if(!validirajAlpha(textField_2.getText()))
 					{
-						textPane_4.setText("greškaAlpha");
+						textPane_4.setText("Neispravni karakteri");
 						flag = true;
 					}
 				}
@@ -239,7 +239,7 @@ public class DodavanjeTakmicara extends JFrame {
 				}
 				else
 				{
-					textPane_1.setText("greškaJmbg");	
+					textPane_1.setText("JMBG ne odgovara traženom formatu");	
 					flag = true;
 				}
 				if(!flag)
@@ -360,8 +360,8 @@ public class DodavanjeTakmicara extends JFrame {
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(22)
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 								.addComponent(textPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
@@ -370,7 +370,7 @@ public class DodavanjeTakmicara extends JFrame {
 								.addComponent(textField_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
 								.addComponent(textPane_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textPane_4, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(20)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(txtpnKategorija, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
@@ -378,18 +378,16 @@ public class DodavanjeTakmicara extends JFrame {
 								.addComponent(txtpnKlub, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 								.addComponent(comboBox_1, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(txtpnDatumRoenja, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-								.addComponent(spinner)
+								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtpnJmbg, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textField_1)))
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-							.addContainerGap()
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(20)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(textPane_1)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(10)
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(txtpnBrojBodova, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-										.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))))))
+								.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+									.addComponent(txtpnBrojBodova, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+									.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))))
 					.addGap(24))
 		);
 		gl_panel.setVerticalGroup(
@@ -429,7 +427,7 @@ public class DodavanjeTakmicara extends JFrame {
 					.addComponent(txtpnKlub, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(30, Short.MAX_VALUE))
+					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);

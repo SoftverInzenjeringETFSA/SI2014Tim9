@@ -83,27 +83,66 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		});
 	}
 	
-	public static Boolean validirajPrazno(JTextField t1, JTextPane t2) {
+	public static Boolean validirajPrazno(String t1) {
 		Boolean izlaz = false;
-		String a = t1.getText();
 		
-		if(a.isEmpty()) 
-			t2.setText("Polje ne smije biti prazno");
+		if(t1.isEmpty()) 
+			izlaz = false;
 		else
 			izlaz = true;
 		
 		return izlaz;
 	}
 	
-	public static Boolean validirajAlphaNum(JTextField t1, JTextPane t2) {
+	public static Boolean validirajJmbg(String t1) {
 		Boolean izlaz = false;
-		String pattern = "^[a-zA-Z0-9 ]*";
-		String a = t1.getText();
+		if (!(t1.length() == 13))
+		{
+			izlaz = false;
+		}
+		else
+			izlaz = true;
+		return izlaz;
+    }
+	
+    public static Boolean validirajImePrezime(String t1) {
+		Boolean izlaz = false;
+		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
 		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(a);
+		java.util.regex.Matcher m = p.matcher(t1);
 		
 		if(!(m.matches())) {
-			t2.setText("Neispravni karakteri");
+			izlaz = false;
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
+
+    public static Boolean validirajAlpha(String t1) {
+		Boolean izlaz = false;
+		String pattern = "^([A-Z][a-z]*)";
+		Pattern p = Pattern.compile(pattern);
+		Matcher m = p.matcher(t1);
+		
+		if(!(m.matches())) {
+			izlaz = false;
+		}
+		else
+			izlaz = true;
+		
+		return izlaz;
+    }
+    
+    public static Boolean validirajAlphaNum(String t1) {
+		Boolean izlaz = false;
+		String pattern = "^[a-zA-Z0-9 ]*";
+		Pattern p = Pattern.compile(pattern);
+		java.util.regex.Matcher m = p.matcher(t1);
+		
+		if(!(m.matches())) {
+			izlaz = false;
 		}
 		else
 			izlaz = true;
@@ -111,18 +150,18 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		return izlaz;
     }
 	
-	public static Boolean validirajBrojTakmicara(JSpinner spinner, JTextPane textPane_1){
+	public static Boolean validirajBrojTakmicara(int spinner){
 		int i = 1;
 		boolean flag = false;
-		while(i < (Integer)spinner.getValue()){
+		while(i < spinner){
 			i = i*2;
-			if((Integer)spinner.getValue() == i){
+			if(spinner == i){
 				flag = true;
 			}					
 		}
 		if (!flag)
 		{
-			textPane_1.setText("Broj takmi\u010Dara nije validan");
+			flag = false;
 		}
 		//	TO DO:	if(list_2.size() == spinner.value) zabrani dodavanje novih na turnir
 		return flag;
@@ -278,35 +317,38 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 				textPane.setText("");
 				boolean flag = false;
 				
-				if(validirajPrazno(textField, textPane))
+				if(validirajPrazno(textField.getText()))
 				{
 					textPane.setText("");
 				}
 				else 
 				{
+					textPane.setText("Polje ne smije biti prazno");
 					flag = true;
 				}
-				if(validirajPrazno(textField, textPane))
+				if(validirajPrazno(textField.getText()))
 				{	
-					if(validirajAlphaNum(textField, textPane))
+					if(validirajAlphaNum(textField.getText()))
 					{
 						textPane.setText("");
 					}
 				}
-				if(validirajPrazno(textField, textPane))
+				if(validirajPrazno(textField.getText()))
 				{	
-					if(!validirajAlphaNum(textField, textPane))
+					if(!validirajAlphaNum(textField.getText()))
 					{
 						flag = true;
+						textPane.setText("Neispravni karakteri");
 					}
 				}
-				if(validirajBrojTakmicara(spinner, textPane_1))
+				if(validirajBrojTakmicara((Integer)spinner.getValue()))
 				{
 					textPane_1.setText("");
 				}
 				else
 				{
-					flag = true;					
+					flag = true;
+					textPane_1.setText("Broj takmièara nije OK");
 				}
 				
 				if(!flag)
