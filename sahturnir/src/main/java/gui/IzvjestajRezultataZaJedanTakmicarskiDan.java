@@ -64,7 +64,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 	 */
 	public IzvjestajRezultataZaJedanTakmicarskiDan() {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajRezultataZaJedanTakmicarskiDan.class.getResource("/gui/Screenshot_2.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajRezultataZaJedanTakmicarskiDan.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 845, 540);

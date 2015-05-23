@@ -153,17 +153,16 @@ public class IzvjestajORangListiKlubova extends JFrame {
 					.addContainerGap())
 		);
 		
-		table = new JTable();
+		/*table = new JTable();
 		JTableUtil jtutil = new JTableUtil();
 		table.setModel(jtutil.populateJTableRangListaKlubovi());
-		
 		table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(25);
 		table.getColumnModel().getColumn(3).setPreferredWidth(55);
 		table.getColumnModel().getColumn(4).setPreferredWidth(25);
 		scrollPane.setViewportView(table);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.setLayout(gl_contentPane);*/
 	}
 
 

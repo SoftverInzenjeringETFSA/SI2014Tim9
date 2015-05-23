@@ -163,7 +163,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 					.addContainerGap())
 		);
 		
-		table = new JTable();
+		/*table = new JTable();
 		JTableUtil jtutil = new JTableUtil();
 		table.setModel(jtutil.populateJTableRangListaTakmicari());
 		
@@ -199,6 +199,6 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
 				.setHorizontalAlignment(JLabel.CENTER);
-		table.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		table.getTableHeader().setPreferredSize(new Dimension(0, 40));*/
 	}
 }
