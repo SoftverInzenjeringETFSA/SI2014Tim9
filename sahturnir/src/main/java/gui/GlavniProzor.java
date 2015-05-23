@@ -111,7 +111,7 @@ public class GlavniProzor extends JFrame {
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		EventQueue.invokeLater(new Runnable() {
