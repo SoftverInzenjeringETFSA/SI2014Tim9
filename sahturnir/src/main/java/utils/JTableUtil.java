@@ -237,4 +237,13 @@ public class JTableUtil {
 		}
 		return new DefaultTableModel(data, columnNames);
 	}
+	
+	public List<Klub> populateComboBoxKlubovi(){
+		
+		KlubDAO kdao = new KlubDAO();
+		List<Klub> klubovi = new ArrayList<Klub>();
+		klubovi = kdao.getAll(Klub.class);
+
+		return klubovi;
+	}
 }
