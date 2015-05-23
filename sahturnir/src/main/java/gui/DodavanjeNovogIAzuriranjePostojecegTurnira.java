@@ -188,6 +188,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 	 * Create the frame.
 	 */
 	public DodavanjeNovogIAzuriranjePostojecegTurnira() {
+		final Logger logger = Logger.getLogger(DodavanjeNovogIAzuriranjePostojecegTurnira.class);
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeNovogIAzuriranjePostojecegTurnira.class.getResource("/gui/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -398,7 +399,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 						}
 						catch(Exception ex)
 						{
-							
+							logger.error("Sorry, something wrong!", ex);
 						}
 					}
 					else if(comboBox.getSelectedItem().toString().equals("Dvostruki eliminacioni"))
@@ -409,7 +410,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 						}
 						catch(Exception ex)
 						{
-							
+							logger.error("Sorry, something wrong!", ex);
 						}
 					}
 					else if(comboBox.getSelectedItem().toString().equals("Round Robin"))
@@ -419,8 +420,8 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 							j.RoundRobinGenerator(t2, t);
 						}
 						catch(Exception ex)
-						{
-							
+						{							
+							logger.error("Sorry, something wrong!", ex);
 						}
 					}
 					else
@@ -431,7 +432,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 						}
 						catch(Exception ex)
 						{
-							
+							logger.error("Sorry, something wrong!", ex);	
 						}
 					}
 					tdao.create(t);
