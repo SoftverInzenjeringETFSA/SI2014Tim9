@@ -69,7 +69,7 @@ public class DodavanjeKorisnika extends JFrame {
 		Boolean izlaz = false;
 		//String a = t1.getText();
 		
-		if(t1.isEmpty()) 
+		if(t1.isEmpty()|| t1.trim().length() == 0)
 			izlaz = false;//t2textPane.setText("Polje ne smije biti prazno");
 		else
 			izlaz = true;
