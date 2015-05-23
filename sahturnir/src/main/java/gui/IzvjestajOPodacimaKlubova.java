@@ -212,7 +212,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		        		 spinner_1.setValue(ukupanBrojTitula);
 		        	 }
 		        } 
-		        spinner_4.setValue(LocalDateTime.now());
+		        spinner_5.setValue(LocalDateTime.now());
 		    }
 		});
 		
