@@ -123,7 +123,7 @@ public class RezultatiMecevaTabela extends JFrame {
 		table.getColumnModel().getColumn(table.getColumnCount() - 2)
 		.setCellRenderer(new ImageRendererEdit());	
 		table.setEnabled(false);
-		table.removeColumn(table.getColumnModel().getColumn(0));
+//		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.getColumnModel().getColumn(table.getColumnCount() - 1).setMaxWidth(40);
 		table.getColumnModel().getColumn(table.getColumnCount() - 2).setMaxWidth(40);
 		if(table.getName() == "tableTurniri")
