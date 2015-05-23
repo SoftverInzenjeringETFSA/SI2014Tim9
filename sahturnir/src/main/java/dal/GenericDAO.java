@@ -2,6 +2,7 @@ package dal;
 
 import utils.HibernateUtil;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.hibernate.Session;
 
@@ -14,7 +15,7 @@ public class GenericDAO<T> {
 	protected String cs1 = "jdbc:mysql://localhost/sahovski_klub_pijun";
 	protected String cs2 = "siuser";
 	protected String cs3 = "password123";
-			
+	final static Logger logger = Logger.getLogger(GenericDAO.class);
 	public boolean create(T o) {
 		Session session = null;
 		Transaction transaction = null;
@@ -24,11 +25,16 @@ public class GenericDAO<T> {
 			transaction = session.beginTransaction();
 			session.save(o);
 			transaction.commit();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			if (transaction != null)
 				transaction.rollback();
 			isDone = false;
-		} finally {
+			logger.error("Sorry, something wrong!", e);
+		} 
+		finally 
+		{
 			if(session != null)
 			{
 				session.close();
@@ -46,10 +52,15 @@ public class GenericDAO<T> {
 			transaction = session.beginTransaction();
 			o = classType.cast(session.get(classType, id));
 			transaction.commit();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			if (transaction != null)
 				transaction.rollback();
-		} finally {
+			logger.error("Sorry, something wrong!", e);
+		} 
+		finally 
+		{
 			if(session != null)
 			{
 			session.close();
@@ -67,11 +78,16 @@ public class GenericDAO<T> {
 			transaction = session.beginTransaction();
 			session.update(o);
 			transaction.commit();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			if (transaction != null)
 				transaction.rollback();
 			isDone = false;
-		} finally {
+			logger.error("Sorry, something wrong!", e);
+		} 
+		finally 
+		{
 			if(session != null)
 			{
 				session.close();
@@ -89,11 +105,16 @@ public class GenericDAO<T> {
 			transaction = session.beginTransaction();
 			session.delete(o);
 			transaction.commit();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			if (transaction != null)
 				transaction.rollback();
 			isDone = false;
-		} finally {
+			logger.error("Sorry, something wrong!", e);
+		} 
+		finally 
+		{
 			if(session != null)
 			{
 				session.close();
@@ -111,10 +132,15 @@ public class GenericDAO<T> {
 			transaction = session.beginTransaction();
 			l = session.createCriteria(classType).list();
 			transaction.commit();
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			if (transaction != null)
 				transaction.rollback();
-		} finally {
+			logger.error("Sorry, something wrong!", e);
+		} 
+		finally 
+		{
 			if(session != null)
 			{
 			session.close();

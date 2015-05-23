@@ -42,6 +42,7 @@ public class TakmicarDAO extends GenericDAO {
 			}
 		} catch (Exception e) 
 		{
+			logger.error("Sorry, something wrong!", e);
 		} 
 		finally 
 		{

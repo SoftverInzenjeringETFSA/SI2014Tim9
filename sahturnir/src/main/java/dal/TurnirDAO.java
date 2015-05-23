@@ -32,6 +32,7 @@ public class TurnirDAO extends GenericDAO {
 		} 
 		catch (Exception e) 
 		{
+			logger.error("Sorry, something wrong!", e);
 		} 
 		finally 
 		{

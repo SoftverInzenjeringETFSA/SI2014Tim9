@@ -38,6 +38,7 @@ public class KlubDAO extends GenericDAO {
 			}
 		} 
 		catch (Exception e) {
+			logger.error("Sorry, something wrong!", e);
 		} 
 		finally 
 		{
@@ -70,6 +71,7 @@ public class KlubDAO extends GenericDAO {
 		} 
 		catch (Exception e) 
 		{
+			logger.error("Sorry, something wrong!", e);
 		}
 		finally 
 		{
