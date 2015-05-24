@@ -347,7 +347,7 @@ public class GlavniProzor extends JFrame {
 					t = tdao.loadById(Takmicar.class, (Long) tableTakmicari.getModel().getValueAt(row, 0));
 					if(col == tableTakmicari.getColumnCount() - 2)
 					{
-						DodavanjeTakmicara dt = new DodavanjeTakmicara();
+						DodavanjeTakmicara dt = new DodavanjeTakmicara(t);
 						dt.setVisible(true);
 					}
 					else if(col == tableTakmicari.getColumnCount() - 1)
