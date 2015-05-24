@@ -26,6 +26,8 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
@@ -54,25 +56,12 @@ public class RezultatiMecevaTabela extends JFrame {
 	private JTextField textField;
 	private JTable table = new JTable();
 	private transient JTableUtil jtutil = new JTableUtil();
+	private JFrame parentFrame;
+	private GlavniProzor gpf;
 	transient Turnir t1;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(RezultatiMecevaTabela.class);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Turnir t = new Turnir();
-					RezultatiMecevaTabela frame = new RezultatiMecevaTabela(t);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					// e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
-				}
-			}
-		});
-	}
 
 	class ImageRendererDelete extends DefaultTableCellRenderer {
 		JLabel tableLabel = new JLabel();
@@ -110,6 +99,12 @@ public class RezultatiMecevaTabela extends JFrame {
 			tableLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			return tableLabel;
 		}
+	}
+	
+	public void RefreshTables()
+	{
+		table.setModel(jtutil.populateJTableMecevi(t1));
+		PrepareTableDesign(table);
 	}
 
 	private void PrepareTableDesign(JTable table) {
@@ -152,12 +147,21 @@ public class RezultatiMecevaTabela extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RezultatiMecevaTabela(Turnir t) {
+	public RezultatiMecevaTabela(Turnir t, JFrame pf, GlavniProzor gp) {
+		parentFrame = pf;
+		gpf = gp;
+		final Logger logger = Logger.getLogger(RezultatiMecevaUnos.class);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});
 		t1 = t;
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				RezultatiMecevaTabela.class.getResource("/gui/logo.png")));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 763, 451);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -170,13 +174,13 @@ public class RezultatiMecevaTabela extends JFrame {
 
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setText(t.getNaziv());
+		textField.setText(t1.getNaziv());
 		textField.setEditable(false);
 		JTextPane txtpnMeeviZaKoje = new JTextPane();
 		txtpnMeeviZaKoje.setEditable(false);
 		txtpnMeeviZaKoje.setText("Me\u010Devi turnira:");
 		JPanel panel = new JPanel();
-		table.setModel(jtutil.populateJTableMecevi(t));
+		table.setModel(jtutil.populateJTableMecevi(t1));
 		PrepareTableDesign(table);
 		panel.setLayout(new BorderLayout());
 		panel.add(table.getTableHeader(), BorderLayout.NORTH);
@@ -192,7 +196,9 @@ public class RezultatiMecevaTabela extends JFrame {
 					m = mdao.loadById(Mec.class, (Long) table.getModel().getValueAt(row, 0));
 					if(col == table.getColumnCount() - 2)
 					{
-						RezultatiMecevaUnos rmu = new RezultatiMecevaUnos(t1,m);
+						JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField);
+						parentFrame.setEnabled(false);
+						RezultatiMecevaUnos rmu = new RezultatiMecevaUnos(t1, m, parentFrame, (RezultatiMecevaTabela) parentFrame);
 						rmu.setVisible(true);
 					}
 					else if(col == table.getColumnCount() - 1)

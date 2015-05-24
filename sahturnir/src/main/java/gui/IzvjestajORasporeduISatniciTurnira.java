@@ -50,6 +50,8 @@ import dal.TurnirDAO;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.print.PrinterJob;
 
 import klase.Klub;
@@ -71,36 +73,28 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 	private transient List<Mec> mecevi;
 	private transient MecDAO mecdao;
 	private transient KlubDAO klubdao;
-
+	private JFrame parentFrame;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(IzvjestajORasporeduISatniciTurnira.class);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					IzvjestajORasporeduISatniciTurnira frame = new IzvjestajORasporeduISatniciTurnira();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-//					e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
 	 */
-	public IzvjestajORasporeduISatniciTurnira() {
+	public IzvjestajORasporeduISatniciTurnira(JFrame pf) {
+		parentFrame = pf;
+		final Logger logger = Logger.getLogger(IzvjestajORasporeduISatniciTurnira.class);
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORasporeduISatniciTurnira.class.getResource("/gui/logo.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 845, 540);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);

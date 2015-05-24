@@ -119,7 +119,7 @@ public class DodavanjeKluba extends JFrame {
 	public DodavanjeKluba(JFrame pf, GlavniProzor gp) {
 		parentFrame = pf;
 		gpf = gp;
-		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		final Logger logger = Logger.getLogger(DodavanjeKluba.class);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -361,7 +361,7 @@ public class DodavanjeKluba extends JFrame {
 	public DodavanjeKluba(Klub klub1, JFrame pf, GlavniProzor gp) {
 		parentFrame = pf;
 		gpf = gp;
-		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		final Logger logger = Logger.getLogger(DodavanjeKluba.class);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {

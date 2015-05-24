@@ -80,28 +80,28 @@ public class DodavanjeNovogIAzuriranjePostojecegTurniraTest {
 	@Test
 	public void testvalidirajBrojTakmicara1() {
 		
-		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara(1));
+		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara("Jednostruki eliminacioni", 1));
 	}
 	@Test
 	public void testvalidirajBrojTakmicara2() {
 		
-		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara(5));
+		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara("Dvostruki eliminacioni", 15));
 	}
 	@Test
 	public void testvalidirajBrojTakmicara3() {
 		
-		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara(-5));
+		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara("Swiss", -5));
 	}
 	@Test
 	public void testvalidirajBrojTakmicara4() {
 		
-		assertTrue(DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara(16));
+		assertTrue(DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara("Round Robin", 16));
 	}
 	
 	@Test
 	public void testvalidirajBrojTakmicara5() {
 		
-		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara(24));
+		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajBrojTakmicara("Swiss", 24));
 	}
 
 

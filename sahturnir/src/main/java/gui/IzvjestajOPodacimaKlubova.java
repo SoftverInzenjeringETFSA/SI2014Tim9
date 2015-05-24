@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.Date;
+
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.DialogTypeSelection;
@@ -24,6 +25,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.print.PrinterJob;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -60,36 +63,26 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 	private transient JTableUtil jtutil;
 	private transient List<Takmicar> takmicari;
 	private JTextField spinner_5;
-
+	private JFrame parentFrame;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(IzvjestajOPodacimaKlubova.class);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					IzvjestajOPodacimaKlubova frame = new IzvjestajOPodacimaKlubova();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-//					e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public IzvjestajOPodacimaKlubova() {
+	public IzvjestajOPodacimaKlubova(JFrame pf) {
+		parentFrame = pf;
+		final Logger logger = Logger.getLogger(IzvjestajOPodacimaKlubova.class);
 		setResizable(false);
-		setTitle("\u0160ahovski klub Pijun");
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajOPodacimaKlubova.class.getResource("/gui/logo.png")));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 582, 494);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);

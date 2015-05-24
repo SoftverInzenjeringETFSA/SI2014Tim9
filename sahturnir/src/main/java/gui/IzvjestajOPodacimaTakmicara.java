@@ -38,6 +38,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.print.PrinterJob;
 
 import javax.swing.JLabel;
@@ -61,6 +63,7 @@ import java.util.List;
 import klase.Klub;
 import klase.Takmicar;
 import klase.Turnir;
+
 import javax.swing.SpinnerNumberModel;
 
 public class IzvjestajOPodacimaTakmicara extends JFrame {
@@ -75,37 +78,28 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 	private transient TakmicarDAO tdao;
 	private JTextField textField_4;
 	private JTextField textField;
-	
+	private JFrame parentFrame;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(IzvjestajOPodacimaTakmicara.class);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					IzvjestajOPodacimaTakmicara frame = new IzvjestajOPodacimaTakmicara();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-//					e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public IzvjestajOPodacimaTakmicara() {
+	public IzvjestajOPodacimaTakmicara(JFrame pf) {
+		parentFrame = pf;
+		final Logger logger = Logger.getLogger(IzvjestajOPodacimaKlubova.class);
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajOPodacimaTakmicara.class.getResource("/gui/logo.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 575, 615);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);

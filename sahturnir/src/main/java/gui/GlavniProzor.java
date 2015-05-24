@@ -496,7 +496,9 @@ public class GlavniProzor extends JFrame {
 		label_8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(parentFrame, (GlavniProzor) parentFrame);
 				dt.setVisible(true);
 			}
 		});
@@ -654,12 +656,16 @@ public class GlavniProzor extends JFrame {
 					t = tdao.loadById(Turnir.class, (Long) tableTurniri.getModel().getValueAt(row, 0));
 					if(col == tableTurniri.getColumnCount() - 3)
 					{
-						RezultatiMecevaTabela urm = new RezultatiMecevaTabela(t);
-						urm.setVisible(true);
+						JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+						parentFrame.setEnabled(false);
+						RezultatiMecevaTabela rmt = new RezultatiMecevaTabela(t, parentFrame, (GlavniProzor) parentFrame);
+						rmt.setVisible(true);
 					}
 					else if(col == tableTurniri.getColumnCount() - 2)
 					{
-						DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(t);
+						JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+						parentFrame.setEnabled(false);
+						DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(t, parentFrame, (GlavniProzor) parentFrame);
 						dt.setVisible(true);
 					}
 					else if(col == tableTurniri.getColumnCount() - 1)
@@ -689,7 +695,9 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o podacima takmi\u010Dara");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				IzvjestajOPodacimaTakmicara rep = new IzvjestajOPodacimaTakmicara();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				IzvjestajOPodacimaTakmicara rep = new IzvjestajOPodacimaTakmicara(parentFrame);
 				rep.setVisible(true);
 			}
 		});
@@ -698,7 +706,9 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o podacima klubova");
 		btnIzvjetajOPodacima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IzvjestajOPodacimaKlubova rep = new IzvjestajOPodacimaKlubova();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				IzvjestajOPodacimaKlubova rep = new IzvjestajOPodacimaKlubova(parentFrame);
 				rep.setVisible(true);
 			}
 		});
@@ -707,7 +717,9 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj za jedan takmi\u010Darski dan");
 		btnIzvjetajZaJedan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IzvjestajRezultataZaJedanTakmicarskiDan rep = new IzvjestajRezultataZaJedanTakmicarskiDan();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				IzvjestajRezultataZaJedanTakmicarskiDan rep = new IzvjestajRezultataZaJedanTakmicarskiDan(parentFrame);
 				rep.setVisible(true);
 			}
 		});
@@ -716,7 +728,9 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o rasporedu i satnici turnira\r\n");
 		btnIzvjetajORasporedu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IzvjestajORasporeduISatniciTurnira rep = new IzvjestajORasporeduISatniciTurnira();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				IzvjestajORasporeduISatniciTurnira rep = new IzvjestajORasporeduISatniciTurnira(parentFrame);
 				rep.setVisible(true);
 			}
 		});
@@ -725,7 +739,9 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o rang listi takmi\u010Dara");
 		btnIzvjetajORang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IzvjestajORangListiTakmicara rep = new IzvjestajORangListiTakmicara();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				IzvjestajORangListiTakmicara rep = new IzvjestajORangListiTakmicara(parentFrame);
 				rep.setVisible(true);
 			}
 		});
@@ -734,7 +750,9 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o rang listi klubova");
 		btnIzvjetajORang_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IzvjestajORangListiKlubova rep = new IzvjestajORangListiKlubova();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				IzvjestajORangListiKlubova rep = new IzvjestajORangListiKlubova(parentFrame);
 				rep.setVisible(true);
 			}
 		});

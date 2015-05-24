@@ -153,7 +153,7 @@ public class DodavanjeTakmicara extends JFrame {
 	public DodavanjeTakmicara(JFrame pf, GlavniProzor gp) {
 		parentFrame = pf;
 		gpf = gp;
-		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		final Logger logger = Logger.getLogger(DodavanjeTakmicara.class);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -431,7 +431,7 @@ public class DodavanjeTakmicara extends JFrame {
 	public DodavanjeTakmicara(Takmicar t1, JFrame pf, GlavniProzor gp) {
 		parentFrame = pf;
 		gpf = gp;
-		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		final Logger logger = Logger.getLogger(DodavanjeTakmicara.class);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {

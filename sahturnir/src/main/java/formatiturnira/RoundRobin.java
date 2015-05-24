@@ -24,8 +24,8 @@ public class RoundRobin { // NIJE TESTIRANO, TREBA PROVJERITI
 		if(t.getId()==0)throw new Exception("Nepostoji turnir!");
 		
 		/*provjera broja takmicara*/
-		int broj=takmicari.size();
-		if(((broj & (broj-1))!=0)||(broj==0)||(broj==1))throw new Exception("Broj takmicara mora biti potencija broja 2!");
+		//int broj=takmicari.size();
+		//if(((broj & (broj-1))!=0)||(broj==0)||(broj==1))throw new Exception("Broj takmicara mora biti potencija broja 2!");
 		
 		tmp.addAll(takmicari);
 		int half = tmp.size() / 2;
