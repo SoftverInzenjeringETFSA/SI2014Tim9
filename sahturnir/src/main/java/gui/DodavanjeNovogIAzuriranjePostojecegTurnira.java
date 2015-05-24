@@ -56,13 +56,16 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import klase.Klub;
+import klase.Mec;
 import klase.Takmicar;
 import klase.Turnir;
 import dal.GenericDAO;
 import dal.KlubDAO;
+import dal.MecDAO;
 import dal.TurnirDAO;
 import dal.TakmicarDAO;
 import formatiturnira.JednostrukaEliminacija;
@@ -81,7 +84,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 	DefaultListModel<String> drugaLista = new DefaultListModel<String>();
 	transient List<Takmicar> t1=new ArrayList<Takmicar>();
 	transient List<Takmicar> t2=new ArrayList<Takmicar>();
-	Turnir turnir=new Turnir();
+	Turnir turnir = new Turnir();
 	//private JList list;
 	/**
 	 * Launch the application.
@@ -353,6 +356,9 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		JButton btnPotvrdi = new JButton("Potvrdi");
 		btnPotvrdi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				final Logger logger = Logger.getLogger(DodavanjeNovogIAzuriranjePostojecegTurnira.class);
+				List<Mec> m = new ArrayList<Mec>();
+				
 				textPane.setText("");
 				boolean flag = false;
 				
@@ -405,7 +411,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					{
 						JednostrukaEliminacija j=new JednostrukaEliminacija();
 						try{
-							j.GenerisiRundu(t2, t,true);
+							m = j.GenerisiRundu(t2, t,true);
 						}
 						catch(Exception ex)
 						{
@@ -416,7 +422,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					{
 						DvostrukaEliminacija j=new DvostrukaEliminacija();
 						try{
-							j.GenerisiPrvuRundu(t2, t,true);
+							m = j.GenerisiPrvuRundu(t2, t,true);
 						}
 						catch(Exception ex)
 						{
@@ -427,7 +433,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					{
 						RoundRobin j=new RoundRobin();
 						try{
-							j.RoundRobinGenerator(t2, t);
+							m = j.RoundRobinGenerator(t2, t);
 						}
 						catch(Exception ex)
 						{							
@@ -438,12 +444,17 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					{
 						Swiss j=new Swiss();
 						try{
-							j.GenerisiMeceve(t2, t);
+							m = j.GenerisiMeceve(t2, t);
 						}
 						catch(Exception ex)
 						{
 							logger.error("Sorry, something wrong!", ex);	
 						}
+					}
+					MecDAO mdao = new MecDAO();
+					for (int i = 0; i < m.size(); i++)
+					{
+						mdao.create(m.get(i));
 					}
 					tdao.create(t);
 			        JOptionPane.showMessageDialog(null, "Uspješno ste kreirali turnir!", "OK", JOptionPane.INFORMATION_MESSAGE);										
