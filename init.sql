@@ -33,17 +33,8 @@ CREATE TABLE `klubovi` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `naziv_UNIQUE` (`naziv`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `klubovi`
---
-
-LOCK TABLES `klubovi` WRITE;
-/*!40000 ALTER TABLE `klubovi` DISABLE KEYS */;
-/*!40000 ALTER TABLE `klubovi` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `korisnici`
@@ -64,15 +55,6 @@ CREATE TABLE `korisnici` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `korisnici`
---
-
-LOCK TABLES `korisnici` WRITE;
-/*!40000 ALTER TABLE `korisnici` DISABLE KEYS */;
-/*!40000 ALTER TABLE `korisnici` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `mecevi`
 --
 
@@ -86,25 +68,17 @@ CREATE TABLE `mecevi` (
   `takmicar2` int(11) NOT NULL,
   `rezultat1` double NOT NULL,
   `rezultat2` double NOT NULL,
+  `datumPocetka` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `idt_idx` (`turnir`),
   KEY `idt1_idx` (`takmicar1`),
   KEY `idt2_idx` (`takmicar2`),
+  CONSTRAINT `idt` FOREIGN KEY (`turnir`) REFERENCES `turniri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `idt1` FOREIGN KEY (`takmicar1`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idt2` FOREIGN KEY (`takmicar2`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idt` FOREIGN KEY (`turnir`) REFERENCES `turniri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `idt2` FOREIGN KEY (`takmicar2`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mecevi`
---
-
-LOCK TABLES `mecevi` WRITE;
-/*!40000 ALTER TABLE `mecevi` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mecevi` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `osobe`
@@ -121,17 +95,8 @@ CREATE TABLE `osobe` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idosobe_UNIQUE` (`id`),
   UNIQUE KEY `jmbg_UNIQUE` (`jmbg`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `osobe`
---
-
-LOCK TABLES `osobe` WRITE;
-/*!40000 ALTER TABLE `osobe` DISABLE KEYS */;
-/*!40000 ALTER TABLE `osobe` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `takmicari`
@@ -143,24 +108,16 @@ DROP TABLE IF EXISTS `takmicari`;
 CREATE TABLE `takmicari` (
   `id` int(11) NOT NULL,
   `datumRodjenja` datetime NOT NULL,
-  `brojBodova` double DEFAULT NULL,
+  `brojBodova` double DEFAULT '0',
   `klub` int(11) DEFAULT NULL,
   `kategorija` varchar(25) DEFAULT NULL,
+  `brojTitula` int(11) DEFAULT '0',
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `idk_idx` (`klub`),
   CONSTRAINT `idk` FOREIGN KEY (`klub`) REFERENCES `klubovi` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `ido2` FOREIGN KEY (`id`) REFERENCES `osobe` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `takmicari`
---
-
-LOCK TABLES `takmicari` WRITE;
-/*!40000 ALTER TABLE `takmicari` DISABLE KEYS */;
-/*!40000 ALTER TABLE `takmicari` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `turnir_takmicar_veza`
@@ -177,19 +134,10 @@ CREATE TABLE `turnir_takmicar_veza` (
   UNIQUE KEY `idturnir_takmicar_veza_UNIQUE` (`id`),
   KEY `idtu_idx` (`turnir`),
   KEY `idta_idx` (`takmicar`),
-  CONSTRAINT `idtu` FOREIGN KEY (`turnir`) REFERENCES `turniri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idta` FOREIGN KEY (`takmicar`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `idta` FOREIGN KEY (`takmicar`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `idtu` FOREIGN KEY (`turnir`) REFERENCES `turniri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `turnir_takmicar_veza`
---
-
-LOCK TABLES `turnir_takmicar_veza` WRITE;
-/*!40000 ALTER TABLE `turnir_takmicar_veza` DISABLE KEYS */;
-/*!40000 ALTER TABLE `turnir_takmicar_veza` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `turniri`
@@ -202,22 +150,13 @@ CREATE TABLE `turniri` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `naziv` varchar(50) NOT NULL,
   `datumPocetka` datetime NOT NULL,
-  `trajanje` int(11) DEFAULT NULL,
+  `trajanje` int(11) DEFAULT '1',
   `formatTakmicenja` varchar(25) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `naziv_UNIQUE` (`naziv`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `turniri`
---
-
-LOCK TABLES `turniri` WRITE;
-/*!40000 ALTER TABLE `turniri` DISABLE KEYS */;
-/*!40000 ALTER TABLE `turniri` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -228,4 +167,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-09 23:20:23
+-- Dump completed on 2015-05-24 15:49:46
