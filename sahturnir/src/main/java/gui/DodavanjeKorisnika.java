@@ -65,8 +65,8 @@ public class DodavanjeKorisnika extends JFrame {
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
-					logger.error("Sorry, something wrong!", e);
+//					e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});

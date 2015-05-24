@@ -76,8 +76,8 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 	private JList<String>  list ;
 	DefaultListModel<String> prvaLista = new DefaultListModel<String>();
 	DefaultListModel<String> drugaLista = new DefaultListModel<String>();
-	List<Takmicar> t1=new ArrayList<Takmicar>();
-	List<Takmicar> t2=new ArrayList<Takmicar>();
+	transient List<Takmicar> t1=new ArrayList<Takmicar>();
+	transient List<Takmicar> t2=new ArrayList<Takmicar>();
 	//private JList list;
 	/**
 	 * Launch the application.
@@ -93,8 +93,8 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
-					logger.error("Sorry, something wrong!", e);
+//					e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});

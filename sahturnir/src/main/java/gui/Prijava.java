@@ -39,10 +39,13 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JSeparator;
 
+import org.apache.log4j.Logger;
+
 import dal.KorisnikDAO;
 
 public class Prijava extends JFrame {
 
+	final Logger logger = Logger.getLogger(Prijava.class);
 	private JPanel contentPane;
 	private JLabel lblNewLabel_1;
 	private JPasswordField passwordField;
@@ -77,9 +80,11 @@ public class Prijava extends JFrame {
 			        md = MessageDigest.getInstance("SHA-512");
 			        hash = md.digest(String.valueOf(passwordField.getPassword()).getBytes("UTF-8"));
 			    } catch (NoSuchAlgorithmException e) {
-			        e.printStackTrace();
+//			        e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 			    } catch (UnsupportedEncodingException e) {
-			        e.printStackTrace();
+//			        e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 			    }
 			    KorisnikDAO kdao = new KorisnikDAO();
 			    if(kdao.checkUser(textField.getText(), utils.SHA512Hash.convertToHex(hash)) == 1)

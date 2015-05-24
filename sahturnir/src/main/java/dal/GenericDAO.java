@@ -31,7 +31,7 @@ public class GenericDAO<T> {
 			if (transaction != null)
 				transaction.rollback();
 			isDone = false;
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} 
 		finally 
 		{
@@ -57,7 +57,7 @@ public class GenericDAO<T> {
 		{
 			if (transaction != null)
 				transaction.rollback();
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} 
 		finally 
 		{
@@ -84,7 +84,7 @@ public class GenericDAO<T> {
 			if (transaction != null)
 				transaction.rollback();
 			isDone = false;
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} 
 		finally 
 		{
@@ -111,7 +111,7 @@ public class GenericDAO<T> {
 			if (transaction != null)
 				transaction.rollback();
 			isDone = false;
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} 
 		finally 
 		{
@@ -137,7 +137,7 @@ public class GenericDAO<T> {
 		{
 			if (transaction != null)
 				transaction.rollback();
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} 
 		finally 
 		{

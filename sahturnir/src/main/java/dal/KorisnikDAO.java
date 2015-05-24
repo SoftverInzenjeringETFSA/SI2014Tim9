@@ -5,9 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.apache.log4j.Logger;
+
 public class KorisnikDAO extends GenericDAO {
 	
 	public int checkUser(String korisnickoIme, String sifra) {
+		final Logger logger = Logger.getLogger(KorisnikDAO.class);
 		int resultValue = 0;
 		try {
 			Class.forName(driver);
@@ -21,13 +24,22 @@ public class KorisnikDAO extends GenericDAO {
 				result.next();
 				String countResult = result.getString(1);
 				resultValue = Integer.parseInt(countResult);
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				throw e;
-			} finally {
+			} 
+			finally 
+			{
 				connection.close();
 			}
-		} catch (Exception e) {
-		} finally {
+		} 
+		catch (Exception e) 
+		{
+			logger.error("Sorry, something wrong!", e);
+		} 
+		finally 
+		{
 		}
 		return resultValue;
 	}

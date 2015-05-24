@@ -68,11 +68,11 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	JTableUtil jtutil;
-	private List<Takmicar> takmicari;
-	private TakmicarDAO tdao;
-	private List<Turnir> turniri;
-	private TurnirDAO turnirdao;
+	transient JTableUtil jtutil;
+	private transient List<Takmicar> takmicari;
+	private transient TakmicarDAO tdao;
+	private transient List<Turnir> turniri;
+	private transient TurnirDAO turnirdao;
 	private JTextField textField_4;
 	
 
@@ -90,8 +90,8 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
-					logger.error("Sorry, something wrong!", e);
+//					e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});

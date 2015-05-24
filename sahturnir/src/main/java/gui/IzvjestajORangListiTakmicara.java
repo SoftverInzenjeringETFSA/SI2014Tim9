@@ -67,14 +67,14 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
-	private JTableUtil jtutil;
-	private List<Takmicar> takmicari;
-	private TakmicarDAO tdao;
-	private List<Turnir> turniri;
-	private TurnirDAO turnirdao;
-	private List<Mec> mecevi;
-	private MecDAO mecdao;
-	private KlubDAO klubdao;
+	private transient JTableUtil jtutil;
+	private transient List<Takmicar> takmicari;
+	private transient TakmicarDAO tdao;
+	private transient List<Turnir> turniri;
+	private transient TurnirDAO turnirdao;
+	private transient List<Mec> mecevi;
+	private transient MecDAO mecdao;
+	private transient KlubDAO klubdao;
 
 	/**
 	 * Launch the application.
@@ -90,8 +90,8 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
-					logger.error("Sorry, something wrong!", e);
+//					e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});

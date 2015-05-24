@@ -99,7 +99,7 @@ public class GlavniProzor extends JFrame {
 	JTable tableTakmicari = new JTable();
 	JTable tableKlubovi = new JTable();
 	JTable tableTurniri = new JTable();
-	private JTableUtil jtutil = new JTableUtil();
+	private transient JTableUtil jtutil = new JTableUtil();
 	private JTextField textField_2;
 	private JComboBox comboBox = new JComboBox();
 	private JComboBox comboBox_2;
@@ -111,15 +111,15 @@ public class GlavniProzor extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(DodavanjeNovogIAzuriranjePostojecegTurnira.class);
+		final Logger logger = Logger.getLogger(GlavniProzor.class);
 		try 
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
-			logger.error("Sorry, something wrong!", e);
+//			e.printStackTrace();
+			logger.error("Došlo je do greške!", e);
 		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -130,8 +130,8 @@ public class GlavniProzor extends JFrame {
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
-					logger.error("Sorry, something wrong!", e);
+			//		e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});

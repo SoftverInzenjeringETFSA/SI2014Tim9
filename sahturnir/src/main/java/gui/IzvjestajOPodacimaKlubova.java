@@ -67,11 +67,11 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 	private JLabel lblImeKluba;
 	private JLabel lblIzaberiKlub;
 	private JSpinner spinner_4;
-	private JTableUtil jtutil;
-	private List<Takmicar> takmicari;
-	private TakmicarDAO tdao;
-	private List<Turnir> turniri;
-	private TurnirDAO turnirdao;
+	private transient JTableUtil jtutil;
+	private transient List<Takmicar> takmicari;
+	private transient TakmicarDAO tdao;
+	private transient List<Turnir> turniri;
+	private transient TurnirDAO turnirdao;
 	private JSpinner spinner_5;
 
 	/**
@@ -88,8 +88,8 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
-					logger.error("Sorry, something wrong!", e);
+//					e.printStackTrace();
+					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});

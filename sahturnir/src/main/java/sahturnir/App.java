@@ -16,7 +16,7 @@ public class App {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			logger.error("Došlo je do greške!", e);
 		}
 		EventQueue.invokeLater(new Runnable() {
@@ -25,7 +25,7 @@ public class App {
 					Prijava frame = new Prijava();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 					logger.error("Došlo je do greške!", e);
 				}
 			}
