@@ -7,17 +7,19 @@ import java.util.ArrayList;
 import klase.Klub;
 
 public class KlubDAO extends GenericDAO {
-	
-	public List<Klub> search(int criteria, String parameter)
-	{
-		String[] searchCriteria = { "naziv", "sjediste", "predsjednik"};
+
+	public List<Klub> search(int criteria, String parameter) {
+		String[] searchCriteria = { "naziv", "sjediste", "predsjednik" };
 		List<Klub> klubovi = new ArrayList();
 		try {
 			Class.forName(driver);
 			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
 			try {
 				Statement statement = connection.createStatement();
-				ResultSet result = statement.executeQuery("SELECT * FROM klubovi k WHERE k." + searchCriteria[criteria] + " LIKE '%" + parameter + "%';");
+				ResultSet result = statement
+						.executeQuery("SELECT * FROM klubovi k WHERE k."
+								+ searchCriteria[criteria] + " LIKE '%"
+								+ parameter + "%';");
 				while (result.next()) {
 					Klub k = new Klub();
 					k.setId(result.getInt("id"));
@@ -27,20 +29,13 @@ public class KlubDAO extends GenericDAO {
 					k.setDatumOsnivanja(result.getDate("datumOsnivanja"));
 					klubovi.add(k);
 				}
-			} 
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				throw e;
-			} 
-			finally 
-			{
+			} finally {
 				connection.close();
 			}
-		} 
-		catch (Exception e) {
-		} 
-		finally 
-		{
+		} catch (Exception e) {
+		} finally {
 		}
 		return klubovi;
 	}
@@ -58,21 +53,13 @@ public class KlubDAO extends GenericDAO {
 				result.next();
 				String sum = result.getString(1);
 				resultValue = Double.parseDouble(sum);
-			} 
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				throw e;
-			} 
-			finally 
-			{
+			} finally {
 				connection.close();
 			}
-		} 
-		catch (Exception e) 
-		{
-		}
-		finally 
-		{
+		} catch (Exception e) {
+		} finally {
 		}
 		return resultValue;
 	}

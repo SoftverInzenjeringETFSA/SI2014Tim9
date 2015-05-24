@@ -24,7 +24,7 @@ public class JTableUtil {
 		List<Takmicar> takmicari = new ArrayList<Takmicar>();
 		TakmicarDAO tdao = new TakmicarDAO();
 		takmicari = tdao.getAll(Takmicar.class);
-		String[] columnNames = { "ID", "Ime i prezime", "Datum roÃ°enja",
+		String[] columnNames = { "ID", "Ime i prezime", "Datum roðenja",
 				"JMBG", "Broj bodova", "Kategorija", "Klub", "", "" };
 		Object[][] data = new Object[takmicari.size()][9];
 		for (int i = 0; i < takmicari.size(); i++) {
@@ -47,7 +47,7 @@ public class JTableUtil {
 			return populateJTableTakmicari();
 		TakmicarDAO tdao = new TakmicarDAO();
 		List<Takmicar> takmicari = tdao.search(criteria, parameter);
-		String[] columnNames = { "ID", "Ime i prezime", "Datum roÃ°enja",
+		String[] columnNames = { "ID", "Ime i prezime", "Datum roðenja",
 				"JMBG", "Broj bodova", "Kategorija", "Klub", "", "" };
 		Object[][] data = new Object[takmicari.size()][9];
 		for (int i = 0; i < takmicari.size(); i++) {
@@ -75,7 +75,7 @@ public class JTableUtil {
 		KlubDAO kdao = new KlubDAO();
 		klubovi = kdao.getAll(Klub.class);
 
-		String[] columnNames = { "Pozicija", "Ime i prezime", "Datum roÃ°enja",
+		String[] columnNames = { "Pozicija", "Ime i prezime", "Datum roðenja",
 				"Klub", "Broj bodova", "Broj turnira", "Broj titula" };
 		String[][] data = new String[takmicari.size()][7];
 		for (int i = 0; i < takmicari.size(); i++) {
@@ -107,7 +107,7 @@ public class JTableUtil {
 		klubovi = kdao.getAll(Klub.class);
 		int prebroj = 0;
 		double sumaBodova = 0.0d;
-		String[] columnNames = { "Pozicija", "Naziv kluba", "Broj takmiÃ¨ara",
+		String[] columnNames = { "Pozicija", "Naziv kluba", "Broj takmièara",
 				"Ime i prezime predsjednika", "Ukupan broj bodova" };
 		String[][] data = new String[klubovi.size()][5];
 		for (int i = 0; i < klubovi.size(); i++) {
@@ -140,7 +140,7 @@ public class JTableUtil {
 		klubovi = kdao.getAll(Klub.class);
 		int prebroj = 0;
 		double sumaBodova = 0.0d;
-		String[] columnNames = { "Pozicija", "Naziv kluba", "Broj takmiÃ¨ara",
+		String[] columnNames = { "Pozicija", "Naziv kluba", "Broj takmièara",
 				"Ime i prezime predsjednika", "Ukupan broj bodova" };
 		String[][] data = new String[klubovi.size()][5];
 		for (int i = 0; i < klubovi.size(); i++) {
@@ -166,7 +166,7 @@ public class JTableUtil {
 		List<Korisnik> korisnici = new ArrayList<Korisnik>();
 		KorisnikDAO kdao = new KorisnikDAO();
 		korisnici = kdao.getAll(Korisnik.class);
-		String[] columnNames = { "ID", "KorisniÃ¨ko ime", "Ime i prezime",
+		String[] columnNames = { "ID", "Korisnièko ime", "Ime i prezime",
 				"JMBG", "", "" };
 		Object[][] data = new Object[korisnici.size()][6];
 		for (int i = 0; i < korisnici.size(); i++) {
@@ -183,7 +183,7 @@ public class JTableUtil {
 		List<Klub> klubovi = new ArrayList<Klub>();
 		KlubDAO kdao = new KlubDAO();
 		klubovi = kdao.getAll(Klub.class);
-		String[] columnNames = { "ID", "Naziv", "SjediÅ¡te", "Predsjednik",
+		String[] columnNames = { "ID", "Naziv", "Sjedište", "Predsjednik",
 				"Datum osnivanja", "Broj bodova", "", "" };
 		Object[][] data = new Object[klubovi.size()][8];
 		for (int i = 0; i < klubovi.size(); i++) {
@@ -204,7 +204,7 @@ public class JTableUtil {
 			return populateJTableKlubovi();
 		KlubDAO kdao = new KlubDAO();
 		List<Klub> klubovi = kdao.search(criteria, parameter);
-		String[] columnNames = { "ID", "Naziv", "SjediÅ¡te", "Predsjednik",
+		String[] columnNames = { "ID", "Naziv", "Sjedište", "Predsjednik",
 				"Datum osnivanja", "Broj bodova", "", "" };
 		String[][] data = new String[klubovi.size()][8];
 		for (int i = 0; i < klubovi.size(); i++) {
@@ -224,8 +224,8 @@ public class JTableUtil {
 		List<Turnir> turniri = new ArrayList<Turnir>();
 		TurnirDAO tdao = new TurnirDAO();
 		turniri = tdao.getAll(Turnir.class);
-		String[] columnNames = { "ID", "Naziv", "Datum poÃ¨etka", "Trajanje (u danima)",
-				"Format takmiÃ¨enja", "Broj takmiÃ¨ara", "", "", "" };
+		String[] columnNames = { "ID", "Naziv", "Datum poèetka", "Trajanje (u danima)",
+				"Format takmièenja", "Broj takmièara", "", "", "" };
 		Object[][] data = new Object[turniri.size()][9];
 		for (int i = 0; i < turniri.size(); i++) {
 			data[i][0] = turniri.get(i).getId();
@@ -261,7 +261,6 @@ public class JTableUtil {
 		KlubDAO kdao = new KlubDAO();
 		List<Klub> klubovi = new ArrayList<Klub>();
 		klubovi = kdao.getAll(Klub.class);
-
 		return klubovi;
 	}
 }
