@@ -271,7 +271,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        		 spinner_3.setText(takmicar.getDatumRodjenja().toString());       		 
 		        	 }
 		        }
-		        
+		        textField.setText(LocalDateTime.now().toString());
 		        //spinner_4.setValue(LocalDateTime.now());
 		    }
 		    
