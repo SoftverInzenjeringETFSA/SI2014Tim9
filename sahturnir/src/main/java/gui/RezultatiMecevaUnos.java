@@ -76,7 +76,7 @@ public class RezultatiMecevaUnos extends JFrame {
 	public RezultatiMecevaUnos() {
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RezultatiMecevaUnos.class.getResource("/gui/logo.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 295, 420);
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.WHITE);

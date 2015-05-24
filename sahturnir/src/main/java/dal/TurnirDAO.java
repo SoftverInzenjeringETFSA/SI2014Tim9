@@ -17,7 +17,7 @@ public class TurnirDAO extends GenericDAO {
 			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
 			try {
 				PreparedStatement statement = connection
-						.prepareStatement("SELECT count(v.takmicar) FROM takmicar_turnir_veza v WHERE v.turnir = ?;");
+						.prepareStatement("SELECT count(v.takmicar) FROM turnir_takmicar_veza v WHERE v.turnir = ?;");
 				statement.setLong(1, id);
 				ResultSet result = statement.executeQuery();
 				result.next();
@@ -29,7 +29,7 @@ public class TurnirDAO extends GenericDAO {
 				connection.close();
 			}
 		} catch (Exception e) {
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} finally {
 		}
 		return resultValue;

@@ -422,7 +422,7 @@ public class GlavniProzor extends JFrame {
 					t = tdao.loadById(Turnir.class, (Long) tableTurniri.getModel().getValueAt(row, 0));
 					if(col == tableTurniri.getColumnCount() - 3)
 					{
-						RezultatiMecevaTabela urm = new RezultatiMecevaTabela(t, true);
+						RezultatiMecevaTabela urm = new RezultatiMecevaTabela(t);
 						urm.setVisible(true);
 					}
 					else if(col == tableTurniri.getColumnCount() - 2)
