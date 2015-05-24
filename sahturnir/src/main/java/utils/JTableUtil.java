@@ -244,18 +244,24 @@ public class JTableUtil {
 		List<Mec> mecevi = new ArrayList<Mec>();
 		MecDAO tdao = new MecDAO();
 		mecevi = tdao.getAll(Mec.class);
-		String[] columnNames = { "ID","Takmièar 1", "Takmièar 2", "Datum poèetka",
+		String[] columnNames = { "ID","Takmièar 1", "Takmièar 2", "Rezultat", "Datum poèetka",
 				"", ""};
-		Object[][] data = new Object[mecevi.size()][6];
-		for (int i = 0; i < mecevi.size(); i++) {
-			if (t.getId() == mecevi.get(i).getTurnir().getId())
+		int size = 0, j = 0;
+		for (int i = 0; i < mecevi.size(); i++)
+			if(mecevi.get(i).getTurnir().getId() == t.getId())
+				size++;
+		Object[][] data = new Object[size][7];
+		for (int i = 0; i < mecevi.size(); i++)
+			if(mecevi.get(i).getTurnir().getId() == t.getId())
 			{
-				data[i][1] = mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime();
-				data[i][2] = mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime();
-//				String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.").format(mecevi.get(i).getDate());
-//				data[i][3] = datumPocetka;
+				data[j][0] = mecevi.get(i).getId();
+				data[j][1] = mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime();
+				data[j][2] = mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime();
+				data[j][3] = String.valueOf(mecevi.get(i).getRezultat1()) + " : " + String.valueOf(mecevi.get(i).getRezultat2());
+				String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.").format(mecevi.get(i).getDatumPocetka());
+				data[j][4] = datumPocetka;
+				j++;
 			}
-		}
 		return new DefaultTableModel(data, columnNames);
 	}
 	

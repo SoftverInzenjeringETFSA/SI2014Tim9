@@ -1,6 +1,6 @@
 package klase;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Mec implements java.io.Serializable {
 

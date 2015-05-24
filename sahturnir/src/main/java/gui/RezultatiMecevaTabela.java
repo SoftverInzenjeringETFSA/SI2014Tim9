@@ -37,11 +37,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;
 
+import klase.Klub;
 import klase.Mec;
 import klase.Turnir;
 
 import org.apache.log4j.Logger;
 
+import dal.KlubDAO;
 import dal.MecDAO;
 import dal.TurnirDAO;
 import utils.JTableUtil;
@@ -51,6 +53,7 @@ public class RezultatiMecevaTabela extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table = new JTable();
+	private transient JTableUtil jtutil = new JTableUtil();
 
 	/**
 	 * Launch the application.
@@ -59,24 +62,22 @@ public class RezultatiMecevaTabela extends JFrame {
 		final Logger logger = Logger.getLogger(RezultatiMecevaTabela.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try 
-				{
+				try {
 					Turnir t = new Turnir();
-					RezultatiMecevaTabela frame = new RezultatiMecevaTabela(t, true);
+					RezultatiMecevaTabela frame = new RezultatiMecevaTabela(t);
 					frame.setVisible(true);
-				}
-				catch (Exception e) 
-				{
-//					e.printStackTrace();
+				} catch (Exception e) {
+					// e.printStackTrace();
 					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});
 	}
-	
+
 	class ImageRendererDelete extends DefaultTableCellRenderer {
 		JLabel tableLabel = new JLabel();
 		ImageIcon icon = new ImageIcon("src/main/java/gui/delete.png");
+
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
@@ -91,10 +92,11 @@ public class RezultatiMecevaTabela extends JFrame {
 			return tableLabel;
 		}
 	}
-	
+
 	class ImageRendererEdit extends DefaultTableCellRenderer {
 		JLabel tableLabel = new JLabel();
 		ImageIcon icon = new ImageIcon("src/main/java/gui/edit.png");
+
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
@@ -109,7 +111,7 @@ public class RezultatiMecevaTabela extends JFrame {
 			return tableLabel;
 		}
 	}
-	
+
 	private void PrepareTableDesign(JTable table) {
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			@Override
@@ -138,108 +140,159 @@ public class RezultatiMecevaTabela extends JFrame {
 		table.getColumnModel().getColumn(table.getColumnCount() - 1)
 				.setCellRenderer(new ImageRendererDelete());
 		table.getColumnModel().getColumn(table.getColumnCount() - 2)
-		.setCellRenderer(new ImageRendererEdit());	
+				.setCellRenderer(new ImageRendererEdit());
 		table.setEnabled(false);
 		table.removeColumn(table.getColumnModel().getColumn(0));
-		table.getColumnModel().getColumn(table.getColumnCount() - 1).setMaxWidth(40);
-		table.getColumnModel().getColumn(table.getColumnCount() - 2).setMaxWidth(40);
-		if(table.getName() == "tableTurniri")
-			table.getColumnModel().getColumn(table.getColumnCount() - 3).setMaxWidth(40);	
+		table.getColumnModel().getColumn(table.getColumnCount() - 1)
+				.setMaxWidth(40);
+		table.getColumnModel().getColumn(table.getColumnCount() - 2)
+				.setMaxWidth(40);
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public RezultatiMecevaTabela(Turnir t, boolean edit) {
-		if(edit)
-		{
-			setTitle("\u0160ahovski klub Pijun");
-			setIconImage(Toolkit.getDefaultToolkit().getImage(RezultatiMecevaTabela.class.getResource("/gui/logo.png")));
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 763, 451);
-			contentPane = new JPanel();
-			contentPane.setBackground(Color.WHITE);
-			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(contentPane);
-			
-			JTextPane txtpnNazivTurnira = new JTextPane();
-			txtpnNazivTurnira.setEditable(false);
-			txtpnNazivTurnira.setText("Naziv turnira:");
-			
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setText(t.getNaziv());
-			textField.setEditable(false);
-			JTextPane txtpnMeeviZaKoje = new JTextPane();
-			txtpnMeeviZaKoje.setEditable(false);
-			txtpnMeeviZaKoje.setText("Me\u010Devi za koje nije unijet rezultat:");
-			
-			JScrollPane scrollPane = new JScrollPane();
-			GroupLayout gl_contentPane = new GroupLayout(contentPane);
-			gl_contentPane.setHorizontalGroup(
-				gl_contentPane.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_contentPane.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 549, Short.MAX_VALUE)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
-							.addComponent(txtpnMeeviZaKoje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap())
-			);
-			gl_contentPane.setVerticalGroup(
-				gl_contentPane.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_contentPane.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGap(24)
-						.addComponent(txtpnMeeviZaKoje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 291, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(19, Short.MAX_VALUE))
-			);
-			
-			JTableUtil jtutil = new JTableUtil();
-			table.setModel(jtutil.populateJTableMecevi(t));
-			PrepareTableDesign(table);
-			//panel_3.setLayout(new BorderLayout());
-			//panel_3.add(table.getTableHeader(), BorderLayout.NORTH);
-			//panel_3.add(new JScrollPane(table), BorderLayout.CENTER);
-			scrollPane.setViewportView(table);
-			contentPane.setLayout(gl_contentPane);
-			table.addMouseListener(new java.awt.event.MouseAdapter() {
-				@Override
-				public void mouseClicked(java.awt.event.MouseEvent evt) {
-					int row = table.rowAtPoint(evt.getPoint());
-					int col = table.columnAtPoint(evt.getPoint());
-					Mec t = new Mec();
-					MecDAO tdao = new MecDAO();
-					t = tdao.loadById(Mec.class, (Long) table.getModel().getValueAt(row, 0));
-					if(col == table.getColumnCount()-2)
+	public RezultatiMecevaTabela(Turnir t) {
+		setTitle("\u0160ahovski klub Pijun");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(
+				RezultatiMecevaTabela.class.getResource("/gui/logo.png")));
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 763, 451);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+
+		JTextPane txtpnNazivTurnira = new JTextPane();
+		txtpnNazivTurnira.setEditable(false);
+		txtpnNazivTurnira.setText("Naziv turnira:");
+
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setText(t.getNaziv());
+		textField.setEditable(false);
+		JTextPane txtpnMeeviZaKoje = new JTextPane();
+		txtpnMeeviZaKoje.setEditable(false);
+		txtpnMeeviZaKoje.setText("Me\u010Devi turnira:");
+		JPanel panel = new JPanel();
+		table.setModel(jtutil.populateJTableMecevi(t));
+		PrepareTableDesign(table);
+		panel.setLayout(new BorderLayout());
+		panel.add(table.getTableHeader(), BorderLayout.NORTH);
+		panel.add(new JScrollPane(table), BorderLayout.CENTER);
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = table.rowAtPoint(evt.getPoint());
+				int col = table.columnAtPoint(evt.getPoint());
+				if (row >= 0 && (col == table.getColumnCount() - 1 || col == table.getColumnCount() - 2)) {
+					Mec m = new Mec();
+					MecDAO mdao = new MecDAO();
+					m = mdao.loadById(Mec.class, (Long) table.getModel().getValueAt(row, 0));
+					if(col == table.getColumnCount() - 2)
 					{
-						RezultatiMecevaUnos dt = new RezultatiMecevaUnos();
-						dt.setVisible(true);
+						RezultatiMecevaUnos rmu = new RezultatiMecevaUnos();
+						rmu.setVisible(true);
 					}
 					else if(col == table.getColumnCount() - 1)
 					{
 						String[] options = {"   Da!   ", "   Ne!   "};
 						int confirmationResult = JOptionPane.showOptionDialog(null,
-							    "Jeste li sigurni da želite obrisati \"" + (String)table.getModel().getValueAt(row, 1) + "\"?",
+							    "Jeste li sigurni da želite obrisati ovaj meè?",
 							    "Potvrda brisanja",
 							    JOptionPane.YES_NO_OPTION,
 							    JOptionPane.QUESTION_MESSAGE, null, options, null);
 						if(confirmationResult == JOptionPane.YES_OPTION)
 							{
-								tdao.delete(t);
+								mdao.delete(m);
 								((DefaultTableModel)table.getModel()).removeRow(row);
 							}
-					}			
+					}
 				}
-			});
-		}
+			}
+		});
+		
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane
+				.setHorizontalGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPane
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																panel,
+																GroupLayout.DEFAULT_SIZE,
+																717,
+																Short.MAX_VALUE)
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addComponent(
+																				txtpnNazivTurnira,
+																				GroupLayout.PREFERRED_SIZE,
+																				79,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				textField,
+																				GroupLayout.PREFERRED_SIZE,
+																				261,
+																				GroupLayout.PREFERRED_SIZE))
+														.addComponent(
+																txtpnMeeviZaKoje,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addContainerGap()));
+		gl_contentPane
+				.setVerticalGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPane
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addComponent(
+																				txtpnNazivTurnira,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addGap(36)
+																		.addComponent(
+																				txtpnMeeviZaKoje,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE))
+														.addComponent(
+																textField,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addComponent(panel,
+												GroupLayout.DEFAULT_SIZE, 299,
+												Short.MAX_VALUE)
+										.addContainerGap()));
+
+		// JTableUtil jtutil = new JTableUtil();
+		// table.setModel(jtutil.populateJTableMecevi(t));
+		// PrepareTableDesign(table);
+		// panel_3.setLayout(new BorderLayout());
+		// panel_3.add(table.getTableHeader(), BorderLayout.NORTH);
+		// panel_3.add(new JScrollPane(table), BorderLayout.CENTER);
+		contentPane.setLayout(gl_contentPane);
 	}
 }
