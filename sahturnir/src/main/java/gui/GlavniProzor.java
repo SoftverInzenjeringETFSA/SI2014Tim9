@@ -210,6 +210,7 @@ public class GlavniProzor extends JFrame {
 	 * Create the frame.
 	 */
 	public GlavniProzor(Korisnik k) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		korisnik = k;
 		setBackground(Color.WHITE);
 		setTitle("\u0160ahovski klub Pijun - Glavni prozor");

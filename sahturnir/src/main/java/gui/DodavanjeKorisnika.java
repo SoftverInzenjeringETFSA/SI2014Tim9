@@ -317,7 +317,7 @@ public class DodavanjeKorisnika extends JFrame {
 					k.setJmbg(textField_3.getText());
 					KorisnikDAO kdao = new KorisnikDAO();
 					kdao.create(k);
-			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali korisnika!", "OK", JOptionPane.INFORMATION_MESSAGE);
+			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali korisnika!", "   OK   ", JOptionPane.INFORMATION_MESSAGE);
 			        textField.setText("");
 			        textField_1.setText("");
 			        textField_2.setText("");
@@ -416,22 +416,19 @@ public class DodavanjeKorisnika extends JFrame {
 							.addGap(19))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(txtpnifra, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(170, Short.MAX_VALUE))
+							.addContainerGap(162, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(txtpnKorisnikoIme, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(109, Short.MAX_VALUE))
+							.addContainerGap(101, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
 							.addGap(19))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(txtpnIme, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(159, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-							.addGap(19))
+							.addContainerGap(151, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(txtpnPrezime, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(182, Short.MAX_VALUE))
+							.addContainerGap(174, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(textPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
@@ -439,22 +436,25 @@ public class DodavanjeKorisnika extends JFrame {
 							.addGap(19))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(19, Short.MAX_VALUE))
+							.addContainerGap(11, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(textPane_2, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(19, Short.MAX_VALUE))
+							.addContainerGap(11, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(textPane_3, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(19, Short.MAX_VALUE))
+							.addContainerGap(11, Short.MAX_VALUE))
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textPane_4, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(19, Short.MAX_VALUE))
-						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+							.addGap(19))
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(txtpnJmbg, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(191, Short.MAX_VALUE))
+							.addContainerGap(183, Short.MAX_VALUE))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-							.addGap(19))))
+							.addGap(19))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(textPane_4, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(19, Short.MAX_VALUE))))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -479,17 +479,17 @@ public class DodavanjeKorisnika extends JFrame {
 					.addComponent(textPane_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtpnPrezime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(textPane_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(txtpnJmbg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(textPane_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(8))
+					.addGap(20))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
@@ -656,7 +656,7 @@ public class DodavanjeKorisnika extends JFrame {
 					kor.setJmbg(textField_3.getText());
 					
 					kdao.update(kor);
-			        JOptionPane.showMessageDialog(null, "Uspješno ste izmijenili korisnika!", "OK", JOptionPane.INFORMATION_MESSAGE);
+			        JOptionPane.showMessageDialog(null, "Uspješno ste izmijenili korisnika!", "   OK   ", JOptionPane.INFORMATION_MESSAGE);
 			        textField.setText("");
 			        textField_1.setText("");
 			        textField_2.setText("");
