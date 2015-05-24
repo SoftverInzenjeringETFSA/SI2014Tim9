@@ -24,8 +24,16 @@ import javax.transaction.Transaction;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import dal.MecDAO;
 import utils.HibernateUtil;
 import klase.Mec;
+
+import javax.swing.SpinnerNumberModel;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class RezultatiMecevaUnos extends JFrame {
 
@@ -38,6 +46,8 @@ public class RezultatiMecevaUnos extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	private JSpinner spinner = new JSpinner();		
+	private JSpinner spinner_1 = new JSpinner();
 
 	/**
 	 * Launch the application.
@@ -67,7 +77,7 @@ public class RezultatiMecevaUnos extends JFrame {
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RezultatiMecevaUnos.class.getResource("/gui/logo.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 260, 473);
+		setBounds(100, 100, 295, 420);
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.WHITE);
 		contentPane.setBackground(Color.WHITE);
@@ -80,62 +90,108 @@ public class RezultatiMecevaUnos extends JFrame {
 		panel.setToolTipText("");
 		
 		JButton btnPotvrdi = new JButton("Potvrdi");
+		btnPotvrdi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// UNESI U BAZU UPDATE TO DO !!!
+				Mec m = new Mec();
+				m.setRezultat1((Double)spinner.getValue());
+				m.setRezultat2((Double)spinner_1.getValue());
+				MecDAO mdao = new MecDAO();
+				mdao.update(m);
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnPotvrdi)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(10))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(btnPotvrdi)
+							.addContainerGap())))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 353, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 275, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
 					.addComponent(btnPotvrdi)
-					.addContainerGap(20, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		
 		JTextPane txtpnNazivTurnira = new JTextPane();
+		txtpnNazivTurnira.setEditable(false);
 		txtpnNazivTurnira.setText("Naziv turnira:");
 		
 		textField = new JTextField();
 		textField.setColumns(10);
 		
 		JTextPane txtpnKategorija = new JTextPane();
+		txtpnKategorija.setEditable(false);
 		txtpnKategorija.setText("Kategorija:");
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		
 		JTextPane txtpnTakmiar = new JTextPane();
+		txtpnTakmiar.setEditable(false);
 		txtpnTakmiar.setText("Takmi\u010Dar 1:");
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
 		
 		JTextPane txtpnTakmiar_1 = new JTextPane();
+		txtpnTakmiar_1.setEditable(false);
 		txtpnTakmiar_1.setText("Takmi\u010Dar 2:");
 		
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
+		spinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if((Double)spinner.getValue() == 0.0d)
+				{
+					spinner_1.setValue(1.0d);
+				}
+				if((Double)spinner.getValue() == 0.5d)
+				{
+					spinner_1.setValue(0.5d);					
+				}
+				if((Double)spinner.getValue() == 1.0d)
+				{
+					spinner_1.setValue(0.0d);					
+				}
+			}
+		});
 		
-		JTextPane txtpnRezultatMea = new JTextPane();
-		txtpnRezultatMea.setText("Rezultat me\u010Da: *");
-		
-		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(0, 0, 1, 0.5d));
+		spinner_1.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				if((Double)spinner_1.getValue() == 0.0d)
+				{
+					spinner.setValue(1.0d);
+				}
+				if((Double)spinner_1.getValue() == 0.5d)
+				{
+					spinner.setValue(0.5d);					
+				}
+				if((Double)spinner_1.getValue() == 1.0d)
+				{
+					spinner.setValue(0.0d);					
+				}			
+			}
+		});
+		spinner_1.setModel(new SpinnerNumberModel(0, 0, 1, 0.5d));
+		spinner_1.setValue(1.0d);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(spinner, Alignment.LEADING)
-						.addComponent(txtpnRezultatMea, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtpnTakmiar_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField, Alignment.LEADING)
 						.addComponent(textField_1, Alignment.LEADING)
@@ -144,7 +200,11 @@ public class RezultatiMecevaUnos extends JFrame {
 						.addComponent(txtpnTakmiar, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtpnKategorija, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField_3, Alignment.LEADING))
-					.addContainerGap(23, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -159,16 +219,16 @@ public class RezultatiMecevaUnos extends JFrame {
 					.addGap(18)
 					.addComponent(txtpnTakmiar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(txtpnTakmiar_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(txtpnRezultatMea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(28, Short.MAX_VALUE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(92, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);

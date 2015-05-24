@@ -422,8 +422,8 @@ public class GlavniProzor extends JFrame {
 					t = tdao.loadById(Turnir.class, (Long) tableTurniri.getModel().getValueAt(row, 0));
 					if(col == tableTurniri.getColumnCount() - 3)
 					{
-//						UpravljanjeRezultatimaMeceva urm = new UpravljanjeRezultatimaMeceva();
-//						urm.setVisible(true);
+						RezultatiMecevaTabela urm = new RezultatiMecevaTabela();
+						urm.setVisible(true);
 					}
 					else if(col == tableTurniri.getColumnCount() - 2)
 					{

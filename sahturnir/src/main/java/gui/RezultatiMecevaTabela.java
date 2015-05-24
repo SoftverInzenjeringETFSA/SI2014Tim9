@@ -12,6 +12,7 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -36,15 +37,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;
 
+import klase.Mec;
+import klase.Turnir;
+
 import org.apache.log4j.Logger;
 
+import dal.MecDAO;
+import dal.TurnirDAO;
 import utils.JTableUtil;
 
 public class RezultatiMecevaTabela extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTable table;
+	private JTable table = new JTable();
 
 	/**
 	 * Launch the application.
@@ -154,12 +160,14 @@ public class RezultatiMecevaTabela extends JFrame {
 		setContentPane(contentPane);
 		
 		JTextPane txtpnNazivTurnira = new JTextPane();
+		txtpnNazivTurnira.setEditable(false);
 		txtpnNazivTurnira.setText("Naziv turnira:");
 		
 		textField = new JTextField();
 		textField.setColumns(10);
 		
 		JTextPane txtpnMeeviZaKoje = new JTextPane();
+		txtpnMeeviZaKoje.setEditable(false);
 		txtpnMeeviZaKoje.setText("Me\u010Devi za koje nije unijet rezultat:");
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -191,7 +199,6 @@ public class RezultatiMecevaTabela extends JFrame {
 					.addContainerGap(19, Short.MAX_VALUE))
 		);
 		
-		table = new JTable();
 		JTableUtil jtutil = new JTableUtil();
 		table.setModel(jtutil.populateJTableMecevi());
 		PrepareTableDesign(table);
@@ -200,5 +207,34 @@ public class RezultatiMecevaTabela extends JFrame {
 		//panel_3.add(new JScrollPane(table), BorderLayout.CENTER);
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = table.rowAtPoint(evt.getPoint());
+				int col = table.columnAtPoint(evt.getPoint());
+				Mec t = new Mec();
+				MecDAO tdao = new MecDAO();
+				t = tdao.loadById(Mec.class, (Long) table.getModel().getValueAt(row, 0));
+				if(col == table.getColumnCount()-2)
+				{
+					RezultatiMecevaUnos dt = new RezultatiMecevaUnos();
+					dt.setVisible(true);
+				}
+				else if(col == table.getColumnCount() - 1)
+				{
+					String[] options = {"   Da!   ", "   Ne!   "};
+					int confirmationResult = JOptionPane.showOptionDialog(null,
+						    "Jeste li sigurni da želite obrisati \"" + (String)table.getModel().getValueAt(row, 1) + "\"?",
+						    "Potvrda brisanja",
+						    JOptionPane.YES_NO_OPTION,
+						    JOptionPane.QUESTION_MESSAGE, null, options, null);
+					if(confirmationResult == JOptionPane.YES_OPTION)
+						{
+							tdao.delete(t);
+							((DefaultTableModel)table.getModel()).removeRow(row);
+						}
+				}			
+			}
+		});
 	}
 }
