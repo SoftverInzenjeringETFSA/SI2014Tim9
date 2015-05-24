@@ -60,6 +60,7 @@ import java.util.List;
 import klase.Klub;
 import klase.Takmicar;
 import klase.Turnir;
+import javax.swing.SpinnerNumberModel;
 
 public class IzvjestajOPodacimaTakmicara extends JFrame {
 
@@ -205,6 +206,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		textField_2.setColumns(10);
 		
 		final JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(new Double(0), null, null, new Double(1)));
 		spinner.setEnabled(false);
 		
 		final JSpinner spinner_1 = new JSpinner();
@@ -261,7 +263,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        		 spinner_1.setValue(brojUcesca);
 		        		 spinner_2.setValue(brojTitula);
 		        		 textField_3.setText(Integer.toString(brojPobjeda)+" : " + Integer.toString(brojPoraza));
-		        		 spinner_3.setText("lol");       		 
+		        		 spinner_3.setText(takmicar.getDatumRodjenja().toString());       		 
 		        	 }
 		        }
 		        
