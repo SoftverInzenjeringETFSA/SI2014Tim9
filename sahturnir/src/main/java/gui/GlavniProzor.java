@@ -355,7 +355,9 @@ public class GlavniProzor extends JFrame {
 		label_3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				DodavanjeTakmicara dt = new DodavanjeTakmicara();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				DodavanjeTakmicara dt = new DodavanjeTakmicara(parentFrame, (GlavniProzor) parentFrame);
 				dt.setVisible(true);
 			}
 		});
@@ -573,7 +575,9 @@ public class GlavniProzor extends JFrame {
 					t = tdao.loadById(Takmicar.class, (Long) tableTakmicari.getModel().getValueAt(row, 0));
 					if(col == tableTakmicari.getColumnCount() - 2)
 					{
-						DodavanjeTakmicara dt = new DodavanjeTakmicara(t);
+						JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+						parentFrame.setEnabled(false);
+						DodavanjeTakmicara dt = new DodavanjeTakmicara(t, parentFrame, (GlavniProzor) parentFrame);
 						dt.setVisible(true);
 					}
 					else if(col == tableTakmicari.getColumnCount() - 1)

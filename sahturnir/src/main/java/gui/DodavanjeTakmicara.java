@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SwingUtilities;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +44,8 @@ import dal.TakmicarDAO;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import klase.Klub;
 import klase.Korisnik;
@@ -59,9 +62,7 @@ public class DodavanjeTakmicara extends JFrame {
 	private JTextPane txtpnDatumRoenja;
 	private JTextPane txtpnJmbg;
 	private JTextField textField_1;
-	private JTextPane txtpnBrojBodova;
 	private JTextPane txtpnKategorija;
-	private JSpinner spinner_1;
 	protected final JTextPane textPane_1;
 	private JSpinner timeSpinner;
 	private JSpinner spinner;
@@ -72,28 +73,12 @@ public class DodavanjeTakmicara extends JFrame {
 	private JTextPane textPane_4;
 	private JTextPane textPane_3;
 	Takmicar t = new Takmicar();
+	private JFrame parentFrame;
+	private GlavniProzor gpf;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(DodavanjeTakmicara.class);
-				EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					Takmicar takmicar=new Takmicar();
-					takmicar.setIme("Konj");
-					DodavanjeTakmicara frame = new DodavanjeTakmicara(takmicar);
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-//					e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
-				}
-			}
-		});
-	}
+
 	public static Boolean validirajPrazno(String t1) {
 		Boolean izlaz = false;
 		
@@ -165,11 +150,22 @@ public class DodavanjeTakmicara extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public DodavanjeTakmicara() {
+	public DodavanjeTakmicara(JFrame pf, GlavniProzor gp) {
+		parentFrame = pf;
+		gpf = gp;
+		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeTakmicara.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 340, 650);
+		setBounds(100, 100, 331, 533);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -264,7 +260,6 @@ public class DodavanjeTakmicara extends JFrame {
 					t.setPrezime(textField_2.getText());
 					t.setJmbg(textField_1.getText());
 					t.setDatumRodjenja((Date)spinner.getValue());
-					t.setBrojBodova((Double)spinner_1.getValue());
 					t.setKategorija(comboBox.getSelectedItem().toString());
 					
 					List<Klub> klubovi = new ArrayList<Klub>();
@@ -281,33 +276,32 @@ public class DodavanjeTakmicara extends JFrame {
 					
 					tdao.create(t);
 			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
-					textPane_1.setText("");
-					textPane_3.setText("");
-					textPane_4.setText("");
-					textField.setText("");
-					textField_1.setText("");
-					textField_2.setText("");
+					JFrame thisFrame = (JFrame) SwingUtilities
+							.getRoot(textField_1);
+					thisFrame.dispose();
+					parentFrame.setEnabled(true);
+					gpf.RefreshTables();
 				}
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-						.addComponent(btnPotvrdi, Alignment.TRAILING))
-					.addContainerGap())
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 520, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnPotvrdi)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(21, Short.MAX_VALUE))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 443, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnPotvrdi)
-					.addContainerGap())
+					.addContainerGap(89, Short.MAX_VALUE))
 		);
 		
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
@@ -326,19 +320,11 @@ public class DodavanjeTakmicara extends JFrame {
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		
-		txtpnBrojBodova = new JTextPane();
-		txtpnBrojBodova.setEditable(false);
-		txtpnBrojBodova.setText("Broj bodova:");
-		
 		txtpnKategorija = new JTextPane();
 		txtpnKategorija.setEditable(false);
 		txtpnKategorija.setText("Kategorija:");
 		
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Majstor", "Majstorski kandidat", "I kategorija", "II kategorija", "III kategorija", "IV kategorija", "Bez kategorije"}));
-		
-		spinner_1 = new JSpinner();
-		spinner_1.setEnabled(false);
-		spinner_1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(0.5d)));
 		
 		textPane_1 = new JTextPane();
 		textPane_1.setEditable(false);
@@ -383,27 +369,24 @@ public class DodavanjeTakmicara extends JFrame {
 								.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
 								.addComponent(textPane_2, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textField_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-								.addComponent(textPane_3, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textPane_4, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(20)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(txtpnKategorija, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBox, 0, 235, Short.MAX_VALUE)
-								.addComponent(txtpnKlub, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBox_1, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(txtpnDatumRoenja, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpnJmbg, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_1)
-								.addComponent(spinner)))
+								.addComponent(textPane_4, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+								.addComponent(textPane_3, Alignment.LEADING)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(20)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtpnDatumRoenja, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpnJmbg, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+								.addComponent(spinner, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(20)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtpnKategorija, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addComponent(txtpnBrojBodova, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-									.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))))
-					.addGap(24))
+								.addComponent(comboBox, 0, 238, Short.MAX_VALUE)
+								.addComponent(txtpnKlub, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboBox_1, 0, 238, Short.MAX_VALUE))))
+					.addGap(34))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -431,10 +414,6 @@ public class DodavanjeTakmicara extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
 					.addComponent(txtpnKategorija, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -442,20 +421,29 @@ public class DodavanjeTakmicara extends JFrame {
 					.addComponent(txtpnKlub, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(39, Short.MAX_VALUE))
+					.addContainerGap(55, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
 	}
 	
 	
-	public DodavanjeTakmicara(Takmicar t1) {
-		
+	public DodavanjeTakmicara(Takmicar t1, JFrame pf, GlavniProzor gp) {
+		parentFrame = pf;
+		gpf = gp;
+		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});
 		t=t1;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeTakmicara.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 340, 650);
+		setBounds(100, 100, 321, 542);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -558,7 +546,6 @@ public class DodavanjeTakmicara extends JFrame {
 					tak.setPrezime(textField_2.getText());
 					tak.setJmbg(textField_1.getText());
 					tak.setDatumRodjenja((Date)spinner.getValue());
-					tak.setBrojBodova((Double)spinner_1.getValue());
 					tak.setKategorija(comboBox.getSelectedItem().toString());
 					
 					List<Klub> klubovi = new ArrayList<Klub>();
@@ -575,33 +562,34 @@ public class DodavanjeTakmicara extends JFrame {
 					
 					kdao.update(tak);
 			        JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
-					textPane_1.setText("");
-					textPane_3.setText("");
-					textPane_4.setText("");
-					textField.setText("");
-					textField_1.setText("");
-					textField_2.setText("");
+					JFrame thisFrame = (JFrame) SwingUtilities
+							.getRoot(textField_1);
+					thisFrame.dispose();
+					parentFrame.setEnabled(true);
+					gpf.RefreshTables();
 				}
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-						.addComponent(btnPotvrdi, Alignment.TRAILING))
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap(228, Short.MAX_VALUE)
+					.addComponent(btnPotvrdi)
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 520, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 451, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnPotvrdi)
-					.addContainerGap())
+					.addContainerGap(116, Short.MAX_VALUE))
 		);
 		
 		JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm:ss");
@@ -620,19 +608,11 @@ public class DodavanjeTakmicara extends JFrame {
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		
-		txtpnBrojBodova = new JTextPane();
-		txtpnBrojBodova.setEditable(false);
-		txtpnBrojBodova.setText("Broj bodova:");
-		
 		txtpnKategorija = new JTextPane();
 		txtpnKategorija.setEditable(false);
 		txtpnKategorija.setText("Kategorija:");
 		
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Majstor", "Majstorski kandidat", "I kategorija", "II kategorija", "III kategorija", "IV kategorija", "Bez kategorije"}));
-		
-		spinner_1 = new JSpinner();
-		spinner_1.setEnabled(false);
-		spinner_1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(0.5d)));
 		
 		textPane_1 = new JTextPane();
 		textPane_1.setEditable(false);
@@ -669,14 +649,8 @@ public class DodavanjeTakmicara extends JFrame {
 		if(t.getDatumRodjenja()!=null)spinner.setValue((Date)t.getDatumRodjenja());
 		if(t.getBrojBodova()!=0)spinner.setValue((double)t.getBrojBodova());
 		
-		 if(t.getKategorija()=="Majstor")comboBox.setSelectedIndex(0);
-		 else if(t.getKategorija()=="Majstorski kandidat")comboBox.setSelectedIndex(1);
-		 else if(t.getKategorija()=="I kategorija")comboBox.setSelectedIndex(2);
-		 else if(t.getKategorija()=="II kategorija")comboBox.setSelectedIndex(3);
-		 else if(t.getKategorija()=="III kategorija")comboBox.setSelectedIndex(4);
-		 else if(t.getKategorija()=="IV kategorija")comboBox.setSelectedIndex(5);
-		 else comboBox.setSelectedIndex(6);
-		
+		comboBox.setSelectedItem(t.getKategorija());
+		comboBox_1.setSelectedItem(t.getKlub().getNaziv());
 		
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -709,8 +683,7 @@ public class DodavanjeTakmicara extends JFrame {
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-									.addComponent(txtpnBrojBodova, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-									.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))))
+									))))
 					.addGap(24))
 		);
 		gl_panel.setVerticalGroup(
@@ -739,9 +712,7 @@ public class DodavanjeTakmicara extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
 					.addComponent(txtpnKategorija, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
