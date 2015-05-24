@@ -54,7 +54,7 @@ public class RezultatiMecevaTabela extends JFrame {
 	private JTextField textField;
 	private JTable table = new JTable();
 	private transient JTableUtil jtutil = new JTableUtil();
-
+	transient Turnir t1;
 	/**
 	 * Launch the application.
 	 */
@@ -153,6 +153,7 @@ public class RezultatiMecevaTabela extends JFrame {
 	 * Create the frame.
 	 */
 	public RezultatiMecevaTabela(Turnir t) {
+		t1 = t;
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				RezultatiMecevaTabela.class.getResource("/gui/logo.png")));
@@ -191,7 +192,7 @@ public class RezultatiMecevaTabela extends JFrame {
 					m = mdao.loadById(Mec.class, (Long) table.getModel().getValueAt(row, 0));
 					if(col == table.getColumnCount() - 2)
 					{
-						RezultatiMecevaUnos rmu = new RezultatiMecevaUnos();
+						RezultatiMecevaUnos rmu = new RezultatiMecevaUnos(t1,m);
 						rmu.setVisible(true);
 					}
 					else if(col == table.getColumnCount() - 1)
