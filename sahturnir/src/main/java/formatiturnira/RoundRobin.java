@@ -41,6 +41,7 @@ public class RoundRobin { // NIJE TESTIRANO, TREBA PROVJERITI
 				m.setRezultat1((double)0);
 				m.setRezultat2((double)0);
 				m.setTurnir(t);
+				m.setDatumPocetka(t.getDatumPocetka());
 				mecevi.add(m);
 			}
 			tmp.add(1, tmp.get(tmp.size()-1));

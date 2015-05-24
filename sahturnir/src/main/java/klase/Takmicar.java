@@ -86,4 +86,8 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 		this.brojTitula = brojTitula;
 	}
 	
+	 @Override public String toString() {
+	      return this.getIme() + " " + this.getPrezime();
+	    }
+	
 }
