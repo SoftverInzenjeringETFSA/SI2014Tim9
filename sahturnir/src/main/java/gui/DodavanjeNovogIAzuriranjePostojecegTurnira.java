@@ -95,13 +95,14 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					Turnir t=new Turnir();
 					Date datum=new Date();
 					t.setDatumPocetka(datum);
+					t.setFormatTakmicenja("Swiss");
 					DodavanjeNovogIAzuriranjePostojecegTurnira frame = new DodavanjeNovogIAzuriranjePostojecegTurnira( t);
 					frame.setVisible(true);
 				} 
 				catch (Exception e) 
 				{
 //					e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
+					logger.error(e.getMessage(), e);
 				}
 			}
 		});
@@ -605,9 +606,9 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		txtpnTrajanjeuDanima.setBackground(Color.WHITE);
 		
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Jednostruki eliminacioni", "Dvostruki eliminacioni", "Round Robin", "Swiss"}));
-		if(turnir.getFormatTakmicenja().equals("Jednostruki eliminacioni"))comboBox.setSelectedIndex(0);
-		else if(turnir.getFormatTakmicenja().equals("Dvostruki eliminacioni"))comboBox.setSelectedIndex(1);
-		else if(turnir.getFormatTakmicenja().equals("Round Robin"))comboBox.setSelectedIndex(2);
+		if(turnir.getFormatTakmicenja() =="Jednostruki eliminacioni")comboBox.setSelectedIndex(0);
+		else if(turnir.getFormatTakmicenja()=="Dvostruki eliminacioni")comboBox.setSelectedIndex(1);
+		else if(turnir.getFormatTakmicenja()=="Round Robin")comboBox.setSelectedIndex(2);
 		else comboBox.setSelectedIndex(3);
 		
 		comboBox.setEditable(false);
@@ -626,12 +627,14 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		//spinner.setValue("0");
 		
 		spinner_1.setModel(new SpinnerNumberModel(1, 1, 10, 1));
+		spinner_2.setModel(new SpinnerDateModel(new Date(1432245600000L), new Date(1432245600000L), null, Calendar.DAY_OF_YEAR));
+		
 		if(turnir.getDatumPocetka()!=null)
 		{
-			spinner_1.setValue((Date)turnir.getDatumPocetka());		
+			spinner_2.setValue(turnir.getDatumPocetka());		
 		}
-		spinner_2.setModel(new SpinnerDateModel(new Date(1432245600000L), new Date(1432245600000L), null, Calendar.DAY_OF_YEAR));
-		spinner_2.setValue(turnir.getTrajanje());
+		
+		spinner_1.setValue(turnir.getTrajanje());
 		
 		JTextPane txtpnDatumPoetkaTurnira = new JTextPane();
 		txtpnDatumPoetkaTurnira.setText("Datum po\u010Detka turnira:*");

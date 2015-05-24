@@ -81,7 +81,9 @@ public class DodavanjeTakmicara extends JFrame {
 			public void run() {
 				try 
 				{
-					DodavanjeTakmicara frame = new DodavanjeTakmicara();
+					Takmicar takmicar=new Takmicar();
+					takmicar.setIme("Konj");
+					DodavanjeTakmicara frame = new DodavanjeTakmicara(takmicar);
 					frame.setVisible(true);
 				} 
 				catch (Exception e) 
@@ -665,7 +667,7 @@ public class DodavanjeTakmicara extends JFrame {
 		textField_2.setText(t.getPrezime());
 		textField_1.setText(t.getJmbg());
 		if(t.getDatumRodjenja()!=null)spinner.setValue((Date)t.getDatumRodjenja());
-		spinner.setValue(t.getBrojBodova());
+		if(t.getBrojBodova()!=0)spinner.setValue((double)t.getBrojBodova());
 		
 		 if(t.getKategorija()=="Majstor")comboBox.setSelectedIndex(0);
 		 else if(t.getKategorija()=="Majstorski kandidat")comboBox.setSelectedIndex(1);
