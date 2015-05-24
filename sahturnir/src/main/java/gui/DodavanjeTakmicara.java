@@ -37,12 +37,15 @@ import javax.swing.SpinnerNumberModel;
 import org.apache.log4j.Logger;
 
 import utils.JTableUtil;
+import dal.GenericDAO;
+import dal.KorisnikDAO;
 import dal.TakmicarDAO;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import klase.Klub;
+import klase.Korisnik;
 import klase.Takmicar;
 import dal.KlubDAO;
 
@@ -68,7 +71,7 @@ public class DodavanjeTakmicara extends JFrame {
 	private JTextField textField_2;
 	private JTextPane textPane_4;
 	private JTextPane textPane_3;
-	transient Takmicar t1 = new Takmicar();
+	Takmicar t = new Takmicar();
 	/**
 	 * Launch the application.
 	 */
@@ -364,6 +367,8 @@ public class DodavanjeTakmicara extends JFrame {
 		textPane_4.setForeground(Color.RED);
 		textPane_4.setEditable(false);
 		
+	
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -442,8 +447,9 @@ public class DodavanjeTakmicara extends JFrame {
 	}
 	
 	
-	public DodavanjeTakmicara(Takmicar t) {
-		t1 = t;
+	public DodavanjeTakmicara(Takmicar t1) {
+		
+		t=t1;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeTakmicara.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -458,17 +464,15 @@ public class DodavanjeTakmicara extends JFrame {
 		panel.setBorder(new TitledBorder(null, "Podaci o takmi\u010Daru", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		timeSpinner = new JSpinner( new SpinnerDateModel() );
 		JButton btnPotvrdi = new JButton("Potvrdi");
+		
+		
+		
+		
 		comboBox_1 = new JComboBox();
 		comboBox = new JComboBox();
 		JTableUtil jtutil = new JTableUtil();
 		List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
 		textPane_3 = new JTextPane();
-		
-		textField.setText(t1.getIme());
-		textField_2.setText(t1.getPrezime());
-		textField_1.setText(t1.getJmbg());
-		
-		
 		for(int i=0; i<klubovi.size(); i++)
 		{
 			comboBox_1.addItem(klubovi.get(i).getNaziv());
@@ -541,18 +545,22 @@ public class DodavanjeTakmicara extends JFrame {
 				}
 				if(!flag)
 				{
-					Takmicar t = new Takmicar();
-					TakmicarDAO tdao = new TakmicarDAO();
+					Takmicar tak =	GenericDAO.loadById(Takmicar.class, t.getId());
 					
-					t.setIme(textField.getText());
-					t.setPrezime(textField_2.getText());
-					t.setJmbg(textField_1.getText());
-					t.setDatumRodjenja((Date)spinner.getValue());
-					t.setBrojBodova((Double)spinner_1.getValue());
-					t.setKategorija(comboBox.getSelectedItem().toString());
+					TakmicarDAO kdao = new TakmicarDAO();
+					
+					
+					
+					
+					tak.setIme(textField.getText());
+					tak.setPrezime(textField_2.getText());
+					tak.setJmbg(textField_1.getText());
+					tak.setDatumRodjenja((Date)spinner.getValue());
+					tak.setBrojBodova((Double)spinner_1.getValue());
+					tak.setKategorija(comboBox.getSelectedItem().toString());
 					
 					List<Klub> klubovi = new ArrayList<Klub>();
-					KlubDAO kdao = new KlubDAO();
+					
 					klubovi = kdao.getAll(Klub.class);
 					for(int i=0; i<klubovi.size(); i++)
 					{
@@ -563,8 +571,8 @@ public class DodavanjeTakmicara extends JFrame {
 						}
 					}
 					
-					tdao.create(t);
-			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+					kdao.update(tak);
+			        JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
 					textPane_1.setText("");
 					textPane_3.setText("");
 					textPane_4.setText("");
@@ -653,6 +661,22 @@ public class DodavanjeTakmicara extends JFrame {
 		textPane_4.setForeground(Color.RED);
 		textPane_4.setEditable(false);
 		
+		textField.setText(t.getIme());
+		textField_2.setText(t.getPrezime());
+		textField_1.setText(t.getJmbg());
+		if(t.getDatumRodjenja()!=null)spinner.setValue((Date)t.getDatumRodjenja());
+		spinner.setValue(t.getBrojBodova());
+		
+		 if(t.getKategorija()=="Majstor")comboBox.setSelectedIndex(0);
+		 else if(t.getKategorija()=="Majstorski kandidat")comboBox.setSelectedIndex(1);
+		 else if(t.getKategorija()=="I kategorija")comboBox.setSelectedIndex(2);
+		 else if(t.getKategorija()=="II kategorija")comboBox.setSelectedIndex(3);
+		 else if(t.getKategorija()=="III kategorija")comboBox.setSelectedIndex(4);
+		 else if(t.getKategorija()=="IV kategorija")comboBox.setSelectedIndex(5);
+		 else comboBox.setSelectedIndex(6);
+		
+		
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -675,9 +699,9 @@ public class DodavanjeTakmicara extends JFrame {
 								.addComponent(txtpnKlub, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 								.addComponent(comboBox_1, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(txtpnDatumRoenja, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txtpnJmbg, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_1)))
+								.addComponent(textField_1)
+								.addComponent(spinner)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(20)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
