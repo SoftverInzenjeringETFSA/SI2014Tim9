@@ -44,6 +44,9 @@
 	        <property name="kategorija" type="java.lang.String">
 	            <column name="KATEGORIJA" />
 	        </property>
+	        <property name="brojTitula" type="long">
+	            <column name="BROJTITULA" />
+	        </property>
 		</joined-subclass>
 	</class>
 </hibernate-mapping>

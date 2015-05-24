@@ -11,7 +11,7 @@ import klase.Klub;
 public class KlubDAO extends GenericDAO {
 
 	public List<Klub> search(int criteria, String parameter) {
-		final Logger logger = Logger.getLogger(TurnirDAO.class);
+		final Logger logger = Logger.getLogger(KlubDAO.class);
 		String[] searchCriteria = { "naziv", "sjediste", "predsjednik" };
 		List<Klub> klubovi = new ArrayList();
 		try {
@@ -38,14 +38,14 @@ public class KlubDAO extends GenericDAO {
 				connection.close();
 			}
 		} catch (Exception e) {
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} finally {
 		}
 		return klubovi;
 	}
 
 	public double calculateClubPoints(long id) {
-		final Logger logger = Logger.getLogger(TurnirDAO.class);
+		final Logger logger = Logger.getLogger(KlubDAO.class);
 		double resultValue = 0.;
 		try {
 			Class.forName(driver);
@@ -64,7 +64,85 @@ public class KlubDAO extends GenericDAO {
 				connection.close();
 			}
 		} catch (Exception e) {
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
+		} finally {
+		}
+		return resultValue;
+	}
+	
+	public int getNumberOfTournamentsForClub(long id) {
+		final Logger logger = Logger.getLogger(KlubDAO.class);
+		int resultValue = 0;
+		try {
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
+			try {
+				PreparedStatement statement = connection
+						.prepareStatement("SELECT count(distinct v.turnir) FROM turnir_takmicar_veza v, takmicari t WHERE t.id = v.takmicar and t.klub = ?;");
+				statement.setLong(1, id);
+				ResultSet result = statement.executeQuery();
+				result.next();
+				String sum = result.getString(1);
+				resultValue = Integer.parseInt(sum);
+			} catch (Exception e) {
+				throw e;
+			} finally {
+				connection.close();
+			}
+		} catch (Exception e) {
+			logger.error("Došlo je do greške!", e);
+		} finally {
+		}
+		return resultValue;
+	}
+	
+	public int getNumberOfContestantsForClub(long id) {
+		final Logger logger = Logger.getLogger(KlubDAO.class);
+		int resultValue = 0;
+		try {
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
+			try {
+				PreparedStatement statement = connection
+						.prepareStatement("SELECT count(t.klub) FROM takmicari t WHERE t.klub = ?;");
+				statement.setLong(1, id);
+				ResultSet result = statement.executeQuery();
+				result.next();
+				String sum = result.getString(1);
+				resultValue = Integer.parseInt(sum);
+			} catch (Exception e) {
+				throw e;
+			} finally {
+				connection.close();
+			}
+		} catch (Exception e) {
+			logger.error("Došlo je do greške!", e);
+		} finally {
+		}
+		return resultValue;
+	}
+	
+	public int getNumberOfTitlesForClub(long id) {
+		final Logger logger = Logger.getLogger(KlubDAO.class);
+		int resultValue = 0;
+		try {
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
+			try {
+				PreparedStatement statement = connection
+						.prepareStatement("SELECT sum(t.brojTitula) FROM takmicari t WHERE t.klub = ?;");
+				statement.setLong(1, id);
+				ResultSet result = statement.executeQuery();
+				result.next();
+				String sum = result.getString(1);
+				resultValue = Integer.parseInt(sum);
+			} catch (Exception e) {
+				throw e;
+			} finally {
+				connection.close();
+			}
+		} catch (Exception e) {
+			logger.error("Došlo je do greške!", e);
 		} finally {
 		}
 		return resultValue;

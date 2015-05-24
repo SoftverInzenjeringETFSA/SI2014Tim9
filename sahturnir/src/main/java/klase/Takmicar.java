@@ -12,7 +12,8 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 	private Klub klub;
 	private String kategorija;
 	private int brojacPoraza;
-	
+	private int brojTitula;
+
 	public Takmicar() {
 		// TODO Auto-generated constructor stub
 		brojacPoraza =0;
@@ -75,6 +76,14 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 
 	public void setBrojacPoraza(int brojacPoraza) {
 		this.brojacPoraza = brojacPoraza;
+	}
+	
+	public int getBrojTitula() {
+		return brojTitula;
+	}
+
+	public void setBrojTitula(int brojTitula) {
+		this.brojTitula = brojTitula;
 	}
 	
 }

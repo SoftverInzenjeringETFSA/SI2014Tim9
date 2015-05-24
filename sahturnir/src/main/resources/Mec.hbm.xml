@@ -23,5 +23,8 @@
         <property name="rezultat2" type="java.lang.Double">
             <column name="REZULTAT2" />
         </property>
+        <property name="datumPocetka" type="java.util.Date">
+            <column name="DATUMPOCETKA" />
+        </property>
     </class>
 </hibernate-mapping>

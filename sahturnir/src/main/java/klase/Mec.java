@@ -16,7 +16,7 @@ public class Mec implements java.io.Serializable {
 	private Double rezultat2;
 	private int round;
 	private Date datumPocetka;
-	
+
 	public Mec(int r) {
 		setRound(r);
 	}
@@ -95,11 +95,12 @@ public class Mec implements java.io.Serializable {
 	public void setRound(int round) {
 		this.round = round;
 	}
-	public Date getDate() {
+	
+	public Date getDatumPocetka() {
 		return datumPocetka;
 	}
 
-	public void setDate(Date datum) {
-		this.datumPocetka = datum;
+	public void setDatumPocetka(Date datumPocetka) {
+		this.datumPocetka = datumPocetka;
 	}
 }
