@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -35,6 +36,8 @@ import dal.KlubDAO;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.Toolkit;
 
 import klase.Klub;
@@ -56,31 +59,13 @@ public class DodavanjeKluba extends JFrame {
 	protected final JTextPane textPane_1;
 	protected final JTextPane textPane_2;
 	private JSpinner spinner = new JSpinner();		
-	private JSpinner spinner_1 = new JSpinner();
 	Klub klub=new Klub();
+	private JFrame parentFrame;
+	private GlavniProzor gpf;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(DodavanjeKluba.class);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					Klub klubic=new Klub();
-					klubic.setNaziv("Klubic");
-					DodavanjeKluba frame = new DodavanjeKluba(klubic);
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-//					e.printStackTrace();
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-	}
 	
 	public static Boolean validirajPrazno(String t1) {
 		Boolean izlaz = false;
@@ -131,11 +116,22 @@ public class DodavanjeKluba extends JFrame {
 	 * Create the frame.
 	 * @return 
 	 */
-	public DodavanjeKluba() {
+	public DodavanjeKluba(JFrame pf, GlavniProzor gp) {
+		parentFrame = pf;
+		gpf = gp;
+		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeKluba.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 324, 520);
+		setBounds(100, 100, 317, 457);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -146,9 +142,6 @@ public class DodavanjeKluba extends JFrame {
 		panel.setBorder(new TitledBorder(null, "Podaci o klubu", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		spinner.setModel(new SpinnerDateModel(new Date(-2197242000000L), null, null, Calendar.DAY_OF_YEAR));
-
-		spinner_1.setEnabled(false);
-		spinner_1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(0.5d)));
 
 		
 		JButton btnPotvrdi = new JButton("Potvrdi");
@@ -190,7 +183,7 @@ public class DodavanjeKluba extends JFrame {
 				else
 				{
 					flag = true;
-					textPane.setText("Polje ne smije biti prazno");
+					textPane_1.setText("Polje ne smije biti prazno");
 				}
 				if(validirajPrazno(textField_1.getText()))
 				{
@@ -204,7 +197,7 @@ public class DodavanjeKluba extends JFrame {
 					if(!validirajAlphaNum(textField_1.getText()))
 					{
 						flag = true;
-						textPane.setText("Neispravni karakteri");
+						textPane_1.setText("Neispravni karakteri");
 					}
 				}
 				if(validirajPrazno(textField_2.getText()))
@@ -214,7 +207,7 @@ public class DodavanjeKluba extends JFrame {
 				else
 				{
 					flag = true;
-					textPane.setText("Polje ne smije biti prazno");
+					textPane_2.setText("Polje ne smije biti prazno");
 				}
 				if(validirajPrazno(textField_2.getText()))
 				{	
@@ -228,7 +221,7 @@ public class DodavanjeKluba extends JFrame {
 					if(!validirajImePrezime(textField_2.getText()))
 					{
 						flag = true;
-						textPane.setText("Neispravni karakteri");
+						textPane_2.setText("Neispravni karakteri");
 					}
 				}
 				if (!flag)
@@ -243,35 +236,32 @@ public class DodavanjeKluba extends JFrame {
 
 					kdao.create(k);
 			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
-			        textField.setText("");
-			        textField_1.setText("");
-			        textField_2.setText("");
-					textPane.setText("");
-					textPane_1.setText("");
-					textPane_2.setText("");
+					JFrame thisFrame = (JFrame) SwingUtilities
+							.getRoot(textField_1);
+					thisFrame.dispose();
+					parentFrame.setEnabled(true);
+					gpf.RefreshTables();
 				}
 			}
 	});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(221, Short.MAX_VALUE)
-					.addComponent(btnPotvrdi)
-					.addContainerGap())
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(11, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnPotvrdi)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(14, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 366, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnPotvrdi)
-					.addContainerGap())
+					.addContainerGap(45, Short.MAX_VALUE))
 		);
 		
 		JTextPane txtpnNaziv = new JTextPane();
@@ -301,10 +291,6 @@ public class DodavanjeKluba extends JFrame {
 		txtpnDatumOsnivanja.setEditable(false);
 		txtpnDatumOsnivanja.setText("Datum osnivanja: *");
 		
-		JTextPane txtpnBrojBodova = new JTextPane();
-		txtpnBrojBodova.setEditable(false);
-		txtpnBrojBodova.setText("Broj bodova:");
-		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		textPane.setForeground(Color.red);
@@ -328,15 +314,13 @@ public class DodavanjeKluba extends JFrame {
 						.addComponent(txtpnPredsjednik, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtpnSjedite, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(spinner, Alignment.LEADING)
+							.addComponent(spinner, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(textField_1, Alignment.LEADING)
-							.addComponent(textPane, Alignment.LEADING)
+							.addComponent(textPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
 						.addComponent(textPane_1, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
 						.addComponent(textPane_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-						.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinner_1))
+						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -364,11 +348,7 @@ public class DodavanjeKluba extends JFrame {
 					.addComponent(txtpnDatumOsnivanja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18))
+					.addGap(75))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
@@ -378,11 +358,21 @@ public class DodavanjeKluba extends JFrame {
 	
 	
 	
-	public DodavanjeKluba(Klub klub1) {
+	public DodavanjeKluba(Klub klub1, JFrame pf, GlavniProzor gp) {
+		parentFrame = pf;
+		gpf = gp;
+		final Logger logger = Logger.getLogger(DodavanjeKorisnika.class);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+				public void windowClosing(WindowEvent arg0) {
+					parentFrame.setEnabled(true);
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DodavanjeKluba.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 324, 520);
+		setBounds(100, 100, 324, 456);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -393,9 +383,6 @@ public class DodavanjeKluba extends JFrame {
 		panel.setBorder(new TitledBorder(null, "Podaci o klubu", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		spinner.setModel(new SpinnerDateModel(new Date(-2197242000000L), null, null, Calendar.DAY_OF_YEAR));
-
-		spinner_1.setEnabled(false);
-		spinner_1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(0.5d)));
 		
 		this.klub=klub1;
 		KlubDAO kd=new KlubDAO();
@@ -439,7 +426,7 @@ public class DodavanjeKluba extends JFrame {
 				else
 				{
 					flag = true;
-					textPane.setText("Polje ne smije biti prazno");
+					textPane_1.setText("Polje ne smije biti prazno");
 				}
 				if(validirajPrazno(textField_1.getText()))
 				{
@@ -453,7 +440,7 @@ public class DodavanjeKluba extends JFrame {
 					if(!validirajAlphaNum(textField_1.getText()))
 					{
 						flag = true;
-						textPane.setText("Neispravni karakteri");
+						textPane_1.setText("Neispravni karakteri");
 					}
 				}
 				if(validirajPrazno(textField_2.getText()))
@@ -463,7 +450,7 @@ public class DodavanjeKluba extends JFrame {
 				else
 				{
 					flag = true;
-					textPane.setText("Polje ne smije biti prazno");
+					textPane_2.setText("Polje ne smije biti prazno");
 				}
 				if(validirajPrazno(textField_2.getText()))
 				{	
@@ -477,7 +464,7 @@ public class DodavanjeKluba extends JFrame {
 					if(!validirajImePrezime(textField_2.getText()))
 					{
 						flag = true;
-						textPane.setText("Neispravni karakteri");
+						textPane_2.setText("Neispravni karakteri");
 					}
 				}
 				if (!flag)
@@ -494,35 +481,32 @@ public class DodavanjeKluba extends JFrame {
 
 					kdao.update(k);
 			        JOptionPane.showMessageDialog(null, "Uspješno ste promjenili klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
-			        textField.setText("");
-			        textField_1.setText("");
-			        textField_2.setText("");
-					textPane.setText("");
-					textPane_1.setText("");
-					textPane_2.setText("");
+					JFrame thisFrame = (JFrame) SwingUtilities
+							.getRoot(textField_1);
+					thisFrame.dispose();
+					parentFrame.setEnabled(true);
+					gpf.RefreshTables();
 				}
 			}
 	});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(221, Short.MAX_VALUE)
-					.addComponent(btnPotvrdi)
-					.addContainerGap())
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(11, Short.MAX_VALUE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnPotvrdi)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(21, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 365, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnPotvrdi)
-					.addContainerGap())
+					.addContainerGap(72, Short.MAX_VALUE))
 		);
 		
 		JTextPane txtpnNaziv = new JTextPane();
@@ -552,10 +536,6 @@ public class DodavanjeKluba extends JFrame {
 		txtpnDatumOsnivanja.setEditable(false);
 		txtpnDatumOsnivanja.setText("Datum osnivanja: *");
 		
-		JTextPane txtpnBrojBodova = new JTextPane();
-		txtpnBrojBodova.setEditable(false);
-		txtpnBrojBodova.setText("Broj bodova:");
-		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		textPane.setForeground(Color.red);
@@ -574,7 +554,6 @@ public class DodavanjeKluba extends JFrame {
 		textField_1.setText(klub.getSjediste());
 		textField_2.setText(klub.getPredsjednik());
 		if(klub.getDatumOsnivanja()!=null)spinner.setValue(klub.getDatumOsnivanja());
-		spinner_1.setValue(kd.calculateClubPoints(klub.getId()));
 		
 		
 		
@@ -589,15 +568,13 @@ public class DodavanjeKluba extends JFrame {
 						.addComponent(txtpnPredsjednik, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtpnSjedite, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(spinner, Alignment.LEADING)
+							.addComponent(spinner, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(textField_1, Alignment.LEADING)
-							.addComponent(textPane, Alignment.LEADING)
+							.addComponent(textPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
 						.addComponent(textPane_1, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
 						.addComponent(textPane_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-						.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinner_1))
+						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -625,11 +602,7 @@ public class DodavanjeKluba extends JFrame {
 					.addComponent(txtpnDatumOsnivanja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(txtpnBrojBodova, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18))
+					.addGap(49))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);

@@ -438,7 +438,9 @@ public class GlavniProzor extends JFrame {
 		label_4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				DodavanjeKluba dk = new DodavanjeKluba();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				DodavanjeKluba dk = new DodavanjeKluba(parentFrame, (GlavniProzor) parentFrame);
 				dk.setVisible(true);
 			}
 		});
@@ -608,7 +610,9 @@ public class GlavniProzor extends JFrame {
 					k = kdao.loadById(Klub.class, (Long) tableKlubovi.getModel().getValueAt(row, 0));
 					if(col == tableKlubovi.getColumnCount() - 2)
 					{
-						DodavanjeKluba dk = new DodavanjeKluba(k);
+						JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+						parentFrame.setEnabled(false);
+						DodavanjeKluba dk = new DodavanjeKluba(k, parentFrame, (GlavniProzor) parentFrame);
 						dk.setVisible(true);
 					}
 					else if(col == tableKlubovi.getColumnCount() - 1)
