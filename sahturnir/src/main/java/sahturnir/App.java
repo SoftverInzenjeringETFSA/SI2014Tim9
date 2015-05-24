@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.UIManager;
 
-import gui.DodavanjeNovogIAzuriranjePostojecegTurnira;
-import gui.GlavniProzor;
 import gui.Prijava;
 
 import org.apache.log4j.Logger;
@@ -14,12 +12,12 @@ public class App {
 
 	public static void main(String[] args) {
 		final Logger logger = Logger
-				.getLogger(DodavanjeNovogIAzuriranjePostojecegTurnira.class);
+				.getLogger(Prijava.class);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -28,7 +26,7 @@ public class App {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-					logger.error("Sorry, something wrong!", e);
+					logger.error("Došlo je do greške!", e);
 				}
 			}
 		});
