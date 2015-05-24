@@ -209,6 +209,21 @@ public class GlavniProzor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	public void RefreshTables()
+	{
+		tableKorisnici.setModel(jtutil.populateJTableKorisnici(korisnik));
+		PrepareTableDesign(tableKorisnici);
+		
+		tableTakmicari.setModel(jtutil.populateJTableTakmicari());
+		PrepareTableDesign(tableTakmicari);
+		
+		tableKlubovi.setModel(jtutil.populateJTableKlubovi());
+		PrepareTableDesign(tableKlubovi);
+		
+		tableTurniri.setModel(jtutil.populateJTableTurniri());
+		PrepareTableDesign(tableTurniri);
+	}
+	
 	public GlavniProzor(Korisnik k) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		korisnik = k;
@@ -254,10 +269,10 @@ public class GlavniProzor extends JFrame {
 		label_6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				//JFrame parentFrame = (JFrame) SwingUtilities.getRoot(e.getComponent());
-				//DodavanjeKorisnika frame = new DodavanjeKorisnika(parentFrame);
-				//frame.setVisible(true);
-				//parentFrame.setEnabled(false);
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
+				DodavanjeKorisnika dk = new DodavanjeKorisnika(korisnik, parentFrame, (GlavniProzor) parentFrame);
+				dk.setVisible(true);
 			}
 		});
 		label_6.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -265,159 +280,7 @@ public class GlavniProzor extends JFrame {
 				.getResource("/gui/settings.png")));
 		label_6.setToolTipText("Postavke korisnièkog raèuna");
 		
-		tableKorisnici.setModel(jtutil.populateJTableKorisnici(korisnik));
-		PrepareTableDesign(tableKorisnici);
-		panel_3.setLayout(new BorderLayout());
-		panel_3.add(tableKorisnici.getTableHeader(), BorderLayout.NORTH);
-		panel_3.add(new JScrollPane(tableKorisnici), BorderLayout.CENTER);
-		tableKorisnici.addMouseListener(new java.awt.event.MouseAdapter() {
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				int row = tableKorisnici.rowAtPoint(evt.getPoint());
-				int col = tableKorisnici.columnAtPoint(evt.getPoint());
-				if (row >= 0 && (col == tableKorisnici.getColumnCount() - 1 || col == tableKorisnici.getColumnCount() - 2)) {
-					Korisnik k = new Korisnik();
-					KorisnikDAO kdao = new KorisnikDAO();
-					k = kdao.loadById(Korisnik.class, (Long) tableKorisnici.getModel().getValueAt(row, 0));
-					if(col == tableKorisnici.getColumnCount() - 2)
-					{
-						DodavanjeKorisnika dk = new DodavanjeKorisnika(k);
-						dk.setVisible(true);
-					}
-					else if(col == tableKorisnici.getColumnCount() - 1)
-					{
-						String[] options = {"   Da!   ", "   Ne!   "};
-						int confirmationResult = JOptionPane.showOptionDialog(null,
-							    "Jeste li sigurni da želite obrisati \"" + (String)tableKorisnici.getModel().getValueAt(row, 1) + "\"?",
-							    "Potvrda brisanja",
-							    JOptionPane.YES_NO_OPTION,
-							    JOptionPane.QUESTION_MESSAGE, null, options, null);
-						if(confirmationResult == JOptionPane.YES_OPTION)
-							{
-								kdao.delete(k);
-								((DefaultTableModel)tableKorisnici.getModel()).removeRow(row);
-							}
-					}
-				}
-			}
-		});
 		
-		tableTakmicari.setModel(jtutil.populateJTableTakmicari());
-		PrepareTableDesign(tableTakmicari);
-		panel_1.setLayout(new BorderLayout());
-		panel_1.add(tableTakmicari.getTableHeader(), BorderLayout.NORTH);
-		panel_1.add(new JScrollPane(tableTakmicari), BorderLayout.CENTER);
-		tableTakmicari.addMouseListener(new java.awt.event.MouseAdapter() {
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				int row = tableTakmicari.rowAtPoint(evt.getPoint());
-				int col = tableTakmicari.columnAtPoint(evt.getPoint());
-				if (row >= 0 && (col == tableTakmicari.getColumnCount() - 1 || col == tableTakmicari.getColumnCount() - 2)) {
-					Takmicar t = new Takmicar();
-					TakmicarDAO tdao = new TakmicarDAO();
-					t = tdao.loadById(Takmicar.class, (Long) tableTakmicari.getModel().getValueAt(row, 0));
-					if(col == tableTakmicari.getColumnCount() - 2)
-					{
-						DodavanjeTakmicara dt = new DodavanjeTakmicara(t);
-						dt.setVisible(true);
-					}
-					else if(col == tableTakmicari.getColumnCount() - 1)
-					{
-						String[] options = {"   Da!   ", "   Ne!   "};
-						int confirmationResult = JOptionPane.showOptionDialog(null,
-							    "Jeste li sigurni da želite obrisati \"" + (String)tableTakmicari.getModel().getValueAt(row, 1) + "\"?",
-							    "Potvrda brisanja",
-							    JOptionPane.YES_NO_OPTION,
-							    JOptionPane.QUESTION_MESSAGE, null, options, null);
-						if(confirmationResult == JOptionPane.YES_OPTION)
-							{
-								tdao.delete(t);
-								((DefaultTableModel)tableTakmicari.getModel()).removeRow(row);
-							}
-					}
-				}
-			}
-		});
-		
-		tableKlubovi.setModel(jtutil.populateJTableKlubovi());
-		PrepareTableDesign(tableKlubovi);
-		panel_9.setLayout(new BorderLayout());
-		panel_9.add(tableKlubovi.getTableHeader(), BorderLayout.NORTH);
-		panel_9.add(new JScrollPane(tableKlubovi), BorderLayout.CENTER);
-		tableKlubovi.addMouseListener(new java.awt.event.MouseAdapter() {
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				int row = tableKlubovi.rowAtPoint(evt.getPoint());
-				int col = tableKlubovi.columnAtPoint(evt.getPoint());
-				if (row >= 0 && (col == tableKlubovi.getColumnCount() - 1 || col == tableKlubovi.getColumnCount() - 2)) {
-					Klub k = new Klub();
-					KlubDAO kdao = new KlubDAO();
-					k = kdao.loadById(Klub.class, (Long) tableKlubovi.getModel().getValueAt(row, 0));
-					if(col == tableKlubovi.getColumnCount() - 2)
-					{
-						DodavanjeKluba dk = new DodavanjeKluba(k);
-						dk.setVisible(true);
-					}
-					else if(col == tableKlubovi.getColumnCount() - 1)
-					{
-						String[] options = {"   Da!   ", "   Ne!   "};
-						int confirmationResult = JOptionPane.showOptionDialog(null,
-							    "Jeste li sigurni da želite obrisati \"" + (String)tableKlubovi.getModel().getValueAt(row, 1) + "\"?",
-							    "Potvrda brisanja",
-							    JOptionPane.YES_NO_OPTION,
-							    JOptionPane.QUESTION_MESSAGE, null, options, null);
-						if(confirmationResult == JOptionPane.YES_OPTION)
-							{
-								kdao.delete(k);
-								((DefaultTableModel)tableKlubovi.getModel()).removeRow(row);
-							}
-					}
-				}
-			}
-		});
-		
-		tableTurniri.setModel(jtutil.populateJTableTurniri());
-		tableTurniri.setName("tableTurniri");
-		PrepareTableDesign(tableTurniri);
-		panel_7.setLayout(new BorderLayout());
-		panel_7.add(tableTurniri.getTableHeader(), BorderLayout.NORTH);
-		panel_7.add(new JScrollPane(tableTurniri), BorderLayout.CENTER);
-		tableTurniri.addMouseListener(new java.awt.event.MouseAdapter() {
-			@Override
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				int row = tableTurniri.rowAtPoint(evt.getPoint());
-				int col = tableTurniri.columnAtPoint(evt.getPoint());
-				if (row >= 0 && (col == tableTurniri.getColumnCount() - 1 || col == tableTurniri.getColumnCount() - 2 || col == tableTurniri.getColumnCount() - 3)) {
-					Turnir t = new Turnir();
-					TurnirDAO tdao = new TurnirDAO();
-					t = tdao.loadById(Turnir.class, (Long) tableTurniri.getModel().getValueAt(row, 0));
-					if(col == tableTurniri.getColumnCount() - 3)
-					{
-						RezultatiMecevaTabela urm = new RezultatiMecevaTabela(t);
-						urm.setVisible(true);
-					}
-					else if(col == tableTurniri.getColumnCount() - 2)
-					{
-						DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(t);
-						dt.setVisible(true);
-					}
-					else if(col == tableTurniri.getColumnCount() - 1)
-					{
-						String[] options = {"   Da!   ", "   Ne!   "};
-						int confirmationResult = JOptionPane.showOptionDialog(null,
-							    "Jeste li sigurni da želite obrisati \"" + (String)tableTurniri.getModel().getValueAt(row, 1) + "\"?",
-							    "Potvrda brisanja",
-							    JOptionPane.YES_NO_OPTION,
-							    JOptionPane.QUESTION_MESSAGE, null, options, null);
-						if(confirmationResult == JOptionPane.YES_OPTION)
-							{
-								tdao.delete(t);
-								((DefaultTableModel)tableTurniri.getModel()).removeRow(row);
-							}
-					}
-				}
-			}
-		});
 		
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -442,7 +305,9 @@ public class GlavniProzor extends JFrame {
 		label_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				DodavanjeKorisnika dk = new DodavanjeKorisnika();
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(arg0.getComponent());
+				parentFrame.setEnabled(false);
+				DodavanjeKorisnika dk = new DodavanjeKorisnika(parentFrame, (GlavniProzor) parentFrame);
 				dk.setVisible(true);
 			}
 		});
@@ -650,6 +515,163 @@ public class GlavniProzor extends JFrame {
 					.addComponent(panel_7, GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
 					.addContainerGap())
 		);
+		
+		tableKorisnici.setModel(jtutil.populateJTableKorisnici(korisnik));
+		PrepareTableDesign(tableKorisnici);
+		panel_3.setLayout(new BorderLayout());
+		panel_3.add(tableKorisnici.getTableHeader(), BorderLayout.NORTH);
+		panel_3.add(new JScrollPane(tableKorisnici), BorderLayout.CENTER);
+		tableKorisnici.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = tableKorisnici.rowAtPoint(evt.getPoint());
+				int col = tableKorisnici.columnAtPoint(evt.getPoint());
+				if (row >= 0 && (col == tableKorisnici.getColumnCount() - 1 || col == tableKorisnici.getColumnCount() - 2)) {
+					Korisnik k = new Korisnik();
+					KorisnikDAO kdao = new KorisnikDAO();
+					k = kdao.loadById(Korisnik.class, (Long) tableKorisnici.getModel().getValueAt(row, 0));
+					if(col == tableKorisnici.getColumnCount() - 2)
+					{
+						JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+						parentFrame.setEnabled(false);
+						DodavanjeKorisnika dk = new DodavanjeKorisnika(k, parentFrame, (GlavniProzor) parentFrame);
+						dk.setVisible(true);
+					}
+					else if(col == tableKorisnici.getColumnCount() - 1)
+					{
+						String[] options = {"   Da!   ", "   Ne!   "};
+						int confirmationResult = JOptionPane.showOptionDialog(null,
+							    "Jeste li sigurni da želite obrisati \"" + (String)tableKorisnici.getModel().getValueAt(row, 1) + "\"?",
+							    "Potvrda brisanja",
+							    JOptionPane.YES_NO_OPTION,
+							    JOptionPane.QUESTION_MESSAGE, null, options, null);
+						if(confirmationResult == JOptionPane.YES_OPTION)
+							{
+								kdao.delete(k);
+								((DefaultTableModel)tableKorisnici.getModel()).removeRow(row);
+							}
+					}
+				}
+			}
+		});
+		
+		tableTakmicari.setModel(jtutil.populateJTableTakmicari());
+		PrepareTableDesign(tableTakmicari);
+		panel_1.setLayout(new BorderLayout());
+		panel_1.add(tableTakmicari.getTableHeader(), BorderLayout.NORTH);
+		panel_1.add(new JScrollPane(tableTakmicari), BorderLayout.CENTER);
+		tableTakmicari.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = tableTakmicari.rowAtPoint(evt.getPoint());
+				int col = tableTakmicari.columnAtPoint(evt.getPoint());
+				if (row >= 0 && (col == tableTakmicari.getColumnCount() - 1 || col == tableTakmicari.getColumnCount() - 2)) {
+					Takmicar t = new Takmicar();
+					TakmicarDAO tdao = new TakmicarDAO();
+					t = tdao.loadById(Takmicar.class, (Long) tableTakmicari.getModel().getValueAt(row, 0));
+					if(col == tableTakmicari.getColumnCount() - 2)
+					{
+						DodavanjeTakmicara dt = new DodavanjeTakmicara(t);
+						dt.setVisible(true);
+					}
+					else if(col == tableTakmicari.getColumnCount() - 1)
+					{
+						String[] options = {"   Da!   ", "   Ne!   "};
+						int confirmationResult = JOptionPane.showOptionDialog(null,
+							    "Jeste li sigurni da želite obrisati \"" + (String)tableTakmicari.getModel().getValueAt(row, 1) + "\"?",
+							    "Potvrda brisanja",
+							    JOptionPane.YES_NO_OPTION,
+							    JOptionPane.QUESTION_MESSAGE, null, options, null);
+						if(confirmationResult == JOptionPane.YES_OPTION)
+							{
+								tdao.delete(t);
+								((DefaultTableModel)tableTakmicari.getModel()).removeRow(row);
+							}
+					}
+				}
+			}
+		});
+		
+		tableKlubovi.setModel(jtutil.populateJTableKlubovi());
+		PrepareTableDesign(tableKlubovi);
+		panel_9.setLayout(new BorderLayout());
+		panel_9.add(tableKlubovi.getTableHeader(), BorderLayout.NORTH);
+		panel_9.add(new JScrollPane(tableKlubovi), BorderLayout.CENTER);
+		tableKlubovi.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = tableKlubovi.rowAtPoint(evt.getPoint());
+				int col = tableKlubovi.columnAtPoint(evt.getPoint());
+				if (row >= 0 && (col == tableKlubovi.getColumnCount() - 1 || col == tableKlubovi.getColumnCount() - 2)) {
+					Klub k = new Klub();
+					KlubDAO kdao = new KlubDAO();
+					k = kdao.loadById(Klub.class, (Long) tableKlubovi.getModel().getValueAt(row, 0));
+					if(col == tableKlubovi.getColumnCount() - 2)
+					{
+						DodavanjeKluba dk = new DodavanjeKluba(k);
+						dk.setVisible(true);
+					}
+					else if(col == tableKlubovi.getColumnCount() - 1)
+					{
+						String[] options = {"   Da!   ", "   Ne!   "};
+						int confirmationResult = JOptionPane.showOptionDialog(null,
+							    "Jeste li sigurni da želite obrisati \"" + (String)tableKlubovi.getModel().getValueAt(row, 1) + "\"?",
+							    "Potvrda brisanja",
+							    JOptionPane.YES_NO_OPTION,
+							    JOptionPane.QUESTION_MESSAGE, null, options, null);
+						if(confirmationResult == JOptionPane.YES_OPTION)
+							{
+								kdao.delete(k);
+								((DefaultTableModel)tableKlubovi.getModel()).removeRow(row);
+							}
+					}
+				}
+			}
+		});
+		
+		tableTurniri.setModel(jtutil.populateJTableTurniri());
+		tableTurniri.setName("tableTurniri");
+		PrepareTableDesign(tableTurniri);
+		panel_7.setLayout(new BorderLayout());
+		panel_7.add(tableTurniri.getTableHeader(), BorderLayout.NORTH);
+		panel_7.add(new JScrollPane(tableTurniri), BorderLayout.CENTER);
+		tableTurniri.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = tableTurniri.rowAtPoint(evt.getPoint());
+				int col = tableTurniri.columnAtPoint(evt.getPoint());
+				if (row >= 0 && (col == tableTurniri.getColumnCount() - 1 || col == tableTurniri.getColumnCount() - 2 || col == tableTurniri.getColumnCount() - 3)) {
+					Turnir t = new Turnir();
+					TurnirDAO tdao = new TurnirDAO();
+					t = tdao.loadById(Turnir.class, (Long) tableTurniri.getModel().getValueAt(row, 0));
+					if(col == tableTurniri.getColumnCount() - 3)
+					{
+						RezultatiMecevaTabela urm = new RezultatiMecevaTabela(t);
+						urm.setVisible(true);
+					}
+					else if(col == tableTurniri.getColumnCount() - 2)
+					{
+						DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(t);
+						dt.setVisible(true);
+					}
+					else if(col == tableTurniri.getColumnCount() - 1)
+					{
+						String[] options = {"   Da!   ", "   Ne!   "};
+						int confirmationResult = JOptionPane.showOptionDialog(null,
+							    "Jeste li sigurni da želite obrisati \"" + (String)tableTurniri.getModel().getValueAt(row, 1) + "\"?",
+							    "Potvrda brisanja",
+							    JOptionPane.YES_NO_OPTION,
+							    JOptionPane.QUESTION_MESSAGE, null, options, null);
+						if(confirmationResult == JOptionPane.YES_OPTION)
+							{
+								tdao.delete(t);
+								((DefaultTableModel)tableTurniri.getModel()).removeRow(row);
+							}
+					}
+				}
+			}
+		});
+		
 		panel_5.setLayout(gl_panel_5);
 
 		JPanel panel_6 = new JPanel();
