@@ -111,8 +111,8 @@ public class JTableUtil {
 		klubovi = kdao.getAll(Klub.class);
 		int prebroj = 0;
 		double sumaBodova = 0.0d;
-		String[] columnNames = { "Pozicija", "Naziv kluba", "Sjedište",
-				"Broj takmièara", "Ukupan broj bodova" };
+		String[] columnNames = { "Pozicija", "Naziv kluba",
+				"Broj takmièara","Predsjednik" ,"Ukupan broj bodova" };
 		String[][] data = new String[klubovi.size()][5];
 		for (int i = 0; i < klubovi.size(); i++) {
 			data[i][0] = Integer.toString(i + 1);
