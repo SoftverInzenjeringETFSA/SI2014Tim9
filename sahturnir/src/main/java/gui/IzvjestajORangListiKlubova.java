@@ -37,6 +37,8 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
+import org.apache.log4j.Logger;
+
 import dal.KlubDAO;
 import dal.MecDAO;
 import dal.TakmicarDAO;
@@ -76,13 +78,18 @@ public class IzvjestajORangListiKlubova extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(IzvjestajORangListiKlubova.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					IzvjestajORangListiKlubova frame = new IzvjestajORangListiKlubova();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});

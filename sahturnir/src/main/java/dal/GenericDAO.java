@@ -15,7 +15,7 @@ public class GenericDAO<T> {
 	protected String cs1 = "jdbc:mysql://localhost/sahovski_klub_pijun";
 	protected String cs2 = "siuser";
 	protected String cs3 = "password123";
-	final static Logger logger = Logger.getLogger(GenericDAO.class);
+	private static final Logger logger = Logger.getLogger(GenericDAO.class);
 	public boolean create(T o) {
 		Session session = null;
 		Transaction transaction = null;

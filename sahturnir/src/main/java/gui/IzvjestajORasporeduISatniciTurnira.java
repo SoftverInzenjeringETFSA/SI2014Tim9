@@ -40,6 +40,8 @@ import java.util.List;
 
 import javax.swing.JButton;
 
+import org.apache.log4j.Logger;
+
 import utils.JTableUtil;
 import dal.KlubDAO;
 import dal.MecDAO;
@@ -74,13 +76,18 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(IzvjestajORasporeduISatniciTurnira.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					IzvjestajORasporeduISatniciTurnira frame = new IzvjestajORasporeduISatniciTurnira();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});

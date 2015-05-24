@@ -4,12 +4,15 @@ import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import klase.Klub;
 
 public class KlubDAO extends GenericDAO {
 	
 	public List<Klub> search(int criteria, String parameter)
 	{
+		final Logger logger = Logger.getLogger(TurnirDAO.class);
 		String[] searchCriteria = { "naziv", "sjediste", "predsjednik"};
 		List<Klub> klubovi = new ArrayList();
 		try {
@@ -47,6 +50,7 @@ public class KlubDAO extends GenericDAO {
 	}
 
 	public double calculateClubPoints(long id) {
+		final Logger logger = Logger.getLogger(TurnirDAO.class);
 		double resultValue = 0.;
 		try {
 			Class.forName(driver);

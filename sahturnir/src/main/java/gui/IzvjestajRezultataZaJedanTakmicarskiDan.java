@@ -36,6 +36,8 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
+import org.apache.log4j.Logger;
+
 import utils.JTableUtil;
 import dal.KlubDAO;
 import dal.MecDAO;
@@ -69,13 +71,18 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(IzvjestajRezultataZaJedanTakmicarskiDan.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					IzvjestajRezultataZaJedanTakmicarskiDan frame = new IzvjestajRezultataZaJedanTakmicarskiDan();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
