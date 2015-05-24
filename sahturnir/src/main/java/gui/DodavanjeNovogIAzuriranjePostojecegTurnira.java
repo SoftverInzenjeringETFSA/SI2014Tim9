@@ -358,7 +358,6 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				final Logger logger = Logger.getLogger(DodavanjeNovogIAzuriranjePostojecegTurnira.class);
 				List<Mec> m = new ArrayList<Mec>();
-				
 				textPane.setText("");
 				boolean flag = false;
 				
