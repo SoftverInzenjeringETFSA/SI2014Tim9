@@ -63,7 +63,8 @@ public class DodavanjeKorisnika extends JFrame {
 			public void run() {
 				try 
 				{
-					DodavanjeKorisnika frame = new DodavanjeKorisnika();
+					Korisnik k=new Korisnik();
+					DodavanjeKorisnika frame = new DodavanjeKorisnika(k);
 					frame.setVisible(true);
 				} 
 				catch (Exception e) 
@@ -516,14 +517,8 @@ public class DodavanjeKorisnika extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBorder(new TitledBorder(null, "Korisni\u010Dki podaci", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
 		k=k1;
-		textField.setText(k.getKorisnickoIme());
-		passwordField.setText(k.getSifra());
-		textField_1.setText(k.getIme());
-		textField_2.setText(k.getPrezime());
-		textField_3.setText(k.getJmbg());
-		
-		
 		
 		
 		
@@ -733,6 +728,13 @@ public class DodavanjeKorisnika extends JFrame {
 		
 		textField_3 = new JTextField();
 		textField_3.setColumns(10);
+		
+		
+		textField.setText(k.getKorisnickoIme());
+		passwordField.setText(k.getSifra());
+		textField_1.setText(k.getIme());
+		textField_2.setText(k.getPrezime());
+		textField_3.setText(k.getJmbg());
 		
 		textPane = new JTextPane();
 		textPane.setEditable(false);

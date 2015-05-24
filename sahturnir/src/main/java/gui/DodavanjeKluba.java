@@ -68,13 +68,15 @@ public class DodavanjeKluba extends JFrame {
 			public void run() {
 				try 
 				{
-					DodavanjeKluba frame = new DodavanjeKluba();
+					Klub klubic=new Klub();
+					klubic.setNaziv("Klubic");
+					DodavanjeKluba frame = new DodavanjeKluba(klubic);
 					frame.setVisible(true);
 				} 
 				catch (Exception e) 
 				{
 //					e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
+					logger.error(e.getMessage(), e);
 				}
 			}
 		});
@@ -395,19 +397,8 @@ public class DodavanjeKluba extends JFrame {
 		spinner_1.setEnabled(false);
 		spinner_1.setModel(new SpinnerNumberModel(new Double(0), new Double(0), null, new Double(0.5d)));
 		
-		
 		this.klub=klub1;
-		textField.setText(klub.getNaziv());
-		textField_1.setText(klub.getSjediste());
-		textField_2.setText(klub.getPredsjednik());
-		
-		spinner.setValue(klub.getDatumOsnivanja());
 		KlubDAO kd=new KlubDAO();
-		spinner_1.setValue(kd.calculateClubPoints(klub.getId()));
-		
-		
-		
-		
 		
 		JButton btnPotvrdi = new JButton("Potvrdi");
 		btnPotvrdi.setBackground(Color.WHITE);
@@ -576,6 +567,16 @@ public class DodavanjeKluba extends JFrame {
 		textPane_2 = new JTextPane();
 		textPane_2.setEditable(false);
 		textPane_2.setForeground(Color.red);
+		
+		
+		
+		textField.setText(klub.getNaziv());
+		textField_1.setText(klub.getSjediste());
+		textField_2.setText(klub.getPredsjednik());
+		if(klub.getDatumOsnivanja()!=null)spinner.setValue(klub.getDatumOsnivanja());
+		spinner_1.setValue(kd.calculateClubPoints(klub.getId()));
+		
+		
 		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
