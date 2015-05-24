@@ -214,7 +214,7 @@ public class DodavanjeKorisnika extends JFrame {
 				}
 				if(validirajPraznoPass(passwordField.getPassword()))
 				{
-					if(validirajSifru(passwordField.getPassword().toString()))
+					if(validirajSifru(new String(passwordField.getPassword())))
 					{
 						textPane_1.setText("");
 					}
