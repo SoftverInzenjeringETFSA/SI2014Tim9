@@ -84,7 +84,8 @@ public class KlubDAO extends GenericDAO {
 				ResultSet result = statement.executeQuery();
 				result.next();
 				String sum = result.getString(1);
-				resultValue = Integer.parseInt(sum);
+				if(sum != null)
+					resultValue = Integer.parseInt(sum);
 			} catch (Exception e) {
 				throw e;
 			} finally {
@@ -110,7 +111,8 @@ public class KlubDAO extends GenericDAO {
 				ResultSet result = statement.executeQuery();
 				result.next();
 				String sum = result.getString(1);
-				resultValue = Integer.parseInt(sum);
+				if(sum != null)
+					resultValue = Integer.parseInt(sum);
 			} catch (Exception e) {
 				throw e;
 			} finally {
@@ -136,7 +138,8 @@ public class KlubDAO extends GenericDAO {
 				ResultSet result = statement.executeQuery();
 				result.next();
 				String sum = result.getString(1);
-				resultValue = Integer.parseInt(sum);
+				if(sum != null)
+					resultValue = Integer.parseInt(sum);
 			} catch (Exception e) {
 				throw e;
 			} finally {
