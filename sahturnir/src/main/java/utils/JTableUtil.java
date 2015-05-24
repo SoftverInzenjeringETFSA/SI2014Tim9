@@ -79,7 +79,8 @@ public class JTableUtil {
 
 		KlubDAO kdao = new KlubDAO();
 		klubovi = kdao.getAll(Klub.class);
-
+		Collections.sort(takmicari);
+		Collections.reverse(takmicari);
 		String[] columnNames = { "Pozicija", "Ime i prezime", "Datum roðenja",
 				"Klub", "Broj bodova", "Broj turnira", "Broj titula" };
 		String[][] data = new String[takmicari.size()][7];
