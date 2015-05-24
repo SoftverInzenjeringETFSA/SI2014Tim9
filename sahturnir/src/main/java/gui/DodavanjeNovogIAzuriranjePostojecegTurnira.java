@@ -92,7 +92,10 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 			public void run() {
 				try 
 				{
-					DodavanjeNovogIAzuriranjePostojecegTurnira frame = new DodavanjeNovogIAzuriranjePostojecegTurnira();
+					Turnir t=new Turnir();
+					Date datum=new Date();
+					t.setDatumPocetka(datum);
+					DodavanjeNovogIAzuriranjePostojecegTurnira frame = new DodavanjeNovogIAzuriranjePostojecegTurnira( t);
 					frame.setVisible(true);
 				} 
 				catch (Exception e) 
@@ -579,6 +582,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
+		textField.setText(turnir.getNaziv());
 		
 		JTextPane txtpnNaziv = new JTextPane();
 		txtpnNaziv.setEditable(false);
@@ -622,8 +626,10 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		//spinner.setValue("0");
 		
 		spinner_1.setModel(new SpinnerNumberModel(1, 1, 10, 1));
-		spinner_1.setValue((Date)turnir.getDatumPocetka());
-		
+		if(turnir.getDatumPocetka()!=null)
+		{
+			spinner_1.setValue((Date)turnir.getDatumPocetka());		
+		}
 		spinner_2.setModel(new SpinnerDateModel(new Date(1432245600000L), new Date(1432245600000L), null, Calendar.DAY_OF_YEAR));
 		spinner_2.setValue(turnir.getTrajanje());
 		

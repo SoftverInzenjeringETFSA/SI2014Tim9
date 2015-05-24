@@ -427,7 +427,7 @@ public class GlavniProzor extends JFrame {
 					}
 					else if(col == tableTurniri.getColumnCount() - 2)
 					{
-						DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira();
+						DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(t);
 						dt.setVisible(true);
 					}
 					else if(col == tableTurniri.getColumnCount() - 1)
