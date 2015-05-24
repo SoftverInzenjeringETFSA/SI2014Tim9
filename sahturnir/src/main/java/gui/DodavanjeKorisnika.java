@@ -143,15 +143,15 @@ public class DodavanjeKorisnika extends JFrame {
 		return izlaz;
     }
     
-    public static Boolean validirajSifru(JPasswordField t1, JTextPane t2) {
+    public static Boolean validirajSifru(String t1) {
 		Boolean izlaz = false;
 		String pattern = "^(?=.*[0-9])(?=\\S+$).{6,}$"; //mora sadrzavati minimalno 6 karaktera od kojih je jedna cifra, nije dozvoljen whitespace
-		String a =  new String(t1.getPassword());
+		//String a =  new String(t1.getPassword());
 		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(a);
+		Matcher m = p.matcher(t1);
 		
 		if(!(m.matches())) {
-			t2.setText("Mozete unijeti samo brojeve");
+			izlaz=false;//t2.setText("Mozete unijeti samo brojeve");
 		}
 		else
 			izlaz = true;
@@ -214,9 +214,13 @@ public class DodavanjeKorisnika extends JFrame {
 				}
 				if(validirajPraznoPass(passwordField.getPassword()))
 				{
-					if(validirajSifru(passwordField, textPane_1))
+					if(validirajSifru(passwordField.getPassword().toString()))
 					{
 						textPane_1.setText("");
+					}
+					else 
+					{
+						textPane_1.setText("Morate unijeti barem jedan broj i minimalno 6 karaktera");
 					}
 				}
 				if(!validirajPraznoPass(passwordField.getPassword()))

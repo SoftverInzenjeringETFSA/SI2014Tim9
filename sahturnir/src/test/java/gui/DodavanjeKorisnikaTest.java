@@ -50,5 +50,22 @@ public class DodavanjeKorisnikaTest {
 		
 		assertTrue(!DodavanjeKorisnika.validirajAlpha("Elma-Kusundzija"));
 	}
+	
+	
+	@Test
+	public void testvalidirajSifru1() {
+		
+		assertTrue(DodavanjeKorisnika.validirajSifru("Elm123"));
+	}
+	@Test
+	public void testvalidirajSifru2() {
+		
+		assertTrue(!DodavanjeKorisnika.validirajSifru("Elma-Kusundzija"));
+	}
+	@Test
+	public void testvalidirajSifru3() {
+		
+		assertTrue(!DodavanjeKorisnika.validirajSifru("Elmaka"));
+	}
 
 }
