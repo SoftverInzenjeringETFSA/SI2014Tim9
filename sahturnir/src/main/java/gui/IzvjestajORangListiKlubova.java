@@ -219,7 +219,6 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTurnir = (String) combo.getSelectedItem();
-		        double[] pozicije= new double[klubovi.size()];
 		        for (int i=0; i<turniri.size(); i++)
 		        {
 		        	 if (selectedTurnir.equals(turniri.get(i).getNaziv()))
@@ -230,20 +229,14 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		        			 if(mecevi.get(j).getTurnir()==t)
 		        			 {
 		        				 for (int k=0; k<klubovi.size(); k++)
-		        				 {
+		        				 { 
 		        					 if (mecevi.get(j).getTakmicar1().getKlub()==klubovi.get(k)) {
-		        						 double d;
-		        						 d= klubdao.calculateClubPoints(k);
-		        						 pozicije[k]=d;
 		        						 for (int y=0; y<kluboviTurnira.size(); y++)
 		        						if (kluboviTurnira.get(y)==klubovi.get(k)) continue;
 		        						else kluboviTurnira.add(klubovi.get(k));
 		        						 }
 		        					 
 		        					 if (mecevi.get(j).getTakmicar2().getKlub()==klubovi.get(k)) {
-			        					 double d;
-			        					 d= klubdao.calculateClubPoints(k);
-			        					 pozicije[k]=d;
 			        				for (int y=0; y<kluboviTurnira.size(); y++)
 				        						if (kluboviTurnira.get(y)==klubovi.get(k)) continue;
 				        						else kluboviTurnira.add(klubovi.get(k));
@@ -251,19 +244,47 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		        		 }
 		        		
 		        	 }
-		       		 
-		      /*  for (int s=0; s<pozicije.length; s++)
-		        {
-		        	
-		        	Object[] row = { data1, data2, data3, data4 };
-		        }*/
-		        
-		        
 		        }
-		     }
-		        textField.setText(LocalDateTime.now().toString());
+		 		       double[] pozicije= new double[kluboviTurnira.size()];
+		 		        for (int z=0; z<kluboviTurnira.size(); z++)
+		 		        {
+		 		        	double d=klubdao.calculateClubPoints(kluboviTurnira.get(z).getId());
+		 		        	pozicije[z]=d;		 		        	
+		 		        }
+		 		        for (int z=0; z<kluboviTurnira.size(); z++)
+		 		        {
+		 		        	for (int y=1; y<kluboviTurnira.size(); y++)
+		 		        	{
+		 		        		if (pozicije[z]<pozicije[y])
+		 		        		{
+		 		        			double tmp=pozicije[z];
+		 		        			pozicije[z]=pozicije[y];
+		 		        			pozicije[y]=tmp;
+		 		        			Klub k1=new Klub(); k1=kluboviTurnira.get(z);
+		 		        			Klub k2=new Klub(); k2=kluboviTurnira.get(y);
+		 		        			kluboviTurnira.set(z, k2);
+		 		        			kluboviTurnira.set(y, k1);
+		 		        		}
+		 		        	}
+		 		        }		 		        
+		 		       for (int z=0; z<kluboviTurnira.size(); z++)
+		 		       {
+		 		    	   String mjesto = Integer.toString(z+1);
+		 		    	   String nazivKluba = klubovi.get(z).getNaziv();
+		 		    	   String sjediste = klubovi.get(z).getSjediste();
+		 		    	   String ukupanBrojBodova=Double.toString(pozicije[z]);
+		 		    	   int brTakmicara=0; 
+		 		    	   for (int y=0; y<takmicari.size(); y++)
+		 		    		   if (takmicari.get(y).getKlub()==kluboviTurnira.get(z))
+		 		    			   brTakmicara++;
+		 		    	   String brojTakmicara = Integer.toString(brTakmicara);
+		 		    	   Object[] row={mjesto, nazivKluba, sjediste, brojTakmicara, ukupanBrojBodova};
+		 		    	   DefaultTableModel model = (DefaultTableModel) table.getModel();
+		 		           model.addRow(row);
+		 		       }  	
+		 		       textField.setText(LocalDateTime.now().toString());
+		     }  
 		    }
-		    
 		    
 		    }});
 		
