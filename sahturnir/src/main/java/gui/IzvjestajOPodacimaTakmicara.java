@@ -71,8 +71,6 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 	transient JTableUtil jtutil;
 	private transient List<Takmicar> takmicari;
 	private transient TakmicarDAO tdao;
-	private transient List<Turnir> turniri;
-	private transient TurnirDAO turnirdao;
 	private JTextField textField_4;
 	
 
@@ -145,7 +143,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(37)
 							.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
+							.addGap(36)
 							.addComponent(spinner_4, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 							.addGroup(gl_contentPane.createSequentialGroup()
@@ -153,7 +151,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
 							.addComponent(panel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 541, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(41, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -171,7 +169,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 					.addContainerGap())
 		);
 		
-		JLabel lblIzaberiTakmiara = new JLabel("Izaberi takmi\u010Dara:");
+		JLabel lblIzaberiTakmiara = new JLabel("Izaberite takmi\u010Dara:");
 		lblIzaberiTakmiara.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		JLabel lblImeIPrezime = new JLabel("Ime i prezime:");
@@ -221,20 +219,14 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		textField_3.setEditable(false);
 		textField_3.setColumns(10);
 		
-		final JSpinner spinner_3 = new JSpinner();
+		final JTextField spinner_3 = new JTextField();
 		spinner_3.setEnabled(false);
-		spinner_3.setModel(new SpinnerDateModel(new Date(1432332000000L), null, null, Calendar.DAY_OF_YEAR));
 		
 		jtutil = new JTableUtil();
-		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
 		
 		takmicari = new ArrayList<Takmicar>();
 		tdao = new TakmicarDAO();
 		takmicari = tdao.getAll(Takmicar.class);
-		
-		turniri = new ArrayList<Turnir>();
-		turnirdao = new TurnirDAO();
-		turniri = turnirdao.getAll(Turnir.class);
 		
 		final List<String> imenaPrezimena = new ArrayList<String>();
 		
@@ -262,15 +254,18 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        		 textField_1.setText(selectedTakmicar);
 		        		 spinner.setValue(takmicar.getBrojBodova());
 		        		 textField_4.setText(takmicar.getKategorija());
-		        		 textField_2.setText(takmicar.getKlub().getNaziv());
+		        		 if(takmicar.getKlub() != null)
+		        			 textField_2.setText(takmicar.getKlub().getNaziv());
+		        		 else
+		        			 textField_2.setText("");
 		        		 spinner_1.setValue(brojUcesca);
 		        		 spinner_2.setValue(brojTitula);
 		        		 textField_3.setText(Integer.toString(brojPobjeda)+" : " + Integer.toString(brojPoraza));
-		        		 spinner_3.setValue(takmicar.getDatumRodjenja());       		 
+		        		 spinner_3.setText("lol");       		 
 		        	 }
 		        }
 		        
-		        spinner_4.setValue(LocalDateTime.now());
+		        //spinner_4.setValue(LocalDateTime.now());
 		    }
 		    
 		    
@@ -287,7 +282,6 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(66)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblImeIPrezime, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblKlub, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblBrojBodova, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblBrojUea, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
@@ -295,7 +289,8 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 						.addComponent(lblIzaberiTakmiara, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblRang, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblOmjerPobjedaI, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDatumRoenja, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblDatumRoenja, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblImeIPrezime, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
 					.addGap(32)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(spinner_2, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
@@ -305,7 +300,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 						.addComponent(comboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(textField_3)
 						.addComponent(textField_4)
-						.addComponent(spinner)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(spinner_3))
 					.addContainerGap(89, Short.MAX_VALUE))
 		);
@@ -318,10 +313,11 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(27)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblImeIPrezime, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblImeIPrezime, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
+							.addGap(42)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblDatumRoenja, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(spinner_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))

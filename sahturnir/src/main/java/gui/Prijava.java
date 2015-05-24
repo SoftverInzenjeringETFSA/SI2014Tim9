@@ -39,6 +39,8 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JSeparator;
 
+import klase.Korisnik;
+
 import org.apache.log4j.Logger;
 
 import dal.KorisnikDAO;
@@ -87,10 +89,12 @@ public class Prijava extends JFrame {
 					logger.error("Došlo je do greške!", e);
 			    }
 			    KorisnikDAO kdao = new KorisnikDAO();
-			    if(kdao.checkUser(textField.getText(), utils.SHA512Hash.convertToHex(hash)) == 1)
+			    long id = kdao.checkUser(textField.getText(), utils.SHA512Hash.convertToHex(hash));
+			    if(id != -1)
 			    {
 			    	JFrame parentFrame = (JFrame) SwingUtilities.getRoot(lblNewLabel_2);
-					GlavniProzor g = new GlavniProzor();
+			    	Korisnik k = kdao.loadById(Korisnik.class, id);
+					GlavniProzor g = new GlavniProzor(k);
 					g.setVisible(true);
 					parentFrame.dispose();
 			    }

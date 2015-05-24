@@ -31,17 +31,19 @@ public class JTableUtil {
 			data[i][0] = takmicari.get(i).getId();
 			data[i][1] = takmicari.get(i).getIme() + " "
 					+ takmicari.get(i).getPrezime();
-			String datumRodjenja = new SimpleDateFormat("dd.MM.yyyy.").format(takmicari.get(i).getDatumRodjenja());
+			String datumRodjenja = new SimpleDateFormat("dd.MM.yyyy.")
+					.format(takmicari.get(i).getDatumRodjenja());
 			data[i][2] = datumRodjenja;
 			data[i][3] = takmicari.get(i).getJmbg();
 			data[i][4] = String.valueOf(takmicari.get(i).getBrojBodova());
 			data[i][5] = takmicari.get(i).getKategorija();
-			if(takmicari.get(i).getKlub() != null)
-				data[i][6] = String.valueOf(takmicari.get(i).getKlub().getNaziv());
+			if (takmicari.get(i).getKlub() != null)
+				data[i][6] = String.valueOf(takmicari.get(i).getKlub()
+						.getNaziv());
 		}
 		return new DefaultTableModel(data, columnNames);
 	}
-	
+
 	public TableModel searchTakmicari(int criteria, String parameter) {
 		if (parameter == null || parameter.trim().equals(""))
 			return populateJTableTakmicari();
@@ -54,13 +56,15 @@ public class JTableUtil {
 			data[i][0] = takmicari.get(i).getId();
 			data[i][1] = takmicari.get(i).getIme() + " "
 					+ takmicari.get(i).getPrezime();
-			String datumRodjenja = new SimpleDateFormat("dd.MM.yyyy.").format(takmicari.get(i).getDatumRodjenja());
+			String datumRodjenja = new SimpleDateFormat("dd.MM.yyyy.")
+					.format(takmicari.get(i).getDatumRodjenja());
 			data[i][2] = datumRodjenja;
 			data[i][3] = takmicari.get(i).getJmbg();
 			data[i][4] = String.valueOf(takmicari.get(i).getBrojBodova());
 			data[i][5] = takmicari.get(i).getKategorija();
-			if(takmicari.get(i).getKlub() != null)
-				data[i][6] = String.valueOf(takmicari.get(i).getKlub().getNaziv());
+			if (takmicari.get(i).getKlub() != null)
+				data[i][6] = String.valueOf(takmicari.get(i).getKlub()
+						.getNaziv());
 		}
 		return new DefaultTableModel(data, columnNames);
 	}
@@ -107,8 +111,8 @@ public class JTableUtil {
 		klubovi = kdao.getAll(Klub.class);
 		int prebroj = 0;
 		double sumaBodova = 0.0d;
-		String[] columnNames = { "Pozicija", "Naziv kluba", "Broj takmièara",
-				"Ime i prezime predsjednika", "Ukupan broj bodova" };
+		String[] columnNames = { "Pozicija", "Naziv kluba", "Sjedište",
+				"Broj takmièara", "Ukupan broj bodova" };
 		String[][] data = new String[klubovi.size()][5];
 		for (int i = 0; i < klubovi.size(); i++) {
 			data[i][0] = Integer.toString(i + 1);
@@ -162,12 +166,17 @@ public class JTableUtil {
 		return new DefaultTableModel(data, columnNames);
 	}
 
-	public TableModel populateJTableKorisnici() {
+	public TableModel populateJTableKorisnici(Korisnik k) {
 		List<Korisnik> korisnici = new ArrayList<Korisnik>();
 		KorisnikDAO kdao = new KorisnikDAO();
 		korisnici = kdao.getAll(Korisnik.class);
 		String[] columnNames = { "ID", "Korisnièko ime", "Ime i prezime",
 				"JMBG", "", "" };
+		for (int i = 0; i < korisnici.size(); i++)
+			if (korisnici.get(i).getId() == k.getId()) {
+				korisnici.remove(i);
+				break;
+			}
 		Object[][] data = new Object[korisnici.size()][6];
 		for (int i = 0; i < korisnici.size(); i++) {
 			data[i][0] = korisnici.get(i).getId();
@@ -191,7 +200,8 @@ public class JTableUtil {
 			data[i][1] = klubovi.get(i).getNaziv();
 			data[i][2] = klubovi.get(i).getSjediste();
 			data[i][3] = klubovi.get(i).getPredsjednik();
-			String datumOsnivanja = new SimpleDateFormat("dd.MM.yyyy.").format(klubovi.get(i).getDatumOsnivanja());
+			String datumOsnivanja = new SimpleDateFormat("dd.MM.yyyy.")
+					.format(klubovi.get(i).getDatumOsnivanja());
 			data[i][4] = datumOsnivanja;
 			data[i][5] = String.valueOf(kdao.calculateClubPoints(klubovi.get(i)
 					.getId()));
@@ -212,7 +222,8 @@ public class JTableUtil {
 			data[i][1] = klubovi.get(i).getNaziv();
 			data[i][2] = klubovi.get(i).getSjediste();
 			data[i][3] = klubovi.get(i).getPredsjednik();
-			String datumOsnivanja = new SimpleDateFormat("dd.MM.yyyy.").format(klubovi.get(i).getDatumOsnivanja());
+			String datumOsnivanja = new SimpleDateFormat("dd.MM.yyyy.")
+					.format(klubovi.get(i).getDatumOsnivanja());
 			data[i][4] = datumOsnivanja;
 			data[i][5] = String.valueOf(kdao.calculateClubPoints(klubovi.get(i)
 					.getId()));
@@ -224,13 +235,15 @@ public class JTableUtil {
 		List<Turnir> turniri = new ArrayList<Turnir>();
 		TurnirDAO tdao = new TurnirDAO();
 		turniri = tdao.getAll(Turnir.class);
-		String[] columnNames = { "ID", "Naziv", "Datum poèetka", "Trajanje (u danima)",
-				"Format takmièenja", "Broj takmièara", "", "", "" };
+		String[] columnNames = { "ID", "Naziv", "Datum poèetka",
+				"Trajanje (u danima)", "Format takmièenja", "Broj takmièara",
+				"", "", "" };
 		Object[][] data = new Object[turniri.size()][9];
 		for (int i = 0; i < turniri.size(); i++) {
 			data[i][0] = turniri.get(i).getId();
 			data[i][1] = turniri.get(i).getNaziv();
-			String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.").format(turniri.get(i).getDatumPocetka());
+			String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.")
+					.format(turniri.get(i).getDatumPocetka());
 			data[i][2] = datumPocetka;
 			data[i][3] = String.valueOf(turniri.get(i).getTrajanje());
 			data[i][4] = turniri.get(i).getFormatTakmicenja();
@@ -239,34 +252,37 @@ public class JTableUtil {
 		}
 		return new DefaultTableModel(data, columnNames);
 	}
-	
+
 	public TableModel populateJTableMecevi(Turnir t) {
 		List<Mec> mecevi = new ArrayList<Mec>();
 		MecDAO tdao = new MecDAO();
 		mecevi = tdao.getAll(Mec.class);
-		String[] columnNames = { "ID","Takmièar 1", "Takmièar 2", "Rezultat", "Datum poèetka",
-				"", ""};
+		String[] columnNames = { "ID", "Takmièar 1", "Takmièar 2", "Rezultat",
+				"Datum poèetka", "", "" };
 		int size = 0, j = 0;
 		for (int i = 0; i < mecevi.size(); i++)
-			if(mecevi.get(i).getTurnir().getId() == t.getId())
+			if (mecevi.get(i).getTurnir().getId() == t.getId())
 				size++;
 		Object[][] data = new Object[size][7];
 		for (int i = 0; i < mecevi.size(); i++)
-			if(mecevi.get(i).getTurnir().getId() == t.getId())
-			{
+			if (mecevi.get(i).getTurnir().getId() == t.getId()) {
 				data[j][0] = mecevi.get(i).getId();
-				data[j][1] = mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime();
-				data[j][2] = mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime();
-				data[j][3] = String.valueOf(mecevi.get(i).getRezultat1()) + " : " + String.valueOf(mecevi.get(i).getRezultat2());
-				String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.").format(mecevi.get(i).getDatumPocetka());
+				data[j][1] = mecevi.get(i).getTakmicar1().getIme() + " "
+						+ mecevi.get(i).getTakmicar1().getPrezime();
+				data[j][2] = mecevi.get(i).getTakmicar2().getIme() + " "
+						+ mecevi.get(i).getTakmicar2().getPrezime();
+				data[j][3] = String.valueOf(mecevi.get(i).getRezultat1())
+						+ " : " + String.valueOf(mecevi.get(i).getRezultat2());
+				String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.")
+						.format(mecevi.get(i).getDatumPocetka());
 				data[j][4] = datumPocetka;
 				j++;
 			}
 		return new DefaultTableModel(data, columnNames);
 	}
-	
-	public List<Klub> populateComboBoxKlubovi(){
-		
+
+	public List<Klub> populateComboBoxKlubovi() {
+
 		KlubDAO kdao = new KlubDAO();
 		List<Klub> klubovi = new ArrayList<Klub>();
 		klubovi = kdao.getAll(Klub.class);

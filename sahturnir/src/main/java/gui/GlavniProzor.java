@@ -107,35 +107,10 @@ public class GlavniProzor extends JFrame {
 	private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	private JButton button_1 = new JButton("Pretra\u017Ei");
 	private JButton button = new JButton("Pretra\u017Ei");
+	private Korisnik korisnik;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		final Logger logger = Logger.getLogger(GlavniProzor.class);
-		try 
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} 
-		catch (Exception e) 
-		{
-//			e.printStackTrace();
-			logger.error("Došlo je do greške!", e);
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try 
-				{
-					GlavniProzor frame = new GlavniProzor();
-					frame.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-			//		e.printStackTrace();
-					logger.error("Došlo je do greške!", e);
-				}
-			}
-		});
-	}
 
 	class ImageRendererDelete extends DefaultTableCellRenderer {
 		JLabel tableLabel = new JLabel();
@@ -234,13 +209,8 @@ public class GlavniProzor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GlavniProzor() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				System.exit(0);
-			}
-		});
+	public GlavniProzor(Korisnik k) {
+		korisnik = k;
 		setBackground(Color.WHITE);
 		setTitle("\u0160ahovski klub Pijun - Glavni prozor");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
@@ -294,7 +264,7 @@ public class GlavniProzor extends JFrame {
 				.getResource("/gui/settings.png")));
 		label_6.setToolTipText("Postavke korisnièkog raèuna");
 		
-		tableKorisnici.setModel(jtutil.populateJTableKorisnici());
+		tableKorisnici.setModel(jtutil.populateJTableKorisnici(korisnik));
 		PrepareTableDesign(tableKorisnici);
 		panel_3.setLayout(new BorderLayout());
 		panel_3.add(tableKorisnici.getTableHeader(), BorderLayout.NORTH);

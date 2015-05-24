@@ -44,7 +44,7 @@ public class TakmicarDAO extends GenericDAO {
 				connection.close();
 			}
 		} catch (Exception e) {
-			logger.error("Sorry, something wrong!", e);
+			logger.error("Došlo je do greške!", e);
 		} finally {
 		}
 		return takmicari;

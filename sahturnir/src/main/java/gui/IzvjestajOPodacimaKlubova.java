@@ -149,7 +149,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		lblImeKluba = new JLabel("Ime kluba:");
 		lblImeKluba.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
-		lblIzaberiKlub = new JLabel("Izaberi klub:");
+		lblIzaberiKlub = new JLabel("Izaberite klub:");
 		lblIzaberiKlub.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
 		spinner_4 = new JTextField();
