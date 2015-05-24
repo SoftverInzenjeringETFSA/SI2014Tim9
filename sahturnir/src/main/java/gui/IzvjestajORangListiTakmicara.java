@@ -125,7 +125,8 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		turniri = new ArrayList<Turnir>();
 		turnirdao = new TurnirDAO();
 		turniri = turnirdao.getAll(Turnir.class);
-		
+	       textField.setText(LocalDateTime.now().toString());
+	       textField.setEditable(false);
 		for(int i=0; i<turniri.size(); i++)
 		{
 			comboBox.addItem(turniri.get(i).getNaziv());

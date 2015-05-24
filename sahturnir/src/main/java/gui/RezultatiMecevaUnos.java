@@ -152,15 +152,18 @@ public class RezultatiMecevaUnos extends JFrame {
 		textField_3.setColumns(10);
 		spinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				if((Double)spinner.getValue() == 0.0d)
+				double nula = 0.0d;
+				double pola = 0.5d;
+				double jedan = 1.0d;
+				if((Double)spinner.getValue() == nula)
 				{
 					spinner_1.setValue(1.0d);
 				}
-				if((Double)spinner.getValue() == 0.5d)
+				if((Double)spinner.getValue() == pola)
 				{
 					spinner_1.setValue(0.5d);					
 				}
-				if((Double)spinner.getValue() == 1.0d)
+				if((Double)spinner.getValue() == jedan)
 				{
 					spinner_1.setValue(0.0d);					
 				}
@@ -170,15 +173,19 @@ public class RezultatiMecevaUnos extends JFrame {
 		spinner.setModel(new SpinnerNumberModel(0, 0, 1, 0.5d));
 		spinner_1.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if((Double)spinner_1.getValue() == 0.0d)
+				double nula = 0.0d;
+				double pola = 0.5d;
+				double jedan = 1.0d;
+
+				if((Double)spinner_1.getValue() == nula)
 				{
 					spinner.setValue(1.0d);
 				}
-				if((Double)spinner_1.getValue() == 0.5d)
+				if((Double)spinner_1.getValue() == pola)
 				{
 					spinner.setValue(0.5d);					
 				}
-				if((Double)spinner_1.getValue() == 1.0d)
+				if((Double)spinner_1.getValue() == jedan)
 				{
 					spinner.setValue(0.0d);					
 				}			
@@ -358,15 +365,18 @@ public class RezultatiMecevaUnos extends JFrame {
 		textField_3.setEditable(false);
 		spinner.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				if((Double)spinner.getValue() == 0.0d)
+				double nula = 0.0d;
+				double pola = 0.5d;
+				double jedan = 1.0d;
+				if((Double)spinner.getValue() == nula)
 				{
-					spinner_1.setValue(1.0d);
+					spinner_1.setValue(jedan);
 				}
-				if((Double)spinner.getValue() == 0.5d)
+				if((Double)spinner.getValue() == pola)
 				{
-					spinner_1.setValue(0.5d);					
+					spinner_1.setValue(pola);					
 				}
-				if((Double)spinner.getValue() == 1.0d)
+				if((Double)spinner.getValue() == jedan)
 				{
 					spinner_1.setValue(0.0d);					
 				}
@@ -376,15 +386,18 @@ public class RezultatiMecevaUnos extends JFrame {
 		spinner.setModel(new SpinnerNumberModel(0, 0, 1, 0.5d));
 		spinner_1.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if((Double)spinner_1.getValue() == 0.0d)
+				double nula = 0.0d;
+				double pola = 0.5d;
+				double jedan = 1.0d;
+				if((Double)spinner_1.getValue() == nula)
 				{
 					spinner.setValue(1.0d);
 				}
-				if((Double)spinner_1.getValue() == 0.5d)
+				if((Double)spinner_1.getValue() == pola)
 				{
 					spinner.setValue(0.5d);					
 				}
-				if((Double)spinner_1.getValue() == 1.0d)
+				if((Double)spinner_1.getValue() == jedan)
 				{
 					spinner.setValue(0.0d);					
 				}			

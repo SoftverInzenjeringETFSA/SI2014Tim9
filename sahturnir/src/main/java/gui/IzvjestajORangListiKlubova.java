@@ -118,8 +118,9 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		
-		JTextPane txtpnIzvjetajORang_1 = new JTextPane();
+	       textField.setText(LocalDateTime.now().toString());		
+		textField.setEditable(false);
+	       JTextPane txtpnIzvjetajORang_1 = new JTextPane();
 		txtpnIzvjetajORang_1.setEditable(false);
 		txtpnIzvjetajORang_1.setText("Izvje\u0161taj o rang listi klubova");
 		txtpnIzvjetajORang_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
