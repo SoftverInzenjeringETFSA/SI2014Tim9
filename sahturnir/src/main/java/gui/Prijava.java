@@ -45,7 +45,6 @@ import dal.KorisnikDAO;
 
 public class Prijava extends JFrame {
 
-	final Logger logger = Logger.getLogger(Prijava.class);
 	private JPanel contentPane;
 	private JLabel lblNewLabel_1;
 	private JPasswordField passwordField;
@@ -56,6 +55,7 @@ public class Prijava extends JFrame {
 	 * Create the frame.
 	 */
 	public Prijava() {
+		final Logger logger = Logger.getLogger(Prijava.class);
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Prijava.class.getResource("/gui/logo.png")));
 		setTitle("\u0160ahovski klub Pijun - Prijava");

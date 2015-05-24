@@ -146,7 +146,7 @@ public class DodavanjeKorisnika extends JFrame {
     public static Boolean validirajSifru(JPasswordField t1, JTextPane t2) {
 		Boolean izlaz = false;
 		String pattern = "^(?=.*[0-9])(?=\\S+$).{6,}$"; //mora sadrzavati minimalno 6 karaktera od kojih je jedna cifra, nije dozvoljen whitespace
-		String a = t1.getPassword().toString();
+		String a =  new String(t1.getPassword());
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(a);
 		
@@ -300,7 +300,8 @@ public class DodavanjeKorisnika extends JFrame {
 				{
 					Korisnik k = new Korisnik();
 					k.setKorisnickoIme(textField.getText());
-					k.setSifra(passwordField.getPassword().toString());
+					String s = new String(passwordField.getPassword());
+					k.setSifra(s);
 					k.setIme(textField_1.getText());
 					k.setPrezime(textField_2.getText());
 					k.setJmbg(textField_3.getText());
