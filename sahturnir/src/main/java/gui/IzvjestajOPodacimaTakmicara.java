@@ -250,7 +250,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        {
 		        	 if (selectedTakmicar.equals(imenaPrezimena.get(i)))
 		        	 {
-		        		 int brojUcesca=0, brojTitula=0, brojPobjeda=0, brojPoraza=0;
+		        		 int brojUcesca=0, brojTitula=0, brojPobjeda=0, brojPoraza=0, brojNerijesenih=0;
 		        	     Takmicar takmicar = takmicari.get(i);
 		        		 textField_1.setText(selectedTakmicar);
 		        		 spinner.setValue(takmicar.getBrojBodova());
@@ -259,9 +259,13 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        			 textField_2.setText(takmicar.getKlub().getNaziv());
 		        		 else
 		        			 textField_2.setText("");
+		        		 int[] omjer =  tdao.getMatchSummary(takmicar.getId());
+		        		 brojPobjeda = omjer[0];
+		        		 brojNerijesenih = omjer[1];
+		        		 brojPoraza = omjer[2];
 		        		 spinner_1.setValue(brojUcesca);
 		        		 spinner_2.setValue(brojTitula);
-		        		 textField_3.setText(Integer.toString(brojPobjeda)+" : " + Integer.toString(brojPoraza));
+		        		 textField_3.setText(Integer.toString(brojPobjeda)+" : "+ Integer.toString(brojNerijesenih)+ " : "+ Integer.toString(brojPoraza));
 		        		 spinner_3.setText(takmicar.getDatumRodjenja().toString());       		 
 		        	 }
 		        }

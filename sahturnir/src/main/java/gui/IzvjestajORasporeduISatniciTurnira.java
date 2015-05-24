@@ -152,13 +152,15 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		
 		for(int i=0; i<turniri.size(); i++)
 		{
-			comboBox.addItem(turniri.get(i));
+			comboBox.addItem(turniri.get(i).getNaziv());
 		}
 		mecevi = new ArrayList<Mec>();
 		mecdao = new MecDAO();
 		mecevi = mecdao.getAll(Mec.class);
 		
 		klubdao = new KlubDAO();
+		
+		
 		
 		comboBox.addActionListener(new ActionListener() {
 			 

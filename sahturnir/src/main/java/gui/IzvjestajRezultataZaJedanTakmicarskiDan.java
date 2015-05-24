@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -28,7 +29,9 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.JTextField;
 
 import java.awt.Toolkit;
@@ -69,7 +72,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 	private transient MecDAO mecdao;
 	private transient KlubDAO klubdao;
 	private JFrame parentFrame;
-
+	private JSpinner spinner = new JSpinner();
 	/**
 	 * Launch the application.
 	 */
@@ -96,17 +99,11 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JTextPane txtpnNazivTurnira = new JTextPane();
-		txtpnNazivTurnira.setEditable(false);
-		txtpnNazivTurnira.setText("Naziv turnira:");
-		
 		JComboBox comboBox = new JComboBox();
-		
 		JTextPane txtpnDatum = new JTextPane();
 		txtpnDatum.setEditable(false);
 		txtpnDatum.setText("Datum:");
 		
-		JSpinner spinner = new JSpinner();
 		spinner.setModel(new SpinnerDateModel(new Date(1431986400000L), null, null, Calendar.DAY_OF_YEAR));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -139,6 +136,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		jtutil = new JTableUtil();
+		
 		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
 	
 		turniri = new ArrayList<Turnir>();
@@ -147,7 +145,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		
 		for(int i=0; i<turniri.size(); i++)
 		{
-			comboBox.addItem(turniri.get(i));
+			comboBox.addItem(turniri.get(i).getNaziv());
 		}
 		mecevi = new ArrayList<Mec>();
 		mecdao = new MecDAO();
@@ -160,10 +158,12 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTurnir = (String) combo.getSelectedItem();
+		        Date d = (Date)spinner.getValue();
 		        textField.setText(LocalDateTime.now().toString());
+				table.setModel(jtutil.populateJTableRezultatiDan(selectedTurnir, d));
+//				PrepareTableDesign(table);
+
 		    }
-		    
-		    
 		});
 		
 		JButton button = new JButton("Print");
@@ -173,6 +173,26 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		        attributes.add(DialogTypeSelection.COMMON);
 		        PrinterJob printJob = PrinterJob.getPrinterJob();
 		        printJob.printDialog(attributes);
+			}
+		});
+		
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);	
+				return c;
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -186,22 +206,19 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(txtpnIzvjetajRezultataZa_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-										.addComponent(txtpnDatum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(46)
-										.addComponent(spinner))
-									.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE))))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(txtpnDatum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(46)
+									.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(87)
+									.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)))
 							.addPreferredGap(ComponentPlacement.RELATED, 480, Short.MAX_VALUE)
 							.addComponent(button, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(txtpnDatum_1, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtpnDatum_1, GroupLayout.PREFERRED_SIZE, 218, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
@@ -216,9 +233,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnIzvjetajRezultataZa_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -226,10 +241,10 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 						.addComponent(button))
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 337, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtpnDatum_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtpnDatum_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);

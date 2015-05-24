@@ -69,7 +69,7 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 	       return 0;
 	        
 	    }
-
+	 
 	public int getBrojacPoraza() {
 		return brojacPoraza;
 	}

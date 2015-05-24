@@ -8,7 +8,9 @@ import klase.Mec;
 import klase.Takmicar;
 import klase.Turnir;
 
+
 public class DvostrukaEliminacija {
+	
 	
 	List<Takmicar> takmicari; 
 	List<Mec> mecevi; 

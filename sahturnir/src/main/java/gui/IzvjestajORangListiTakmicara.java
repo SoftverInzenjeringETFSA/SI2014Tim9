@@ -107,16 +107,12 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		
 		JTextPane textPane = new JTextPane();
 		
-		JTextPane txtpnNazivTurnira = new JTextPane();
-		txtpnNazivTurnira.setEditable(false);
-		txtpnNazivTurnira.setText("Naziv turnira:");
-		
 		JTextPane txtpnDatumIVrijeme = new JTextPane();
 		txtpnDatumIVrijeme.setEditable(false);
 		txtpnDatumIVrijeme.setText("Datum i vrijeme generisanja izvje\u0161taja: ");
 		
 		JComboBox comboBox = new JComboBox();
-		
+		comboBox.setVisible(false);
 		JScrollPane scrollPane = new JScrollPane();
 		
 		textField = new JTextField();
@@ -132,7 +128,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		
 		for(int i=0; i<turniri.size(); i++)
 		{
-			comboBox.addItem(turniri.get(i));
+			comboBox.addItem(turniri.get(i).getNaziv());
 		}
 		mecevi = new ArrayList<Mec>();
 		mecdao = new MecDAO();
@@ -173,19 +169,18 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(90)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 							.addGap(56)
 							.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnIzvjetajORang, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, 551, Short.MAX_VALUE)
 							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
 							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)))
@@ -201,8 +196,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 							.addGap(8)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(btnPrint))
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 372, GroupLayout.PREFERRED_SIZE)
