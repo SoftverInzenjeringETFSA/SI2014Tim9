@@ -102,12 +102,8 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JTextPane txtpnNazivTurnira = new JTextPane();
-		txtpnNazivTurnira.setEditable(false);
-		txtpnNazivTurnira.setText("Naziv turnira:");
-		
 		JComboBox comboBox = new JComboBox();
-		
+		comboBox.setVisible(false);
 		JTextPane txtpnDatum = new JTextPane();
 		txtpnDatum.setEditable(false);
 		txtpnDatum.setText("Datum:");
@@ -195,9 +191,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 									.addGap(46)
 									.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGap(87)
 									.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)))
 							.addPreferredGap(ComponentPlacement.RELATED, 480, Short.MAX_VALUE)
 							.addComponent(button, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
@@ -219,9 +213,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(txtpnIzvjetajRezultataZa_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)

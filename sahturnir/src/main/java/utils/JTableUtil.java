@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
@@ -114,6 +115,7 @@ public class JTableUtil {
 		String[] columnNames = { "Pozicija", "Naziv kluba",
 				"Broj takmièara","Predsjednik" ,"Ukupan broj bodova" };
 		String[][] data = new String[klubovi.size()][5];
+ 		Collections.sort(klubovi);
 		for (int i = 0; i < klubovi.size(); i++) {
 			data[i][0] = Integer.toString(i + 1);
 			data[i][1] = klubovi.get(i).getNaziv();

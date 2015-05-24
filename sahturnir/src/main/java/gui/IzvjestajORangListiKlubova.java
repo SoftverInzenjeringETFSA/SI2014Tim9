@@ -32,6 +32,7 @@ import javax.swing.SpinnerDateModel;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -268,7 +269,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		 		        }
 		 		        for (int z=0; z<kluboviTurnira.size(); z++)
 		 		        {
-		 		        	for (int y=1; y<kluboviTurnira.size(); y++)
+		 		        	for (int y=0; y<kluboviTurnira.size(); y++)
 		 		        	{
 		 		        		if (pozicije[z]<pozicije[y])
 		 		        		{
@@ -282,6 +283,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		 		        		}
 		 		        	}
 		 		        }		 		        
+ 		        		Collections.sort(klubovi);
 		 		       for (int z=0; z<kluboviTurnira.size(); z++)
 		 		       {
 		 		    	   String mjesto = Integer.toString(z+1);
@@ -290,7 +292,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		 		    	   String ukupanBrojBodova=Double.toString(pozicije[z]);
 		 		    	   int brTakmicara=0; 
 		 		    	   for (int y=0; y<takmicari.size(); y++)
-		 		    		   if (takmicari.get(y).getKlub()==kluboviTurnira.get(z))
+		 		    		   if (takmicari.get(y).getKlub().equals(kluboviTurnira.get(z)))
 		 		    			   brTakmicara++;
 		 		    	   String brojTakmicara = Integer.toString(brTakmicara);
 		 		    	   Object[] row={mjesto, nazivKluba, sjediste, brojTakmicara, ukupanBrojBodova};
