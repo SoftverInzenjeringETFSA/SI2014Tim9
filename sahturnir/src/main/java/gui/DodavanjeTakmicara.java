@@ -68,7 +68,7 @@ public class DodavanjeTakmicara extends JFrame {
 	private JTextField textField_2;
 	private JTextPane textPane_4;
 	private JTextPane textPane_3;
-	transient Takmicar t1;
+	transient Takmicar t1 = new Takmicar();
 	/**
 	 * Launch the application.
 	 */

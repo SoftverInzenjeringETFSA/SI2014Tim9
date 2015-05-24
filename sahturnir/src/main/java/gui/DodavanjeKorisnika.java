@@ -731,6 +731,7 @@ public class DodavanjeKorisnika extends JFrame {
 		
 		textField.setText(k.getKorisnickoIme());
 		passwordField.setText(k.getSifra());
+		passwordField.setEnabled(false);
 		textField_1.setText(k.getIme());
 		textField_2.setText(k.getPrezime());
 		textField_3.setText(k.getJmbg());
