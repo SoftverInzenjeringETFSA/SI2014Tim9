@@ -51,6 +51,7 @@ import utils.JTableUtil;
 import dal.TakmicarDAO;
 import dal.TurnirDAO;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,6 +74,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 	private transient List<Takmicar> takmicari;
 	private transient TakmicarDAO tdao;
 	private JTextField textField_4;
+	private JTextField textField;
 	
 
 	/**
@@ -133,8 +135,11 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		
 		JPanel panel = new JPanel();
 		
-		final JSpinner spinner_4 = new JSpinner();
-		spinner_4.setEnabled(false);
+		textField = new JTextField();
+		textField.setEditable(false);
+		String datum = new SimpleDateFormat("dd.MM.yyyy. HH:mm:ss").format(new Date());
+		textField.setText(datum);
+		textField.setColumns(10);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -144,8 +149,8 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(37)
 							.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(36)
-							.addComponent(spinner_4, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addComponent(txtpnPodaciOTakmiarima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -166,7 +171,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 					.addGap(23)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtpnDatumIzvjetaja, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinner_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		
@@ -266,7 +271,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        		 spinner_3.setText(takmicar.getDatumRodjenja().toString());       		 
 		        	 }
 		        }
-		        
+		        textField.setText(LocalDateTime.now().toString());
 		        //spinner_4.setValue(LocalDateTime.now());
 		    }
 		    
