@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -28,7 +29,9 @@ import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.JTextField;
 
 import java.awt.Toolkit;
@@ -66,6 +69,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 	private transient List<Mec> mecevi;
 	private transient MecDAO mecdao;
 	private transient KlubDAO klubdao;
+	private JSpinner spinner = new JSpinner();
 
 	/**
 	 * Launch the application.
@@ -103,12 +107,10 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		setContentPane(contentPane);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setVisible(false);
 		JTextPane txtpnDatum = new JTextPane();
 		txtpnDatum.setEditable(false);
 		txtpnDatum.setText("Datum:");
 		
-		JSpinner spinner = new JSpinner();
 		spinner.setModel(new SpinnerDateModel(new Date(1431986400000L), null, null, Calendar.DAY_OF_YEAR));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -141,6 +143,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		jtutil = new JTableUtil();
+		
 		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
 	
 		turniri = new ArrayList<Turnir>();
@@ -162,7 +165,11 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTurnir = (String) combo.getSelectedItem();
+		        Date d = (Date)spinner.getValue();
 		        textField.setText(LocalDateTime.now().toString());
+				table.setModel(jtutil.populateJTableRezultatiDan(selectedTurnir, d));
+//				PrepareTableDesign(table);
+
 		    }
 		});
 		
@@ -173,6 +180,26 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		        attributes.add(DialogTypeSelection.COMMON);
 		        PrinterJob printJob = PrinterJob.getPrinterJob();
 		        printJob.printDialog(attributes);
+			}
+		});
+		
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);	
+				return c;
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

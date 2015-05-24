@@ -37,6 +37,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.SpinnerDateModel;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 
 public class RezultatiMecevaUnos extends JFrame {
 
@@ -51,6 +56,7 @@ public class RezultatiMecevaUnos extends JFrame {
 	private JTextField textField_3;
 	private JSpinner spinner = new JSpinner();		
 	private JSpinner spinner_1 = new JSpinner();
+	private JSpinner spinner_2 = new JSpinner();
 	transient Mec m1;
 	transient Turnir t1;
 	/**
@@ -81,7 +87,7 @@ public class RezultatiMecevaUnos extends JFrame {
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RezultatiMecevaUnos.class.getResource("/gui/logo.png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 295, 420);
+		setBounds(100, 100, 295, 470);
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.WHITE);
 		contentPane.setBackground(Color.WHITE);
@@ -110,19 +116,16 @@ public class RezultatiMecevaUnos extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(10))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(btnPotvrdi)
-							.addContainerGap())))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnPotvrdi, Alignment.TRAILING))
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 275, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
+					.addGap(18)
 					.addComponent(btnPotvrdi)
 					.addContainerGap())
 		);
@@ -189,25 +192,39 @@ public class RezultatiMecevaUnos extends JFrame {
 		});
 		spinner_1.setModel(new SpinnerNumberModel(0, 0, 1, 0.5d));
 		spinner_1.setValue(1.0d);
+		
+		spinner_2.setModel(new SpinnerDateModel(new Date(1432418400000L), null, null, Calendar.DAY_OF_YEAR));
+		
+		JTextPane txtpnTermin = new JTextPane();
+		txtpnTermin.setText("Termin:");
+		txtpnTermin.setEditable(false);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(txtpnTakmiar_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, Alignment.LEADING)
-						.addComponent(textField_1, Alignment.LEADING)
-						.addComponent(txtpnNazivTurnira, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-						.addComponent(txtpnTakmiar, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnKategorija, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_3, Alignment.LEADING))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(txtpnTakmiar_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField, Alignment.LEADING)
+								.addComponent(textField_1, Alignment.LEADING)
+								.addComponent(txtpnNazivTurnira, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+								.addComponent(txtpnTakmiar, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpnKategorija, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_3, Alignment.LEADING))
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+							.addContainerGap())
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(spinner_2)
+							.addGap(58))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(txtpnTermin, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(158, Short.MAX_VALUE))))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -231,7 +248,11 @@ public class RezultatiMecevaUnos extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(92, Short.MAX_VALUE))
+					.addGap(18)
+					.addComponent(txtpnTermin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(spinner_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(33))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
@@ -263,6 +284,15 @@ public class RezultatiMecevaUnos extends JFrame {
 				m1.setRezultat1((Double)spinner.getValue());
 				m1.setRezultat2((Double)spinner_1.getValue());
 				MecDAO mdao = new MecDAO();
+				Date x = (Date)spinner_2.getValue();
+				Date zavrsetakTurnira = m1.getTurnir().getDatumPocetka();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				Calendar c = Calendar.getInstance();
+				c.setTime(m1.getTurnir().getDatumPocetka()); // Now use today date.
+				c.add(Calendar.DATE, 4); // Adding 5 days
+				
+				if ( x.after(m1.getTurnir().getDatumPocetka()) && x.before(c.getTime()) )
+					m1.setDatumPocetka(x);
 				mdao.update(m1);
 				RezultatiMecevaTabela frame = new RezultatiMecevaTabela(t1);
 				frame.setVisible(true);

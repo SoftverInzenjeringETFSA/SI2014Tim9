@@ -3,6 +3,7 @@ package utils;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import javax.swing.table.DefaultTableModel;
@@ -279,6 +280,30 @@ public class JTableUtil {
 				String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.")
 						.format(mecevi.get(i).getDatumPocetka());
 				data[j][4] = datumPocetka;
+				j++;
+			}
+		return new DefaultTableModel(data, columnNames);
+	}
+	
+	public TableModel populateJTableRezultatiDan(String t, Date d) {
+		List<Mec> mecevi = new ArrayList<Mec>();
+		MecDAO tdao = new MecDAO();
+		mecevi = tdao.getAll(Mec.class);
+		String[] columnNames = { "ID", "Takmièar 1", "Takmièar 2", "Rezultat"};
+		int size = 0, j = 0;
+		for (int i = 0; i < mecevi.size(); i++)
+			if (mecevi.get(i).getTurnir().getNaziv() == t)
+				size++;
+		Object[][] data = new Object[size][4];
+		for (int i = 0; i < mecevi.size(); i++)
+			if (mecevi.get(i).getTurnir().getNaziv() == t && mecevi.get(i).getDatumPocetka().equals(d)) {
+				data[j][0] = mecevi.get(i).getId();
+				data[j][1] = mecevi.get(i).getTakmicar1().getIme() + " "
+						+ mecevi.get(i).getTakmicar1().getPrezime();
+				data[j][2] = mecevi.get(i).getTakmicar2().getIme() + " "
+						+ mecevi.get(i).getTakmicar2().getPrezime();
+				data[j][3] = String.valueOf(mecevi.get(i).getRezultat1())
+						+ " : " + String.valueOf(mecevi.get(i).getRezultat2());
 				j++;
 			}
 		return new DefaultTableModel(data, columnNames);
