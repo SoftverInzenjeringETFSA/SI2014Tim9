@@ -55,6 +55,7 @@ public class Swiss {
 				m.setRezultat1((double)0);
 				m.setRezultat2((double)0);
 				m.setTurnir(turnir);
+				m.setDatumPocetka(turnir.getDatumPocetka());
 				mecevi.add(m);
 			}
 			

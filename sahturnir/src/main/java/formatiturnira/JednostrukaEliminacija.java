@@ -21,7 +21,7 @@ public class JednostrukaEliminacija {
  	public List<Mec> GenerisiRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda) throws Exception{
  		
  		if (takmicari.size()==0) throw new Exception ("Nema takmicara");
- 		if (turnir == null || turnir.getId()==0) throw new Exception ("Nema turnira");
+ 		if (turnir == null) throw new Exception ("Nema turnira");
  		
  		int p=takmicari.size();
  		if (!provjeriStepen(p)) throw new Exception("Broj takmicara nije stepen od 2");
@@ -37,19 +37,17 @@ public class JednostrukaEliminacija {
 			m.setRezultat1((double)0);
 			m.setRezultat2((double)0);
 			m.setTurnir(turnir);
+			m.setDatumPocetka(turnir.getDatumPocetka());
 			mecevi.add(m);
  		}
  		return mecevi;
  	}
  	
  	boolean provjeriStepen (int n)
- 	
  	{
  		if (n%2!=0) return false;
  		if (n==2) return true;
- 		n=n/2; return provjeriStepen(n); 
- 
- 		
+ 		n=n/2; return provjeriStepen(n); 	
  	}
 }
 			
