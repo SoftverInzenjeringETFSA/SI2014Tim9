@@ -5,16 +5,27 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.Toolkit;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
 import java.awt.Color;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JSpinner;
 import javax.swing.JButton;
+import javax.transaction.Transaction;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import utils.HibernateUtil;
+import klase.Mec;
 
 public class RezultatiMecevaUnos extends JFrame {
 
@@ -32,13 +43,18 @@ public class RezultatiMecevaUnos extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(RezultatiMecevaUnos.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					RezultatiMecevaUnos frame = new RezultatiMecevaUnos();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});

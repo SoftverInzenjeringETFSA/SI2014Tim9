@@ -20,8 +20,11 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,27 +36,53 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
+import org.apache.log4j.Logger;
+
+import utils.JTableUtil;
+import dal.KlubDAO;
+import dal.MecDAO;
+import dal.TakmicarDAO;
+import dal.TurnirDAO;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterJob;
+
+import klase.Klub;
+import klase.Mec;
+import klase.Takmicar;
+import klase.Turnir;
 
 public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
+	private JTableUtil jtutil;
+	private List<Takmicar> takmicari;
+	private TakmicarDAO tdao;
+	private List<Turnir> turniri;
+	private TurnirDAO turnirdao;
+	private List<Mec> mecevi;
+	private MecDAO mecdao;
+	private KlubDAO klubdao;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(IzvjestajRezultataZaJedanTakmicarskiDan.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					IzvjestajRezultataZaJedanTakmicarskiDan frame = new IzvjestajRezultataZaJedanTakmicarskiDan();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
@@ -114,6 +143,34 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		table.getColumnModel().getColumn(2).setPreferredWidth(150);
 		table.getColumnModel().getColumn(3).setPreferredWidth(150);
 		scrollPane.setViewportView(table);
+		
+		jtutil = new JTableUtil();
+		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
+	
+		turniri = new ArrayList<Turnir>();
+		turnirdao = new TurnirDAO();
+		turniri = turnirdao.getAll(Turnir.class);
+		
+		for(int i=0; i<turniri.size(); i++)
+		{
+			comboBox.addItem(turniri.get(i));
+		}
+		mecevi = new ArrayList<Mec>();
+		mecdao = new MecDAO();
+		mecevi = mecdao.getAll(Mec.class);
+		
+		klubdao = new KlubDAO();
+		
+		comboBox.addActionListener(new ActionListener() {
+			 
+		    public void actionPerformed(ActionEvent event) {
+		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
+		        String selectedTurnir = (String) combo.getSelectedItem();
+		        textField.setText(LocalDateTime.now().toString());
+		    }
+		    
+		    
+		});
 		
 		JButton button = new JButton("Print");
 		button.addActionListener(new ActionListener() {

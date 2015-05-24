@@ -26,6 +26,9 @@ import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
 
+import org.apache.log4j.Logger;
+
+import dal.GenericDAO;
 import dal.KlubDAO;
 
 import java.awt.event.ActionListener;
@@ -56,13 +59,18 @@ public class DodavanjeKluba extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(DodavanjeKluba.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					DodavanjeKluba frame = new DodavanjeKluba();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);					
 				}
 			}
 		});

@@ -66,6 +66,8 @@ import utils.JTableUtil;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
+import org.apache.log4j.Logger;
+
 import dal.KlubDAO;
 import dal.KorisnikDAO;
 import dal.TakmicarDAO;
@@ -109,18 +111,27 @@ public class GlavniProzor extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		try {
+		final Logger logger = Logger.getLogger(DodavanjeNovogIAzuriranjePostojecegTurnira.class);
+		try 
+		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
+			logger.error("Sorry, something wrong!", e);
 		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					GlavniProzor frame = new GlavniProzor();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
@@ -411,8 +422,8 @@ public class GlavniProzor extends JFrame {
 					t = tdao.loadById(Turnir.class, (Long) tableTurniri.getModel().getValueAt(row, 0));
 					if(col == tableTurniri.getColumnCount() - 3)
 					{
-						UpravljanjeRezultatimaMeceva urm = new UpravljanjeRezultatimaMeceva();
-						urm.setVisible(true);
+//						UpravljanjeRezultatimaMeceva urm = new UpravljanjeRezultatimaMeceva();
+//						urm.setVisible(true);
 					}
 					else if(col == tableTurniri.getColumnCount() - 2)
 					{

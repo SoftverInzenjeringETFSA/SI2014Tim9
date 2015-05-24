@@ -2,23 +2,24 @@ package sahturnir;
 
 import java.awt.EventQueue;
 
-import gui.Prijava;
-
-import java.util.List;
-import java.util.ArrayList;
-
 import javax.swing.UIManager;
 
-import klase.Takmicar;
-import dal.TakmicarDAO;
+import gui.DodavanjeNovogIAzuriranjePostojecegTurnira;
+import gui.GlavniProzor;
+import gui.Prijava;
+
+import org.apache.log4j.Logger;
 
 public class App {
 
 	public static void main(String[] args) {
+		final Logger logger = Logger
+				.getLogger(DodavanjeNovogIAzuriranjePostojecegTurnira.class);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("Sorry, something wrong!", e);
 		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -27,6 +28,7 @@ public class App {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});

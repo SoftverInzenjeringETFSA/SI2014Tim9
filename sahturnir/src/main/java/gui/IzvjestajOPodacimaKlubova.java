@@ -38,6 +38,8 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 
+import org.apache.log4j.Logger;
+
 import dal.KlubDAO;
 import dal.TakmicarDAO;
 import dal.TurnirDAO;
@@ -76,13 +78,18 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(IzvjestajOPodacimaKlubova.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					IzvjestajOPodacimaKlubova frame = new IzvjestajOPodacimaKlubova();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
@@ -212,7 +219,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		        		 spinner_1.setValue(ukupanBrojTitula);
 		        	 }
 		        } 
-		        spinner_4.setValue(LocalDateTime.now());
+		        spinner_5.setValue(LocalDateTime.now());
 		    }
 		});
 		

@@ -22,7 +22,7 @@ public class DvostrukaEliminacija {
 		jel = new JednostrukaEliminacija();
 	}
 		
-	List<Mec> GenerisiPrvuRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda) throws Exception {
+	public List<Mec> GenerisiPrvuRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda) throws Exception {
 		
 			mecevi = jel.GenerisiRundu(takmicari, turnir, true);
 			return mecevi;		

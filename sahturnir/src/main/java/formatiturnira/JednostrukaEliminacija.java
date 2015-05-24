@@ -18,7 +18,7 @@ public class JednostrukaEliminacija {
 }
 	
 	
- 	List<Mec> GenerisiRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda) throws Exception{
+ 	public List<Mec> GenerisiRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda) throws Exception{
  		
  		if (takmicari.size()==0) throw new Exception ("Nema takmicara");
  		if (turnir == null || turnir.getId()==0) throw new Exception ("Nema turnira");

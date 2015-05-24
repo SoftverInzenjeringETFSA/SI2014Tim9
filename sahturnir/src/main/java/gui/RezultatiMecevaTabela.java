@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.Toolkit;
@@ -22,6 +23,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
@@ -32,6 +35,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;
+
+import org.apache.log4j.Logger;
 
 import utils.JTableUtil;
 
@@ -45,13 +50,18 @@ public class RezultatiMecevaTabela extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(RezultatiMecevaTabela.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					RezultatiMecevaTabela frame = new RezultatiMecevaTabela();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});

@@ -4,12 +4,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import klase.Klub;
 import klase.Takmicar;
 
 public class TakmicarDAO extends GenericDAO {
 
 	public List<Takmicar> search(int criteria, String parameter) {
+		final Logger logger = Logger.getLogger(TurnirDAO.class);
 		String[] searchCriteria = { "concat(ime, ' ', prezime)", "jmbg",
 				"kategorija" };
 		List<Takmicar> takmicari = new ArrayList();
@@ -41,6 +44,7 @@ public class TakmicarDAO extends GenericDAO {
 				connection.close();
 			}
 		} catch (Exception e) {
+			logger.error("Sorry, something wrong!", e);
 		} finally {
 		}
 		return takmicari;

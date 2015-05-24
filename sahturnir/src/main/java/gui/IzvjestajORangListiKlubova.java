@@ -27,18 +27,32 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.List;
 import java.awt.SystemColor;
 import java.awt.Font;
 
 import javax.swing.JButton;
 
+import org.apache.log4j.Logger;
+
+import dal.KlubDAO;
+import dal.MecDAO;
+import dal.TakmicarDAO;
+import dal.TurnirDAO;
 import utils.JTableUtil;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.print.PrinterJob;
+
+import klase.Klub;
+import klase.Mec;
+import klase.Takmicar;
+import klase.Turnir;
 
 public class IzvjestajORangListiKlubova extends JFrame {
 
@@ -49,18 +63,33 @@ public class IzvjestajORangListiKlubova extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 	private JTextField textField;
+	private JTableUtil jtutil;
+	private List<Takmicar> takmicari;
+	private TakmicarDAO tdao;
+	private List<Turnir> turniri;
+	private TurnirDAO turnirdao;
+	private List<Mec> mecevi;
+	private MecDAO mecdao;
+	private KlubDAO klubdao;
+	
+	
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(IzvjestajORangListiKlubova.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					IzvjestajORangListiKlubova frame = new IzvjestajORangListiKlubova();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
@@ -68,6 +97,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param List 
 	 */
 	public IzvjestajORangListiKlubova() {
 		setResizable(false);
@@ -101,6 +131,24 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		txtpnIzvjetajORang_1.setText("Izvje\u0161taj o rang listi klubova");
 		txtpnIzvjetajORang_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtpnIzvjetajORang_1.setBackground(Color.WHITE);
+		
+		jtutil = new JTableUtil();
+		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
+	
+		turniri = new ArrayList<Turnir>();
+		turnirdao = new TurnirDAO();
+		turniri = turnirdao.getAll(Turnir.class);
+		
+		for(int i=0; i<turniri.size(); i++)
+		{
+			comboBox.addItem(turniri.get(i));
+		}
+		
+		mecevi = new ArrayList<Mec>();
+		mecdao = new MecDAO();
+		mecevi = mecdao.getAll(Mec.class);
+		
+		klubdao = new KlubDAO();
 		
 		JButton btnPrint = new JButton("Print");
 		btnPrint.addActionListener(new ActionListener() {
@@ -163,6 +211,63 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		table.getColumnModel().getColumn(4).setPreferredWidth(25);
 		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
+		
+		final List<Klub> kluboviTurnira = new ArrayList<Klub>();
+		
+		comboBox.addActionListener(new ActionListener() {
+			 
+		    public void actionPerformed(ActionEvent event) {
+		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
+		        String selectedTurnir = (String) combo.getSelectedItem();
+		        double[] pozicije= new double[klubovi.size()];
+		        for (int i=0; i<turniri.size(); i++)
+		        {
+		        	 if (selectedTurnir.equals(turniri.get(i).getNaziv()))
+		        	 {
+		        		 Turnir t = turniri.get(i);
+		        		 for (int j=0; j<mecevi.size(); j++)
+		        		 {
+		        			 if(mecevi.get(j).getTurnir()==t)
+		        			 {
+		        				 for (int k=0; k<klubovi.size(); k++)
+		        				 {
+		        					 if (mecevi.get(j).getTakmicar1().getKlub()==klubovi.get(k)) {
+		        						 double d;
+		        						 d= klubdao.calculateClubPoints(k);
+		        						 pozicije[k]=d;
+		        						 for (int y=0; y<kluboviTurnira.size(); y++)
+		        						if (kluboviTurnira.get(y)==klubovi.get(k)) continue;
+		        						else kluboviTurnira.add(klubovi.get(k));
+		        						 }
+		        					 
+		        					 if (mecevi.get(j).getTakmicar2().getKlub()==klubovi.get(k)) {
+			        					 double d;
+			        					 d= klubdao.calculateClubPoints(k);
+			        					 pozicije[k]=d;
+			        				for (int y=0; y<kluboviTurnira.size(); y++)
+				        						if (kluboviTurnira.get(y)==klubovi.get(k)) continue;
+				        						else kluboviTurnira.add(klubovi.get(k));
+		        			 } 
+		        		 }
+		        		
+		        	 }
+		       		 
+		      /*  for (int s=0; s<pozicije.length; s++)
+		        {
+		        	
+		        	Object[] row = { data1, data2, data3, data4 };
+		        }*/
+		        
+		        
+		        }
+		     }
+		        textField.setText(LocalDateTime.now().toString());
+		    }
+		    
+		    
+		    }});
+		
+		
 	}
 
 

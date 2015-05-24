@@ -5,9 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.apache.log4j.Logger;
+
 public class TurnirDAO extends GenericDAO {
 
 	public int getNumberOfContestants(long id) {
+		final Logger logger = Logger.getLogger(TurnirDAO.class);
 		int resultValue = 0;
 		try {
 			Class.forName(driver);
@@ -26,6 +29,7 @@ public class TurnirDAO extends GenericDAO {
 				connection.close();
 			}
 		} catch (Exception e) {
+			logger.error("Sorry, something wrong!", e);
 		} finally {
 		}
 		return resultValue;

@@ -45,6 +45,8 @@ import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.SpinnerDateModel;
 
+import org.apache.log4j.Logger;
+
 import utils.JTableUtil;
 import dal.TakmicarDAO;
 import dal.TurnirDAO;
@@ -78,13 +80,18 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		final Logger logger = Logger.getLogger(IzvjestajOPodacimaTakmicara.class);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try 
+				{
 					IzvjestajOPodacimaTakmicara frame = new IzvjestajOPodacimaTakmicara();
 					frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
+					logger.error("Sorry, something wrong!", e);
 				}
 			}
 		});
