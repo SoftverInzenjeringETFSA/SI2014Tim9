@@ -310,7 +310,7 @@ public class GlavniProzor extends JFrame {
 					k = kdao.loadById(Korisnik.class, (Long) tableKorisnici.getModel().getValueAt(row, 0));
 					if(col == tableKorisnici.getColumnCount() - 2)
 					{
-						DodavanjeKorisnika dk = new DodavanjeKorisnika();
+						DodavanjeKorisnika dk = new DodavanjeKorisnika(k);
 						dk.setVisible(true);
 					}
 					else if(col == tableKorisnici.getColumnCount() - 1)
@@ -384,7 +384,7 @@ public class GlavniProzor extends JFrame {
 					k = kdao.loadById(Klub.class, (Long) tableKlubovi.getModel().getValueAt(row, 0));
 					if(col == tableKlubovi.getColumnCount() - 2)
 					{
-						DodavanjeKluba dk = new DodavanjeKluba();
+						DodavanjeKluba dk = new DodavanjeKluba(k);
 						dk.setVisible(true);
 					}
 					else if(col == tableKlubovi.getColumnCount() - 1)
