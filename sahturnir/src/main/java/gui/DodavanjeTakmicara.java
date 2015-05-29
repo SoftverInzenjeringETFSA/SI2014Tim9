@@ -90,16 +90,44 @@ public class DodavanjeTakmicara extends JFrame {
 		return izlaz;
 	}
 	
-	public static Boolean validirajJmbg(String t1) {
-		Boolean izlaz = false;
-		if (!(t1.length() == 13))
+	 public static Boolean validirajCifre(String c)
+     {
+         Boolean da=false;
+         
+         char[] prebaciString=c.toCharArray();
+         for (int i = 0; i < prebaciString.length; i++)
+         {
+             da = false;
+             if (((prebaciString[i] >= '0') && (prebaciString[i] <= '9')))
+                 da = true;
+         }
+         return da;
+     }
+	
+	public static Boolean validirajJmbg(String JMBG) {
+    	List<Integer> l3 = new ArrayList<Integer>();
+		if(validirajCifre(JMBG))
 		{
-			izlaz = false;
+			for(char ch : JMBG.toCharArray())
+			{
+			 l3.add( Integer.valueOf(String.valueOf(ch)));
+			}
+		
+			if (l3.size()!= 13)
+	            return false;
+
+	        else
+	        {
+	            Double eval = 0.0;
+	            for (int i = 0; i < 6; i++)
+	            {
+	                eval += (7 - i) * (l3.get(i) + l3.get(i + 6));
+	            }
+	            return l3.get(12) == 11 - eval % 11;
+	        }
 		}
-		else
-			izlaz = true;
-		return izlaz;
-    }
+		else return false;
+	}
 	
     public static Boolean validirajImePrezime(String t1) {
 		Boolean izlaz = false;
