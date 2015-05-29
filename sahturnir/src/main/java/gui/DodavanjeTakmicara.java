@@ -552,7 +552,7 @@ public class DodavanjeTakmicara extends JFrame {
 					{
 						if(comboBox_1.getSelectedItem().toString().equals(klubovi.get(i).getNaziv()))
 						{
-							t.setKlub(klubovi.get(i));
+							tak.setKlub(klubovi.get(i));
 							break;
 						}
 					}
