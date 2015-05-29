@@ -539,9 +539,6 @@ public class DodavanjeTakmicara extends JFrame {
 					
 					TakmicarDAO kdao = new TakmicarDAO();
 					
-					
-					
-					
 					tak.setIme(textField.getText());
 					tak.setPrezime(textField_2.getText());
 					tak.setJmbg(textField_1.getText());
@@ -647,7 +644,6 @@ public class DodavanjeTakmicara extends JFrame {
 		textField_2.setText(t.getPrezime());
 		textField_1.setText(t.getJmbg());
 		if(t.getDatumRodjenja()!=null)spinner.setValue((Date)t.getDatumRodjenja());
-		if(t.getBrojBodova()!=0)spinner.setValue((double)t.getBrojBodova());
 		
 		comboBox.setSelectedItem(t.getKategorija());
 		comboBox_1.setSelectedItem(t.getKlub().getNaziv());

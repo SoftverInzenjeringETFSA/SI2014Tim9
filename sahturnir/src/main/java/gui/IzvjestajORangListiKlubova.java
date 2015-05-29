@@ -62,9 +62,6 @@ import klase.Turnir;
 
 public class IzvjestajORangListiKlubova extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
@@ -79,16 +76,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 	private transient KlubDAO klubdao;
 	private JFrame parentFrame;
 	private JButton btnPrint = new JButton("Print");
-	
 
-	/**
-	 * Launch the application.
-	 */
-
-	/**
-	 * Create the frame.
-	 * @param List 
-	 */
 	public IzvjestajORangListiKlubova(JFrame pf) {
 		parentFrame = pf;
 		final Logger logger = Logger.getLogger(IzvjestajORangListiKlubova.class);
@@ -254,10 +242,9 @@ public class IzvjestajORangListiKlubova extends JFrame {
 				        						else kluboviTurnira.add(klubovi.get(k));
 		        			 } 
 		        		 }
-		        		
 		        	 }
 		        }
-		 		       double[] pozicije= new double[kluboviTurnira.size()];
+		        	double[] pozicije= new double[kluboviTurnira.size()];
 		 		        for (int z=0; z<kluboviTurnira.size(); z++)
 		 		        {
 		 		        	double d=klubdao.calculateClubPoints(kluboviTurnira.get(z).getId());
@@ -280,8 +267,8 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		 		        	}
 		 		        }		 		        
  		        		Collections.sort(klubovi);
-		 		       for (int z=0; z<kluboviTurnira.size(); z++)
-		 		       {
+ 		        		for (int z=0; z<kluboviTurnira.size(); z++)
+		 		       	{
 		 		    	   String mjesto = Integer.toString(z+1);
 		 		    	   String nazivKluba = klubovi.get(z).getNaziv();
 		 		    	   String sjediste = klubovi.get(z).getSjediste();
@@ -293,15 +280,11 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		 		    	   String brojTakmicara = Integer.toString(brTakmicara);
 		 		    	   Object[] row={mjesto, nazivKluba, sjediste, brojTakmicara, ukupanBrojBodova};
 		 		    	   DefaultTableModel model = (DefaultTableModel) table.getModel();
-		 		           model.addRow(row);
-		 		       }  	
-		 		       textField.setText(LocalDateTime.now().toString());
-		     }  
-		    }
-		    
-		    }});
-				
+		 		    	   model.addRow(row);
+		 		       	}  	
+		 		       	textField.setText(LocalDateTime.now().toString());
+		        	 }  
+		        }
+		    }});			
 	}
-
-
 }

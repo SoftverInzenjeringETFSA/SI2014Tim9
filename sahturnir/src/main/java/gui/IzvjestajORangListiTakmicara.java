@@ -62,9 +62,6 @@ import klase.Turnir;
 
 public class IzvjestajORangListiTakmicara extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
@@ -78,13 +75,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 	private transient MecDAO mecdao;
 	private transient KlubDAO klubdao;
 	private JFrame parentFrame;
-	/**
-	 * Launch the application.
-	 */
 
-	/**
-	 * Create the frame.
-	 */
 	public IzvjestajORangListiTakmicara(JFrame pf) {
 		parentFrame = pf;
 		final Logger logger = Logger.getLogger(IzvjestajORangListiTakmicara.class);
