@@ -101,6 +101,7 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		txtpnDatumIVrijeme.setText("Datum i vrijeme generisanja izvje\u0161taja:");
 		
 		btnPrint = new JButton("Print");
+		btnPrint.setEnabled(false);
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
@@ -153,18 +154,21 @@ public class IzvjestajOPodacimaKlubova extends JFrame {
 		
 		for(int i=0; i<klubovi.size(); i++)
 			comboBox.addItem(klubovi.get(i).getNaziv());
-		
+
+		comboBox.setSelectedIndex(-1);
+
 		KlubDAO kdao1 = new KlubDAO();
-		Klub k1 = klubovi.get(0);
-        textField_1.setText(k1.getNaziv());
-        spinner.setText(String.valueOf(kdao1.getNumberOfTournamentsForClub(k1.getId())));
-        spinner_3.setText(String.valueOf(kdao1.getNumberOfContestantsForClub(k1.getId())));
-        spinner_2.setText(String.valueOf(kdao1.getNumberOfTitlesForClub(k1.getId())));
-        spinner_4.setText(String.valueOf(kdao1.calculateClubPoints(k1.getId())));
+//		Klub k1 = klubovi.get(0);
+//        textField_1.setText(k1.getNaziv());
+//        spinner.setText(String.valueOf(kdao1.getNumberOfTournamentsForClub(k1.getId())));
+//        spinner_3.setText(String.valueOf(kdao1.getNumberOfContestantsForClub(k1.getId())));
+//        spinner_2.setText(String.valueOf(kdao1.getNumberOfTitlesForClub(k1.getId())));
+//        spinner_4.setText(String.valueOf(kdao1.calculateClubPoints(k1.getId())));
 		
 		comboBox.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent event) {
 		        Klub k = klubovi.get(comboBox.getSelectedIndex());
+		        btnPrint.setEnabled(true);
 		        KlubDAO kdao = new KlubDAO();
 		        textField_1.setText(k.getNaziv());
 		        spinner.setText(String.valueOf(kdao.getNumberOfTournamentsForClub(k.getId())));

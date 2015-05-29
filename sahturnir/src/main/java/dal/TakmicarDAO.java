@@ -76,7 +76,7 @@ public class TakmicarDAO extends GenericDAO {
 				result2.next();
 				String sum2 = result2.getString(1);
 				if(sum2 != null)
-					pobjede += Integer.parseInt(sum);
+					pobjede += Integer.parseInt(sum2);
 				
 				PreparedStatement statement3 = connection
 						.prepareStatement("select count(mecevi.rezultat1) from mecevi where (mecevi.takmicar1 = ? OR mecevi.takmicar2 = ?) AND mecevi.rezultat1 = 0.5;");
@@ -89,7 +89,7 @@ public class TakmicarDAO extends GenericDAO {
 					nerjeseno += Integer.parseInt(sum3);
 			
 				PreparedStatement statement4 = connection
-						.prepareStatement("select count(mecevi.rezultat1) from mecevi where mecevi.takmicar1 = ? AND mecevi.rezultat1 = 0;");
+						.prepareStatement("select count(mecevi.rezultat2) from mecevi where mecevi.takmicar2 = ? AND mecevi.rezultat1 = 1 AND mecevi.rezultat2 = 0;");
 				statement4.setLong(1, id);
 				ResultSet result4 = statement4.executeQuery();
 				result4.next();
@@ -98,7 +98,7 @@ public class TakmicarDAO extends GenericDAO {
 					porazi += Integer.parseInt(sum4);
 
 				PreparedStatement statement5 = connection
-						.prepareStatement("select count(mecevi.rezultat1) from mecevi where mecevi.takmicar1 = ? AND mecevi.rezultat1 = 0;");
+						.prepareStatement("select count(mecevi.rezultat1) from mecevi where mecevi.takmicar1 = ? AND mecevi.rezultat1 = 0 AND mecevi.rezultat2 = 1;");
 				statement5.setLong(1, id);
 				ResultSet result5 = statement5.executeQuery();
 				result5.next();
@@ -119,5 +119,38 @@ public class TakmicarDAO extends GenericDAO {
 		resultValue[1] = nerjeseno;
 		resultValue[2] = porazi;
 		return resultValue;
+	}
+	
+	
+	public int getParticipationCount(long id) {
+		final Logger logger = Logger.getLogger(KlubDAO.class);
+		int cifra = 0;
+		try {
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
+			try {
+				PreparedStatement statement = connection
+						.prepareStatement("select count(distinct turnir) from mecevi, turniri where (takmicar1 = ? OR takmicar2 = ?) AND turnir  =  turniri.id;");
+				statement.setLong(1, id);
+				statement.setLong(2, id);
+				ResultSet result = statement.executeQuery();
+				result.next();
+				String sum = result.getString(1);
+				if(sum != null)
+					cifra += Integer.parseInt(sum);
+			} 
+			catch (Exception e) 
+			{
+				throw e;
+			} 
+			finally 
+			{
+				connection.close();
+			}
+		} catch (Exception e) {
+			logger.error("Došlo je do greške!", e);
+		} finally {
+		}
+		return cifra;
 	}
 }

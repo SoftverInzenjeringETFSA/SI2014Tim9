@@ -122,8 +122,7 @@ public class JTableUtil {
 			data[i][0] = Integer.toString(i + 1);
 			data[i][1] = klubovi.get(i).getNaziv();
 			for (int j = 0; j < takmicari.size(); j++) {
-				if (takmicari.get(j).getKlub().getId() == klubovi.get(i)
-						.getId()) {
+				if (takmicari.get(j).getKlub().getId() == klubovi.get(i).getId()) {
 					sumaBodova = sumaBodova + takmicari.get(j).getBrojBodova();
 					prebroj++;
 				}

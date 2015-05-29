@@ -118,6 +118,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		txtpnDatumIzvjetaja.setText("Datum i vrijeme generisanja izvje\u0161taja:");
 		
 		btnPrint = new JButton("Print");
+		btnPrint.setEnabled(false);
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
@@ -239,19 +240,21 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 			imenaPrezimena.add(s);
 			comboBox.addItem(s);
 		}
+		comboBox.setSelectedIndex(-1);
 		
 		comboBox.addActionListener(new ActionListener() {
 			 
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTakmicar = (String) combo.getSelectedItem();
-		 
+		        btnPrint.setEnabled(true);
 		        for (int i=0; i<takmicari.size(); i++)
 		        {
 		        	 if (selectedTakmicar.equals(imenaPrezimena.get(i)))
 		        	 {
-		        		 int brojUcesca=0, brojTitula=0, brojPobjeda=0, brojPoraza=0, brojNerijesenih=0;
-		        	     Takmicar takmicar = takmicari.get(i);
+		        		 int brojUcesca=0, brojPobjeda=0, brojPoraza=0, brojNerijesenih=0;
+		        	     long brojTitula;
+		        		 Takmicar takmicar = takmicari.get(i);
 		        		 textField_1.setText(selectedTakmicar);
 		        		 spinner.setValue(takmicar.getBrojBodova());
 		        		 textField_4.setText(takmicar.getKategorija());
@@ -263,6 +266,8 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        		 brojPobjeda = omjer[0];
 		        		 brojNerijesenih = omjer[1];
 		        		 brojPoraza = omjer[2];
+		        		 brojTitula = takmicar.getBrojTitula();
+		        		 brojUcesca = tdao.getParticipationCount(takmicar.getId());
 		        		 spinner_1.setValue(brojUcesca);
 		        		 spinner_2.setValue(brojTitula);
 		        		 textField_3.setText(Integer.toString(brojPobjeda)+" : "+ Integer.toString(brojNerijesenih)+ " : "+ Integer.toString(brojPoraza));
@@ -298,15 +303,16 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 						.addComponent(lblImeIPrezime, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
 					.addGap(32)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(spinner_2, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-						.addComponent(spinner_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
 						.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
 						.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
 						.addComponent(comboBox, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(textField_3)
 						.addComponent(textField_4)
-						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinner_3))
+						.addComponent(spinner_3)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(spinner_2, Alignment.LEADING)
+							.addComponent(spinner_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)))
 					.addContainerGap(89, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
@@ -350,7 +356,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblOmjerPobjedaI, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(70, Short.MAX_VALUE))
+					.addContainerGap(69, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);

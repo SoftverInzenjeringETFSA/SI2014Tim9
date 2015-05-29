@@ -78,6 +78,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 	private transient MecDAO mecdao;
 	private transient KlubDAO klubdao;
 	private JFrame parentFrame;
+	private JButton btnPrint = new JButton("Print");
 	
 
 	/**
@@ -144,7 +145,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		
 		klubdao = new KlubDAO();
 		
-		JButton btnPrint = new JButton("Print");
+//		btnPrint.setEnabled(false);
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
@@ -229,6 +230,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTurnir = (String) combo.getSelectedItem();
+		        btnPrint.setEnabled(true);
 		        for (int i=0; i<turniri.size(); i++)
 		        {
 		        	 if (selectedTurnir.equals(turniri.get(i).getNaziv()))
