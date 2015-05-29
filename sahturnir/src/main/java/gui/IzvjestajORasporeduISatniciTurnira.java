@@ -1,6 +1,12 @@
 package gui;
 
+import gui.GlavniProzor.ImageRendererDelete;
+import gui.GlavniProzor.ImageRendererEdit;
+import gui.GlavniProzor.ImageRendererMatch;
+
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -21,13 +27,16 @@ import java.awt.Font;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 
 import java.awt.Color;
 
+import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -77,7 +86,27 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-
+	private void PrepareTableDesign(JTable table) {
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);
+				return c;
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
@@ -95,7 +124,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		});
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(IzvjestajORasporeduISatniciTurnira.class.getResource("/gui/logo.png")));
-		setBounds(100, 100, 845, 540);
+		setBounds(100, 100, 845, 539);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,10 +151,6 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		textPane.setText("Naziv turnira:");
 		
 		JComboBox comboBox = new JComboBox();
-		
-		JTextPane txtpnDatumPoetkaTurnira = new JTextPane();
-		txtpnDatumPoetkaTurnira.setEditable(false);
-		txtpnDatumPoetkaTurnira.setText("Datum po\u010Detka turnira:");
 		JSpinner spinner = new JSpinner();
 		spinner.setModel(new SpinnerDateModel(new Date(1431986400000L), null, null, Calendar.DAY_OF_YEAR));
 		
@@ -168,6 +193,29 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTurnir = (String) combo.getSelectedItem();
 		        textField.setText(LocalDateTime.now().toString());
+		        long t=-1;
+		        for(int i=0; i<turniri.size(); i++)
+				{
+					if (turniri.get(i).getNaziv().equals(selectedTurnir)) 
+					{
+						t=turniri.get(i).getId();
+					}
+						
+				}
+		        ((DefaultTableModel) table.getModel()).setRowCount(0);
+		        PrepareTableDesign(table);
+
+		        for(int i=0; i<mecevi.size(); i++)
+		        {
+		        	
+		        	if(mecevi.get(i).getTurnir().getId()==t) 
+		        	{
+		    			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+		    					mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime(), 
+		    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), mecevi.get(i).getDatumPocetka()  });
+
+		        	}
+		        }
 		    }
 		    
 		    
@@ -182,34 +230,31 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		        printJob.printDialog(attributes);
 			}
 		});
-		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setModel(new SpinnerDateModel(new Date(1432072800000L), null, null, Calendar.DAY_OF_YEAR));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtpnIzvjetajORasporedu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 513, Short.MAX_VALUE)
-							.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGap(10)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtpnDatumPoetkaTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(spinner_1)
-								.addComponent(comboBox, 0, 153, Short.MAX_VALUE))))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtpnIzvjetajORasporedu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, 520, Short.MAX_VALUE)
+									.addComponent(btnPrint, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+									.addGap(54)
+									.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 153, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -223,18 +268,15 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(textPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpnDatumPoetkaTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(btnPrint))
-					.addGap(18)
+					.addGap(26)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
-					.addGap(41)
+					.addGap(27)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(txtpnDatumIVrijeme, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(58))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
