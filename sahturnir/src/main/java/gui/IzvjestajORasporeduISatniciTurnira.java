@@ -83,6 +83,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 	private transient MecDAO mecdao;
 	private transient KlubDAO klubdao;
 	private JFrame parentFrame;
+	private JButton btnPrint = new JButton("Print");
 	/**
 	 * Launch the application.
 	 */
@@ -151,6 +152,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		textPane.setText("Naziv turnira:");
 		
 		JComboBox comboBox = new JComboBox();
+		
 		JSpinner spinner = new JSpinner();
 		spinner.setModel(new SpinnerDateModel(new Date(1431986400000L), null, null, Calendar.DAY_OF_YEAR));
 		
@@ -191,6 +193,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 			 
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
+		        btnPrint.setEnabled(true);
 		        String selectedTurnir = (String) combo.getSelectedItem();
 		        textField.setText(LocalDateTime.now().toString());
 		        long t=-1;
@@ -221,7 +224,7 @@ public class IzvjestajORasporeduISatniciTurnira extends JFrame {
 		    
 		});
 		
-		JButton btnPrint = new JButton("Print");
+		btnPrint.setEnabled(false);
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
