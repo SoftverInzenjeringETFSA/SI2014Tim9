@@ -50,7 +50,7 @@ public class GenericDAO<T> {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
-			o = classType.cast(session.get(classType, id));
+			o = classType.cast(session.get(classType,id));
 			transaction.commit();
 		} 
 		catch (Exception e) 
@@ -68,6 +68,9 @@ public class GenericDAO<T> {
 		}
 		return o;
 	}
+
+	
+	
 	
 	public boolean update(T o) {
 		Session session = null;
