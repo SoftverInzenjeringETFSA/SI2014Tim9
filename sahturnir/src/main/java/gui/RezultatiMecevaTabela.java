@@ -71,6 +71,7 @@ public class RezultatiMecevaTabela extends JFrame {
 	private GlavniProzor gpf;
 	transient Turnir t1;
 	private int swiss = 0;
+	private boolean dugmence = false;
 	private JButton btnNovaRunda = new JButton("Nova runda");
 	/**
 	 * Launch the application.
@@ -265,6 +266,7 @@ public class RezultatiMecevaTabela extends JFrame {
 						if(takmicari.size() == 1)
 						{
 							btnNovaRunda.setEnabled(false);
+
 						}
 						JednostrukaEliminacija je = new JednostrukaEliminacija();
 						List<Mec> mecevi = new ArrayList<Mec>();
