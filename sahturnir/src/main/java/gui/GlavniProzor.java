@@ -54,6 +54,7 @@ import javax.swing.JTable;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableCellRenderer;
@@ -68,6 +69,7 @@ import javax.swing.event.ChangeEvent;
 
 import org.apache.log4j.Logger;
 
+import dal.GenericDAO;
 import dal.KlubDAO;
 import dal.KorisnikDAO;
 import dal.TakmicarDAO;
@@ -309,6 +311,8 @@ public class GlavniProzor extends JFrame {
 				parentFrame.setEnabled(false);
 				DodavanjeKorisnika dk = new DodavanjeKorisnika(parentFrame, (GlavniProzor) parentFrame);
 				dk.setVisible(true);
+
+				
 			}
 		});
 		
@@ -357,8 +361,19 @@ public class GlavniProzor extends JFrame {
 			public void mouseReleased(MouseEvent arg0) {
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
+				List<Klub> klubovi=GenericDAO.getAll(Klub.class);
+				if(!klubovi.isEmpty()){
 				DodavanjeTakmicara dt = new DodavanjeTakmicara(parentFrame, (GlavniProzor) parentFrame);
 				dt.setVisible(true);
+
+				}
+				else {
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce dodati takmicara bez klubova u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				
 			}
 		});
 		
@@ -498,8 +513,18 @@ public class GlavniProzor extends JFrame {
 			public void mouseReleased(MouseEvent arg0) {
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
-				DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(parentFrame, (GlavniProzor) parentFrame);
-				dt.setVisible(true);
+				List<Takmicar> takmicari=GenericDAO.getAll(Takmicar.class);
+				if(!takmicari.isEmpty()){
+					DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(parentFrame, (GlavniProzor) parentFrame);
+					dt.setVisible(true);
+
+				}
+				else {
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce dodati turnir bez takmicara u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
 			}
 		});
 		GroupLayout gl_panel_5 = new GroupLayout(panel_5);
