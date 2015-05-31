@@ -304,8 +304,23 @@ public class DodavanjeTakmicara extends JFrame {
 						}
 					}
 					
-					tdao.create(t);
-			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+					List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
+					takmicari1 = tdao.getAll(Takmicar.class);
+					boolean flek = false;
+					for(int i = 0; i< takmicari1.size(); i++)
+					{
+						if (t.getJmbg().equals(takmicari1.get(i).getJmbg()))
+							flek = true;
+					}
+					if (flek)
+					{
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Info", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else
+					{
+						tdao.create(t);
+						JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+					}
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
 					thisFrame.dispose();
@@ -567,7 +582,7 @@ public class DodavanjeTakmicara extends JFrame {
 				{
 					Takmicar tak =	GenericDAO.loadById(Takmicar.class, t.getId());
 					
-					TakmicarDAO kdao = new TakmicarDAO();
+					TakmicarDAO takdao = new TakmicarDAO();
 					
 					tak.setIme(textField.getText());
 					tak.setPrezime(textField_2.getText());
@@ -576,7 +591,7 @@ public class DodavanjeTakmicara extends JFrame {
 					tak.setKategorija(comboBox.getSelectedItem().toString());
 					
 					List<Klub> klubovi = new ArrayList<Klub>();
-					
+					KlubDAO kdao = new KlubDAO();
 					klubovi = kdao.getAll(Klub.class);
 					for(int i=0; i<klubovi.size(); i++)
 					{
@@ -587,8 +602,25 @@ public class DodavanjeTakmicara extends JFrame {
 						}
 					}
 					
-					kdao.update(tak);
-			        JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+					
+					
+					List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
+					takmicari1 = takdao.getAll(Takmicar.class);
+					boolean flek = false;
+					for(int i = 0; i< takmicari1.size(); i++)
+					{
+						if (tak.getJmbg().equals(takmicari1.get(i).getJmbg()))
+							flek = true;
+					}
+					if (flek)
+					{
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Info", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else
+					{
+						takdao.update(tak);
+				        JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+					}
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
 					thisFrame.dispose();
