@@ -241,9 +241,46 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 							   
 		        	if(mecevi.get(i).getTurnir().getId()==t && date.compareTo(datemec)==0) 
 		        	{
-		    			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+		        		int jedan=-1;
+		        		if(mecevi.get(i).getRezultat1()!=0.5)
+		        		{
+		        			jedan = (int) Math.round(mecevi.get(i).getRezultat1());
+		        		}
+		        		int dva=-1;
+		        		if(mecevi.get(i).getRezultat2()!=0.5)
+		        		{
+		        			dva = (int) Math.round(mecevi.get(i).getRezultat2());
+		        		}
+		        		if(jedan!=-1 && dva!=-1)
+		        		{
+		        			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+			    					mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime(), 
+			    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), 
+			    					jedan + " : "+ dva });
+		        		}
+		        		else if(jedan!=-1)
+		        		{
+		        			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+			    					mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime(), 
+			    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), 
+			    					jedan + " : "+ mecevi.get(i).getRezultat2() });
+		        		}
+		        		else if(dva!=-1)
+		        		{
+		        			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+			    					mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime(), 
+			    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), 
+			    					mecevi.get(i).getRezultat1() + " : "+ dva });
+		        		}
+		        		else{
+		        			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
 		    					mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime(), 
-		    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), mecevi.get(i).getDatumPocetka()  });
+		    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), 
+		    					mecevi.get(i).getRezultat1() + " : "+ mecevi.get(i).getRezultat2() });
+		        		}
+		        		
+		        		
+		    			
 
 		        	}
 		        	}catch(Exception e){
