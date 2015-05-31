@@ -1,11 +1,14 @@
 package utils;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 import java.text.SimpleDateFormat;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -71,31 +74,63 @@ public class JTableUtil {
 		return new DefaultTableModel(data, columnNames);
 	}
 
-	public TableModel populateJTableRangListaTakmicari() {
+	public TableModel populateJTableRangListaTakmicari(Turnir t) {
+		
 		List<Takmicar> takmicari = new ArrayList<Takmicar>();
+		Set<Takmicar> hs = new HashSet<Takmicar>();
+		List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
 		List<Klub> klubovi = new ArrayList<Klub>();
+		List<Mec> mecevi = new ArrayList<Mec>();
+		List<Mec> mecevi1 = new ArrayList<Mec>();
+		
+		takmicari = TakmicarDAO.getAll(Takmicar.class);
+		
 
-		TakmicarDAO tdao = new TakmicarDAO();
-		takmicari = tdao.getAll(Takmicar.class);
-
-		KlubDAO kdao = new KlubDAO();
-		klubovi = kdao.getAll(Klub.class);
-		Collections.sort(takmicari);
-		Collections.reverse(takmicari);
+		klubovi = KlubDAO.getAll(Klub.class);
+		
+		
+		mecevi = MecDAO.getAll(Mec.class);
+		for(int i=0;i<mecevi.size();i++)
+		{
+			if(mecevi.get(i).getTurnir().getNaziv().equals(t.getNaziv()))
+			{
+				mecevi1.add(mecevi.get(i));
+			}
+		}
+		for(int i=0;i<mecevi1.size();i++)
+		{
+			for(int j=0;j<takmicari.size();j++)
+			{
+				if(mecevi1.get(i).getTakmicar1().getId()==takmicari.get(j).getId())
+					takmicari1.add(takmicari.get(j));
+			}
+			
+		}
+		hs.addAll(takmicari1);
+		takmicari1.clear();
+		takmicari1.addAll(hs);
+		/*JOptionPane.showMessageDialog(null,
+				takmicari1.size(), "Potvrda",
+				JOptionPane.INFORMATION_MESSAGE);*/
+		
+		
+		
+		Collections.sort(takmicari1);
+		Collections.reverse(takmicari1);
 		String[] columnNames = { "Pozicija", "Ime i prezime", "Datum roðenja",
 				"Klub", "Broj bodova", "Broj turnira", "Broj titula" };
-		String[][] data = new String[takmicari.size()][7];
-		for (int i = 0; i < takmicari.size(); i++) {
+		String[][] data = new String[takmicari1.size()][7];
+		for (int i = 0; i < takmicari1.size(); i++) {
 			data[i][0] = Integer.toString(i + 1);
-			data[i][1] = takmicari.get(i).getIme() + " "
-					+ takmicari.get(i).getPrezime();
-			data[i][2] = String.valueOf(takmicari.get(i).getDatumRodjenja());
+			data[i][1] = takmicari1.get(i).getIme() + " "
+					+ takmicari1.get(i).getPrezime();
+			data[i][2] = String.valueOf(takmicari1.get(i).getDatumRodjenja());
 			for (int j = 0; j < klubovi.size(); j++) {
-				if (klubovi.get(j).getId() == takmicari.get(i).getKlub()
+				if (klubovi.get(j).getId() == takmicari1.get(i).getKlub()
 						.getId())
 					data[i][3] = klubovi.get(j).getNaziv();
 			}
-			data[i][4] = String.valueOf(takmicari.get(i).getBrojBodova());
+			data[i][4] = String.valueOf(takmicari1.get(i).getBrojBodova());
 			// data[i][5] = takmicari.get(i).getKategorija();
 			data[i][5] = "0";
 			data[i][6] = "0";

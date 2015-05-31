@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
@@ -35,9 +36,12 @@ import javax.swing.SpinnerDateModel;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 
@@ -75,6 +79,30 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 	private transient MecDAO mecdao;
 	private transient KlubDAO klubdao;
 	private JFrame parentFrame;
+	/**
+	 * Launch the application.
+	 */
+	private void PrepareTableDesign(JTable table) {
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);
+				return c;
+			}
+		});
+	}
 
 	public IzvjestajORangListiTakmicara(JFrame pf) {
 		parentFrame = pf;
@@ -103,12 +131,33 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		txtpnDatumIVrijeme.setText("Datum i vrijeme generisanja izvje\u0161taja: ");
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setVisible(false);
 		JScrollPane scrollPane = new JScrollPane();
 		
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setColumns(10);
+		///////////////////
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] { "Pozicija", "Ime i prezime", "Datum roðenja",
+					"Klub", "Broj bodova", "Broj turnira", "Broj titula" }
+		));
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(25);
+		table.getColumnModel().getColumn(1).setPreferredWidth(90);
+		table.getColumnModel().getColumn(2).setPreferredWidth(90);
+		table.getColumnModel().getColumn(3).setPreferredWidth(90);
+		table.getColumnModel().getColumn(4).setPreferredWidth(25);
+		table.getColumnModel().getColumn(5).setPreferredWidth(25);
+		table.getColumnModel().getColumn(6).setPreferredWidth(25);
+		scrollPane.setViewportView(table);
+		////////////////////////////
+		
+		
+		
+		
 		
 		jtutil = new JTableUtil();
 		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
@@ -128,13 +177,95 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		
 		klubdao = new KlubDAO();
 		
+		
+		
+		
+		
+		
+	    JTextPane txtpnIzvjetajORang = new JTextPane();
+		txtpnIzvjetajORang.setEditable(false);
+		txtpnIzvjetajORang.setText("Izvje\u0161taj o rang listi takmi\u010Dara");
+		txtpnIzvjetajORang.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtpnIzvjetajORang.setBackground(Color.WHITE);
+		
+		
+		
 		comboBox.addActionListener(new ActionListener() {
 			 
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTurnir = (String) combo.getSelectedItem();
-		        List<Double> pozicije = new ArrayList<Double>(takmicari.size());
+		        //List<Double> pozicije = new ArrayList<Double>(takmicari.size());
 		        textField.setText(LocalDateTime.now().toString());
+		        
+		        //////////////////////////////////////////
+		        ////////////////////////////////////////////
+		        List<Takmicar> takmicari = new ArrayList<Takmicar>();
+				Set<Takmicar> hs = new HashSet<Takmicar>();
+				List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
+				List<Klub> klubovi = new ArrayList<Klub>();
+				List<Mec> mecevi = new ArrayList<Mec>();
+				List<Mec> mecevi1 = new ArrayList<Mec>();
+				
+				takmicari = TakmicarDAO.getAll(Takmicar.class);
+				
+
+				klubovi = KlubDAO.getAll(Klub.class);
+				
+				
+				mecevi = MecDAO.getAll(Mec.class);
+				for(int i=0;i<mecevi.size();i++)
+				{
+					if(mecevi.get(i).getTurnir().getNaziv().equals(selectedTurnir))
+					{
+						mecevi1.add(mecevi.get(i));
+						
+					}
+				}
+			
+				for(int i=0;i<mecevi1.size();i++)
+				{
+					for(int j=0;j<takmicari.size();j++)
+					{
+						if(mecevi1.get(i).getTakmicar1().getId()==takmicari.get(j).getId())
+							takmicari1.add(takmicari.get(j));
+						if(mecevi1.get(i).getTakmicar2().getId()==takmicari.get(j).getId())
+							takmicari1.add(takmicari.get(j));
+					}
+					
+				}
+				hs.addAll(takmicari1);
+				takmicari1.clear();
+				takmicari1.addAll(hs);
+				
+				
+				
+				
+				Collections.sort(takmicari1);
+				Collections.reverse(takmicari1);
+				
+				
+				((DefaultTableModel) table.getModel()).setRowCount(0);
+		        PrepareTableDesign(table);
+		        
+		        
+		        for(int i=0;i<takmicari1.size();i++)
+		        {
+		        	((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+		        			takmicari1.get(i).getIme() + " " + takmicari1.get(i).getPrezime(), 
+		        			String.valueOf(takmicari1.get(i).getDatumRodjenja()),
+		        			takmicari1.get(i).getKlub().getNaziv(),
+		        			String.valueOf(takmicari1.get(i).getBrojBodova()),
+		        			"0","0"});
+		        }
+		        
+		        
+		        
+		        ///////////////////////////////////////////
+		        /////////////////////////////////////////
+		        
+		        
+		        
 		    }
 		    
 		    
@@ -150,12 +281,25 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 		        printJob.printDialog(attributes);
 			}
 		});
-		
-	    JTextPane txtpnIzvjetajORang = new JTextPane();
-		txtpnIzvjetajORang.setEditable(false);
-		txtpnIzvjetajORang.setText("Izvje\u0161taj o rang listi takmi\u010Dara");
-		txtpnIzvjetajORang.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtpnIzvjetajORang.setBackground(Color.WHITE);
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);	
+				return c;
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
@@ -198,43 +342,9 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
-		
-		table = new JTable();
-		JTableUtil jtutil = new JTableUtil();
-		table.setModel(jtutil.populateJTableRangListaTakmicari());
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(25);
-		table.getColumnModel().getColumn(1).setPreferredWidth(90);
-		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-		table.getColumnModel().getColumn(3).setPreferredWidth(90);
-		table.getColumnModel().getColumn(4).setPreferredWidth(25);
-		table.getColumnModel().getColumn(5).setPreferredWidth(25);
-		table.getColumnModel().getColumn(6).setPreferredWidth(25);
-		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
-		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table,
-					Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-				Color c1 = new Color(0x67FD9A);
-				Color c2 = new Color(0xC0C0C0);
-				Color c3 = new Color(0x343434);
-				final Component c = super.getTableCellRendererComponent(table,
-						value, isSelected, hasFocus, row, column);
-				c.setBackground(row % 2 == 0 ? c1 : c2);
-				table.setRowHeight(row, 40);
-				JTableHeader h = table.getTableHeader();
-				h.setOpaque(false);
-				h.setBackground(c3);
-				h.setForeground(Color.white);	
-				return c;
-			}
-		});
-		table.setAutoCreateRowSorter(true);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
-				.setHorizontalAlignment(JLabel.CENTER);
-		table.getTableHeader().setPreferredSize(new Dimension(0, 40));
+		
+		
+		
 	}
 }
