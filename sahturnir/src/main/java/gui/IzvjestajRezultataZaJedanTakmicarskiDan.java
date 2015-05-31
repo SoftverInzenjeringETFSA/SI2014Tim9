@@ -1,7 +1,11 @@
 package gui;
+import gui.GlavniProzor.ImageRendererDelete;
+import gui.GlavniProzor.ImageRendererEdit;
+import gui.GlavniProzor.ImageRendererMatch;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -17,10 +21,15 @@ import java.awt.Color;
 
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import javax.swing.SwingConstants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +85,27 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	private void PrepareTableDesign(JTable table) {
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);
+				return c;
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
@@ -150,21 +180,99 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		mecevi = new ArrayList<Mec>();
 		mecdao = new MecDAO();
 		mecevi = mecdao.getAll(Mec.class);
+		//////////////////////////
+		
+		
+		
+		//////////
 		
 		klubdao = new KlubDAO();
-		
 		comboBox.addActionListener(new ActionListener() {
 			 
 		    public void actionPerformed(ActionEvent event) {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
-		        String selectedTurnir = (String) combo.getSelectedItem();
+		        /*String selectedTurnir = (String) combo.getSelectedItem();
 		        Date d = (Date)spinner.getValue();
 		        textField.setText(LocalDateTime.now().toString());
 				table.setModel(jtutil.populateJTableRezultatiDan(selectedTurnir, d));
-//				PrepareTableDesign(table);
+				PrepareTableDesign(table);*/
+		        
+		        
+		        
+		        //btnPrint.setEnabled(true);
+		        String selectedTurnir = (String) combo.getSelectedItem();
+		        textField.setText(LocalDateTime.now().toString());
+		        long t=-1;
+		        for(int i=0; i<turniri.size(); i++)
+				{
+					if (turniri.get(i).getNaziv().equals(selectedTurnir)) 
+					{
+						t=turniri.get(i).getId();
+					}
+						
+				}
+		        ((DefaultTableModel) table.getModel()).setRowCount(0);
+		        PrepareTableDesign(table);
+		        
+		       String datum=spinner.getValue().toString();
+		       
+		       SimpleDateFormat originalFormat = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+		       DateFormat targetFormat = new SimpleDateFormat("dd-MM-yyyy");
+		       SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
+		      
+		      
+		       
+               try{ 
+            	   Date date = originalFormat.parse(datum);
+			       String spinnerDate = targetFormat.format(date);
+			       date = targetFormat.parse(spinnerDate);
+			      // System.out.println(targetFormat.format(date));
+	            	   
+		        for(int i=0; i<mecevi.size(); i++)
+		        {
+		        	
+		        	try{
+		        		 
+		        		
+							Date datemec = format1.parse(mecevi.get(i).getDatumPocetka().toString());
+							   String datemec1 = targetFormat.format(datemec);
+							   datemec = targetFormat.parse(datemec1);
+							   //System.out.println(targetFormat.format(datemec));
+							   
+		        	if(mecevi.get(i).getTurnir().getId()==t && date.compareTo(datemec)==0) 
+		        	{
+		        		System.out.println("proslo");
+		    			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+		    					mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime(), 
+		    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), mecevi.get(i).getDatumPocetka()  });
 
+		        	}
+		        	}catch(Exception e){
+		        		
+		        	}
+		        }
+               	}catch(Exception e){}
+		       
+               	
 		    }
+
+			
 		});
+			
+			
+		
+		
+	
+		
+		
+		
+		
+		
+
+		
+		
+		
+		
 		
 		JButton button = new JButton("Print");
 		button.addActionListener(new ActionListener() {
@@ -175,7 +283,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		        printJob.printDialog(attributes);
 			}
 		});
-		
+	
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			@Override
 			public Component getTableCellRendererComponent(JTable table,

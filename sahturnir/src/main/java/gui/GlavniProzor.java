@@ -112,7 +112,7 @@ public class GlavniProzor extends JFrame {
 	 * Launch the application.
 	 */
 
-	class ImageRendererDelete extends DefaultTableCellRenderer {
+	public class ImageRendererDelete extends DefaultTableCellRenderer {
 		JLabel tableLabel = new JLabel();
 		ImageIcon icon = new ImageIcon("src/main/java/gui/delete.png");
 		public Component getTableCellRendererComponent(JTable table,
