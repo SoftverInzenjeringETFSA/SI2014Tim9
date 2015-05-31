@@ -241,6 +241,7 @@ public class DodavanjeKorisnika extends JFrame {
 					} else {
 						textPane_1
 								.setText("Morate unijeti barem jedan broj i minimalno 6 karaktera");
+						flag = true;
 					}
 				}
 				if (!validirajPraznoPass(passwordField.getPassword())) {
