@@ -97,7 +97,7 @@ public class Prijava extends JFrame {
 					GlavniProzor g = new GlavniProzor(k);
 					g.setVisible(true);
 					parentFrame.dispose();
-			    }
+			   }
 			    else
 			    	lblNewLabel_2.setText("Neispravni podaci za prijavu");
 			}
