@@ -250,20 +250,16 @@ public class RezultatiMecevaTabela extends JFrame {
 					List <Takmicar> takmicari = new ArrayList<Takmicar>();
 					takmicari = tdao.getAllContestants(t1.getId());
 					TakmicarDAO takdao = new TakmicarDAO();
-					
-					if(t1.getFormatTakmicenja().equals("Jednostruki eliminacioni"))
+		 	 		if(t1.getFormatTakmicenja().equals("Jednostruki eliminacioni"))
 					{
 			 	 		System.out.println("UŠAO");
 			 	 		System.out.println(takmicari.size());
 						for (int i =0; i< takmicari.size(); i++)
 						{
-				 	 		if(takdao.validate(takmicari.get(i).getId(), t1.getId()))
-				 	 		{
-								if (takdao.throwOut(takmicari.get(i).getId(), t1.getId()))
-								{
-									takmicari.remove(i);
-									i--;
-								}
+							if (takdao.throwOut(takmicari.get(i).getId(), t1.getId()))
+							{
+								takmicari.remove(i);
+								i--;
 							}
 						}
 						if(takmicari.size() == 1)
@@ -297,7 +293,7 @@ public class RezultatiMecevaTabela extends JFrame {
 						swiss++;
 						if(swiss == takmicari.size()-1)
 						{
-							btnNovaRunda.setEnabled(false);
+	//						btnNova
 						}
 						System.out.println(takmicari.size());
 						Swiss s = new Swiss();
@@ -308,9 +304,8 @@ public class RezultatiMecevaTabela extends JFrame {
 							mecevi = s.GenerisiMeceve(takmicari, t1);
 							for (int i = 0; i < mecevi.size(); i++)
 							{
-								if (takdao.validate(mecevi.get(i).getTakmicar1().getId(), t1.getId()) 
-										&& takdao.validate(mecevi.get(i).getTakmicar2().getId(), t1.getId()))
-									mdao.create(mecevi.get(i));
+					 	 		System.out.println("UŠAO");
+								mdao.create(mecevi.get(i));
 							}
 							
 						} 
