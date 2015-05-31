@@ -142,7 +142,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 			new Object[][] {
 			},
 			new String[] { "Pozicija", "Ime i prezime", "Datum roðenja",
-					"Klub", "Broj bodova", "Broj turnira", "Broj titula" }
+					"Klub", "Broj turnira", "Broj titula", "Bodovi na turniru", "Ukupno bodova" }
 		));
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(25);
@@ -211,7 +211,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 				
 
 				klubovi = KlubDAO.getAll(Klub.class);
-				
+				Turnir tx = new Turnir();
 				
 				mecevi = MecDAO.getAll(Mec.class);
 				for(int i=0;i<mecevi.size();i++)
@@ -219,7 +219,7 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 					if(mecevi.get(i).getTurnir().getNaziv().equals(selectedTurnir))
 					{
 						mecevi1.add(mecevi.get(i));
-						
+						tx = mecevi.get(i).getTurnir();
 					}
 				}
 			
@@ -256,12 +256,13 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 					 int brojNerijesenih = omjer[1];
 					 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d;
 					 takmicari1.get(i).setBrojBodova(bodovi);
-		        	((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+					 int ucesce = 0;
+					 ucesce = trdao.getParticipationCount(takmicari1.get(i).getId());
+					 ((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
 		        			takmicari1.get(i).getIme() + " " + takmicari1.get(i).getPrezime(), 
 		        			String.valueOf(takmicari1.get(i).getDatumRodjenja()),
 		        			takmicari1.get(i).getKlub().getNaziv(),
-		        			takmicari1.get(i).getBrojBodova(),
-		        			"0","0"});
+		        			ucesce, "0", trdao.getTournamentPoints(takmicari1.get(i).getId(), tx.getId()), takmicari1.get(i).getBrojBodova()});
 		        }
 		        
 		        
