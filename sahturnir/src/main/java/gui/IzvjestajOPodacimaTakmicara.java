@@ -119,6 +119,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		
 		btnPrint = new JButton("Print");
 		btnPrint.setEnabled(false);
+		btnPrint.setVisible(false);
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
@@ -248,6 +249,7 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTakmicar = (String) combo.getSelectedItem();
 		        btnPrint.setEnabled(true);
+		        btnPrint.setVisible(true);
 		        for (int i=0; i<takmicari.size(); i++)
 		        {
 		        	 if (selectedTakmicar.equals(imenaPrezimena.get(i)))
