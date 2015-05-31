@@ -558,6 +558,9 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public DodavanjeNovogIAzuriranjePostojecegTurnira(Turnir turn, JFrame pf, GlavniProzor gp) {
 		parentFrame = pf;
 		gpf = gp;
@@ -730,6 +733,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 					.addContainerGap(38, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
+		comboBox.setEnabled(false);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
@@ -871,6 +875,11 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 										.addGap(18).addComponent(btnPotvrdi)
 										.addContainerGap()));
 		JButton button = new JButton(">");
+		button.setEnabled(false);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 
 		/*
 		 * button.addActionListener(new ActionListener(){ public void
@@ -887,7 +896,7 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		 */
 
 		JButton button_1 = new JButton("<");
-
+		button_1.setEnabled(false);
 		/*
 		 * button_1.addActionListener(new ActionListener(){ public void
 		 * actionPerformed(ActionEvent arg0){
