@@ -153,4 +153,91 @@ public class TakmicarDAO extends GenericDAO {
 		}
 		return cifra;
 	}
+	
+	public boolean validate(long id, long turnirID)
+	{
+		final Logger logger = Logger.getLogger(KlubDAO.class);
+		boolean flag = false;
+		try{
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
+			
+			PreparedStatement statement3;
+			try {
+				statement3 = connection
+						.prepareStatement("select mecevi.id from mecevi where mecevi.turnir = ? AND mecevi.takmicar2 = ?  AND mecevi.rezultat2 = 0 AND mecevi.rezultat1 = 0;");
+	
+				statement3.setLong(1, turnirID);
+				statement3.setLong(2, id);
+				ResultSet result3 = statement3.executeQuery();
+				result3.next();
+				String sum3 = result3.getString(1);
+				if(sum3 != null)
+					flag = true;
+	
+			} catch (SQLException e) {
+				throw e;
+			}
+			finally{
+				connection.close();
+			}
+		}
+		catch (Exception e1) 
+		{
+			logger.error("Došlo je do greške", e1);
+		} 
+		finally 
+		{
+		}		
+		return flag;
+	}
+	
+	
+	public boolean throwOut(long id, long turnirID) {
+		System.out.println(id);
+		final Logger logger = Logger.getLogger(KlubDAO.class);
+		boolean flag = false;
+		try {
+			Class.forName(driver);
+			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
+			try {
+				PreparedStatement statement = connection
+						.prepareStatement("select count(mecevi.id) from mecevi where mecevi.turnir = ? AND mecevi.takmicar1 = ?  AND mecevi.rezultat1 = 0 AND mecevi.rezultat2 = 1;");
+				statement.setLong(1, turnirID);
+				statement.setLong(2, id);
+				ResultSet result = statement.executeQuery();
+				result.next();
+				String sum = result.getString(1);
+				if(sum != null && Integer.parseInt(sum) != 0)
+					flag = true;
+				
+				
+				PreparedStatement statement2 = connection
+						.prepareStatement("select count(mecevi.id) from mecevi where mecevi.turnir = ? AND mecevi.takmicar2 = ?  AND mecevi.rezultat2 = 0 AND mecevi.rezultat1 = 1;");
+				statement2.setLong(1, turnirID);
+				statement2.setLong(2, id);
+				ResultSet result2 = statement2.executeQuery();
+				result2.next();
+				String sum2 = result2.getString(1);
+				if(sum2 != null && Integer.parseInt(sum2) != 0)
+					flag = true;
+				
+				if (flag)
+					System.out.println("TRUE");
+				else System.out.println("FALSE");
+			} 
+			catch (Exception e) 
+			{
+				throw e;
+			} 
+			finally 
+			{
+				connection.close();
+			}
+		} catch (Exception e) {
+			logger.error("Došlo je do greške!", e);
+		} finally {
+		}
+		return flag;
+	}
 }

@@ -1,5 +1,7 @@
 package gui;
 
+import formatiturnira.JednostrukaEliminacija;
+import formatiturnira.Swiss;
 import gui.GlavniProzor.ImageRendererDelete;
 import gui.GlavniProzor.ImageRendererEdit;
 import gui.GlavniProzor.ImageRendererMatch;
@@ -42,13 +44,22 @@ import javax.swing.JScrollPane;
 import klase.Klub;
 import klase.Mec;
 import klase.Turnir;
+import klase.Takmicar;
 
 import org.apache.log4j.Logger;
 
 import dal.KlubDAO;
 import dal.MecDAO;
+import dal.TakmicarDAO;
 import dal.TurnirDAO;
 import utils.JTableUtil;
+
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RezultatiMecevaTabela extends JFrame {
 
@@ -59,6 +70,8 @@ public class RezultatiMecevaTabela extends JFrame {
 	private JFrame parentFrame;
 	private GlavniProzor gpf;
 	transient Turnir t1;
+	private int swiss = 0;
+	private JButton btnNovaRunda = new JButton("Nova runda");
 	/**
 	 * Launch the application.
 	 */
@@ -159,6 +172,14 @@ public class RezultatiMecevaTabela extends JFrame {
 			}
 		});
 		t1 = t;
+		btnNovaRunda.setEnabled(false);		
+		Mec m = new Mec();
+		MecDAO mdao = new MecDAO();
+		if (!t1.getFormatTakmicenja().equals("Round Robin"))
+		{
+			btnNovaRunda.setEnabled(true);
+		}
+		
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				RezultatiMecevaTabela.class.getResource("/gui/logo.png")));
@@ -185,6 +206,7 @@ public class RezultatiMecevaTabela extends JFrame {
 		panel.setLayout(new BorderLayout());
 		panel.add(table.getTableHeader(), BorderLayout.NORTH);
 		panel.add(new JScrollPane(table), BorderLayout.CENTER);
+
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -219,80 +241,119 @@ public class RezultatiMecevaTabela extends JFrame {
 			}
 		});
 		
+		
+		
+		btnNovaRunda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					final Logger logger = Logger.getLogger(TurnirDAO.class);
+					TurnirDAO tdao = new TurnirDAO();
+					List <Takmicar> takmicari = new ArrayList<Takmicar>();
+					takmicari = tdao.getAllContestants(t1.getId());
+					TakmicarDAO takdao = new TakmicarDAO();
+					
+					if(t1.getFormatTakmicenja().equals("Jednostruki eliminacioni"))
+					{
+			 	 		System.out.println("UŠAO");
+			 	 		System.out.println(takmicari.size());
+						for (int i =0; i< takmicari.size(); i++)
+						{
+				 	 		if(takdao.validate(takmicari.get(i).getId(), t1.getId()))
+				 	 		{
+								if (takdao.throwOut(takmicari.get(i).getId(), t1.getId()))
+								{
+									takmicari.remove(i);
+									i--;
+								}
+							}
+						}
+						if(takmicari.size() == 1)
+						{
+							btnNovaRunda.setEnabled(false);
+						}
+						JednostrukaEliminacija je = new JednostrukaEliminacija();
+						List<Mec> mecevi = new ArrayList<Mec>();
+						MecDAO mdao = new MecDAO();
+						try 
+						{
+							mecevi = je.GenerisiRundu( takmicari , t1, false);
+							for (int i = 0; i < mecevi.size(); i++)
+							{
+					 	 		System.out.println("UŠAO");
+								mdao.create(mecevi.get(i));
+							}
+						} 
+						catch (Exception e1) 
+						{
+							logger.error("Došlo je do greške!", e1);
+						}
+					}
+/*					else if(t1.getFormatTakmicenja().equals("Dvostruka eliminacija"))
+					{
+						
+					}
+*/					else if (t1.getFormatTakmicenja().equals("Swiss"))
+					{
+						System.out.println("UŠAO");
+						swiss++;
+						if(swiss == takmicari.size()-1)
+						{
+							btnNovaRunda.setEnabled(false);
+						}
+						System.out.println(takmicari.size());
+						Swiss s = new Swiss();
+						List<Mec> mecevi = new ArrayList<Mec>();
+						MecDAO mdao = new MecDAO();
+						try 
+						{
+							mecevi = s.GenerisiMeceve(takmicari, t1);
+							for (int i = 0; i < mecevi.size(); i++)
+							{
+								if (takdao.validate(mecevi.get(i).getTakmicar1().getId(), t1.getId()) 
+										&& takdao.validate(mecevi.get(i).getTakmicar2().getId(), t1.getId()))
+									mdao.create(mecevi.get(i));
+							}
+							
+						} 
+						catch (Exception e1) 
+						{
+							logger.error("Došlo je do greške!", e1);
+						}
+					}
+				}
+		});
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane
-				.setHorizontalGroup(gl_contentPane
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(
-																panel,
-																GroupLayout.DEFAULT_SIZE,
-																717,
-																Short.MAX_VALUE)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addComponent(
-																				txtpnNazivTurnira,
-																				GroupLayout.PREFERRED_SIZE,
-																				79,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				textField,
-																				GroupLayout.PREFERRED_SIZE,
-																				261,
-																				GroupLayout.PREFERRED_SIZE))
-														.addComponent(
-																txtpnMeeviZaKoje,
-																GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
-										.addContainerGap()));
-		gl_contentPane
-				.setVerticalGroup(gl_contentPane
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addComponent(
-																				txtpnNazivTurnira,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(36)
-																		.addComponent(
-																				txtpnMeeviZaKoje,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE))
-														.addComponent(
-																textField,
-																GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addComponent(panel,
-												GroupLayout.DEFAULT_SIZE, 299,
-												Short.MAX_VALUE)
-										.addContainerGap()));
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+						.addComponent(txtpnMeeviZaKoje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 282, Short.MAX_VALUE)
+							.addComponent(btnNovaRunda)))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(txtpnNazivTurnira, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(36)
+							.addComponent(txtpnMeeviZaKoje, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnNovaRunda)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 
 		// JTableUtil jtutil = new JTableUtil();
 		// table.setModel(jtutil.populateJTableMecevi(t));

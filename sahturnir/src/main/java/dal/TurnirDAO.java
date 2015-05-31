@@ -65,7 +65,7 @@ public class TurnirDAO extends GenericDAO {
 	
 	public List<Takmicar> getAllContestants(long id) {
 		final Logger logger = Logger.getLogger(TurnirDAO.class);
-		List<Takmicar> takmicari = new ArrayList();
+		List<Takmicar> takmicari = new ArrayList<Takmicar>();
 		try {
 			Class.forName(driver);
 			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);

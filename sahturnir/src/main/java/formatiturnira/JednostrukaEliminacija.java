@@ -1,4 +1,5 @@
 package formatiturnira;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,6 @@ public class JednostrukaEliminacija {
 	
 	
  	public List<Mec> GenerisiRundu(List<Takmicar> takmicari, Turnir turnir, boolean prvaRunda) throws Exception{
- 		
  		if (takmicari.size()==0) throw new Exception ("Nema takmicara");
  		if (turnir == null) throw new Exception ("Nema turnira");
  		
@@ -28,8 +28,9 @@ public class JednostrukaEliminacija {
  		
  		if (prvaRunda){
  			Collections.shuffle(takmicari);
- 		}
+ 	 	}
  		for (int i = 0; i < takmicari.size() - 1; i = i + 2){
+ 	 		System.out.println("UŠAO");
  			
  			Mec m=new Mec();
 			m.setTakmicar1(takmicari.get(i));

@@ -289,6 +289,8 @@ public class DodavanjeTakmicara extends JFrame {
 					t.setJmbg(textField_1.getText());
 					t.setDatumRodjenja((Date)spinner.getValue());
 					t.setKategorija(comboBox.getSelectedItem().toString());
+					long tit = 0;
+					t.setBrojTitula(tit);
 					t.setBrojacPoraza(0);
 					List<Klub> klubovi = new ArrayList<Klub>();
 					KlubDAO kdao = new KlubDAO();

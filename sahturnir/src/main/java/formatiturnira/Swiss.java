@@ -32,8 +32,7 @@ public class Swiss {
 		
 		/*provjera broja takmicara*/
 		//int broj=t.size();
-		//if(((broj & (broj-1))!=0)||(broj==0)||(broj==1))throw new Exception("Broj takmicara mora biti potencija broja 2!");
-			
+		//if(((broj & (broj-1))!=0)||(broj==0)||(broj==1))throw new Exception("Broj takmicara mora biti potencija broja 2!");		
 		
 		/*for(Iterator<Takmicar> i= t.iterator(); i.hasNext();)
 		{*/
@@ -43,10 +42,8 @@ public class Swiss {
 		/*Sort*/
 		Collections.sort(takmicari);
 		
-		
 		for(int i=0;i<takmicari.size();i++)
 		{
-			
 			if(i%2==0)
 			{
 				Mec m=new Mec();
@@ -57,16 +54,8 @@ public class Swiss {
 				m.setTurnir(turnir);
 				m.setDatumPocetka(turnir.getDatumPocetka());
 				mecevi.add(m);
-			}
-			
+			}	
 		}
-		
 		return mecevi;
-		
 	}
-	
-	
-	
-	
-
 }
