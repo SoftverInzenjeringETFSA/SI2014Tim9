@@ -241,7 +241,6 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 							   
 		        	if(mecevi.get(i).getTurnir().getId()==t && date.compareTo(datemec)==0) 
 		        	{
-		        		System.out.println("proslo");
 		    			((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
 		    					mecevi.get(i).getTakmicar1().getIme() + " " + mecevi.get(i).getTakmicar1().getPrezime(), 
 		    					mecevi.get(i).getTakmicar2().getIme() + " " + mecevi.get(i).getTakmicar2().getPrezime(), mecevi.get(i).getDatumPocetka()  });
