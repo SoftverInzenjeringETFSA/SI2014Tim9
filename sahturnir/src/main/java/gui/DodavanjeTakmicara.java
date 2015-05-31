@@ -21,6 +21,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingUtilities;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Calendar;
@@ -281,6 +284,7 @@ public class DodavanjeTakmicara extends JFrame {
 				}
 				if(!flag)
 				{
+					final Logger logger = Logger.getLogger(DodavanjeTakmicara.class);
 					Takmicar t = new Takmicar();
 					TakmicarDAO tdao = new TakmicarDAO();
 					
@@ -288,6 +292,30 @@ public class DodavanjeTakmicara extends JFrame {
 					t.setPrezime(textField_2.getText());
 					t.setJmbg(textField_1.getText());
 					t.setDatumRodjenja((Date)spinner.getValue());
+
+					String datum = t.getJmbg().substring(0, 2);
+					String mjesec = t.getJmbg().substring(2, 4);
+					String godina = "1"+ t.getJmbg().substring(4, 7);
+
+					String sredi = datum + "-" + mjesec + "-" + godina;
+					
+					String poredi = spinner.getValue().toString();
+			        SimpleDateFormat originalFormat = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+			        DateFormat targetFormat = new SimpleDateFormat("dd-MM-yyyy");
+			        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
+			        boolean flax = false;
+			        try {
+						Date jmbgDatum = targetFormat.parse(sredi);
+						System.out.println(jmbgDatum);
+						System.out.println(sredi);
+						if (jmbgDatum.equals(t.getDatumRodjenja()))
+							flax = true;
+					} 
+			        catch (ParseException e1) {
+			        	logger.error("Belaj", e1);
+					}
+					
+					spinner.getValue().toString();
 					t.setKategorija(comboBox.getSelectedItem().toString());
 					long tit = 0;
 					t.setBrojTitula(tit);
@@ -318,8 +346,12 @@ public class DodavanjeTakmicara extends JFrame {
 					}
 					else
 					{
-						tdao.create(t);
-						JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+						if(flax)
+						{
+							tdao.create(t);
+							JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+						}
+						else JOptionPane.showMessageDialog(null, "Matièni broj i datum roðenja nisu usklaðeni!", "Info", JOptionPane.INFORMATION_MESSAGE);
 					}
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
@@ -590,6 +622,30 @@ public class DodavanjeTakmicara extends JFrame {
 					tak.setDatumRodjenja((Date)spinner.getValue());
 					tak.setKategorija(comboBox.getSelectedItem().toString());
 					
+					
+					String datum = t.getJmbg().substring(0, 2);
+					String mjesec = t.getJmbg().substring(2, 4);
+					String godina = "1"+ t.getJmbg().substring(4, 7);
+
+					String sredi = datum + "-" + mjesec + "-" + godina;
+					
+					String poredi = spinner.getValue().toString();
+			        SimpleDateFormat originalFormat = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+			        DateFormat targetFormat = new SimpleDateFormat("dd-MM-yyyy");
+			        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
+			        boolean flax = false;
+			        try {
+						Date jmbgDatum = targetFormat.parse(sredi);
+						System.out.println(jmbgDatum);
+						System.out.println(sredi);
+						if (jmbgDatum.equals(t.getDatumRodjenja()))
+							flax = true;
+					} 
+			        catch (ParseException e1) {
+			        	logger.error("Belaj", e1);
+					}
+					
+					
 					List<Klub> klubovi = new ArrayList<Klub>();
 					KlubDAO kdao = new KlubDAO();
 					klubovi = kdao.getAll(Klub.class);
@@ -618,8 +674,14 @@ public class DodavanjeTakmicara extends JFrame {
 					}
 					else
 					{
-						takdao.update(tak);
-				        JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+						if(flax)
+						{
+							takdao.update(tak);
+							JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+						}
+						else JOptionPane.showMessageDialog(null, "Matièni broj i datum roðenja nisu usklaðeni!", "Info", JOptionPane.INFORMATION_MESSAGE);
+
+						JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
 					}
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
