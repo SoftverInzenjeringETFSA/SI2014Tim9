@@ -258,7 +258,8 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        	     long brojTitula;
 		        		 Takmicar takmicar = takmicari.get(i);
 		        		 textField_1.setText(selectedTakmicar);
-		        		 spinner.setValue(takmicar.getBrojBodova());
+		        		 //spinner.setValue(takmicar.getBrojBodova());
+		        		 
 		        		 textField_4.setText(takmicar.getKategorija());
 		        		 if(takmicar.getKlub() != null)
 		        			 textField_2.setText(takmicar.getKlub().getNaziv());
@@ -268,6 +269,9 @@ public class IzvjestajOPodacimaTakmicara extends JFrame {
 		        		 brojPobjeda = omjer[0];
 		        		 brojNerijesenih = omjer[1];
 		        		 brojPoraza = omjer[2];
+		        		 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d; 
+		        		 spinner.setValue(bodovi);
+		        		 
 		        		 brojTitula = takmicar.getBrojTitula();
 		        		 brojUcesca = tdao.getParticipationCount(takmicar.getId());
 		        		 spinner_1.setValue(brojUcesca);

@@ -320,6 +320,14 @@ public class DodavanjeTakmicara extends JFrame {
 					long tit = 0;
 					t.setBrojTitula(tit);
 					t.setBrojacPoraza(0);
+					
+  			         int[] omjer =  tdao.getMatchSummary(t.getId());
+					 int brojPobjeda = omjer[0];
+					 int brojNerijesenih = omjer[1];
+					 int brojPoraza = omjer[2];
+					 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d;
+					 
+					t.setBrojBodova(bodovi);
 					List<Klub> klubovi = new ArrayList<Klub>();
 					KlubDAO kdao = new KlubDAO();
 					klubovi = kdao.getAll(Klub.class);

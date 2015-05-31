@@ -2,6 +2,8 @@ package klase;
 
 import java.util.Date;
 
+import dal.TakmicarDAO;
+
 public class Takmicar extends Osoba implements java.io.Serializable , Comparable<Takmicar>  {
 
 	
@@ -36,7 +38,14 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 	}
 
 	public double getBrojBodova() {
-		return brojBodova;
+		 TakmicarDAO tdao = new TakmicarDAO();
+         int[] omjer =  tdao.getMatchSummary(this.getId());
+		 int brojPobjeda = omjer[0];
+		 int brojNerijesenih = omjer[1];
+		 int brojPoraza = omjer[2];
+		 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d;
+		 
+		return bodovi;
 	}
 
 	public void setBrojBodova(double brojBodova) {
@@ -61,7 +70,7 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 	
 	 @Override
 	    public int compareTo(Takmicar t) {
-	       
+		 
 	       if ((this.brojBodova - t.brojBodova)>(double)0)
 	        return 1;
 	       else if((this.brojBodova - t.brojBodova)<(double)0)

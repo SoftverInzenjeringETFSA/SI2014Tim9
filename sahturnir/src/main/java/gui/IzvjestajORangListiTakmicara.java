@@ -248,14 +248,19 @@ public class IzvjestajORangListiTakmicara extends JFrame {
 				((DefaultTableModel) table.getModel()).setRowCount(0);
 		        PrepareTableDesign(table);
 		        
-		        
+		        TakmicarDAO trdao = new TakmicarDAO();
 		        for(int i=0;i<takmicari1.size();i++)
 		        {
+   			         int[] omjer =  trdao.getMatchSummary(takmicari1.get(i).getId());
+					 int brojPobjeda = omjer[0];
+					 int brojNerijesenih = omjer[1];
+					 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d;
+					 takmicari1.get(i).setBrojBodova(bodovi);
 		        	((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
 		        			takmicari1.get(i).getIme() + " " + takmicari1.get(i).getPrezime(), 
 		        			String.valueOf(takmicari1.get(i).getDatumRodjenja()),
 		        			takmicari1.get(i).getKlub().getNaziv(),
-		        			String.valueOf(takmicari1.get(i).getBrojBodova()),
+		        			takmicari1.get(i).getBrojBodova(),
 		        			"0","0"});
 		        }
 		        

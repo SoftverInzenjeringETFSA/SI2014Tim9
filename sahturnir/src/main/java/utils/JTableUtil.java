@@ -65,7 +65,14 @@ public class JTableUtil {
 					.format(takmicari.get(i).getDatumRodjenja());
 			data[i][2] = datumRodjenja;
 			data[i][3] = takmicari.get(i).getJmbg();
-			data[i][4] = String.valueOf(takmicari.get(i).getBrojBodova());
+			
+			 int[] omjer =  tdao.getMatchSummary(takmicari.get(i).getId());
+			 int brojPobjeda = omjer[0];
+			 int brojNerijesenih = omjer[1];
+			 int brojPoraza = omjer[2];
+			 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d;
+			
+			data[i][4] = String.valueOf(bodovi);
 			data[i][5] = takmicari.get(i).getKategorija();
 			if (takmicari.get(i).getKlub() != null)
 				data[i][6] = String.valueOf(takmicari.get(i).getKlub()
@@ -112,8 +119,9 @@ public class JTableUtil {
 		/*JOptionPane.showMessageDialog(null,
 				takmicari1.size(), "Potvrda",
 				JOptionPane.INFORMATION_MESSAGE);*/
-		
-		
+		 
+		 
+		TakmicarDAO tdao = new TakmicarDAO();
 		
 		Collections.sort(takmicari1);
 		Collections.reverse(takmicari1);
@@ -121,6 +129,14 @@ public class JTableUtil {
 				"Klub", "Broj bodova", "Broj turnira", "Broj titula" };
 		String[][] data = new String[takmicari1.size()][7];
 		for (int i = 0; i < takmicari1.size(); i++) {
+			
+			
+			 int[] omjer =  tdao.getMatchSummary(takmicari1.get(i).getId());
+			 int brojPobjeda = omjer[0];
+			 int brojNerijesenih = omjer[1];
+			 int brojPoraza = omjer[2];
+			 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d; 
+			
 			data[i][0] = Integer.toString(i + 1);
 			data[i][1] = takmicari1.get(i).getIme() + " "
 					+ takmicari1.get(i).getPrezime();
@@ -130,7 +146,7 @@ public class JTableUtil {
 						.getId())
 					data[i][3] = klubovi.get(j).getNaziv();
 			}
-			data[i][4] = String.valueOf(takmicari1.get(i).getBrojBodova());
+			data[i][4] = String.valueOf(bodovi);
 			// data[i][5] = takmicari.get(i).getKategorija();
 			data[i][5] = "0";
 			data[i][6] = "0";
