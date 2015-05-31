@@ -18,6 +18,8 @@ import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,17 +121,43 @@ public class DodavanjeKorisnika extends JFrame {
 		return izlaz;
 	}
 
-	public static Boolean validirajJmbg(JTextField t1, JTextPane t2) {
-		Boolean izlaz = false;
-		// String pattern = "/^[0-9]+.{13}$";
-		String a = t1.getText();
-		// Pattern p = Pattern.compile(pattern);
-		// Matcher m = p.matcher(a);
-		if (!(a.length() == 13)) {
-			t2.setText("GreskaJMBG");
-		} else
-			izlaz = true;
-		return izlaz;
+	 public static Boolean validirajCifre(String c)
+     {
+         Boolean da=false;
+         
+         char[] prebaciString=c.toCharArray();
+         for (int i = 0; i < prebaciString.length; i++)
+         {
+             da = false;
+             if (((prebaciString[i] >= '0') && (prebaciString[i] <= '9')))
+                 da = true;
+         }
+         return da;
+     }
+	
+	public static Boolean validirajJmbg(String JMBG) {
+    	List<Integer> l3 = new ArrayList<Integer>();
+		if(validirajCifre(JMBG))
+		{
+			for(char ch : JMBG.toCharArray())
+			{
+			 l3.add( Integer.valueOf(String.valueOf(ch)));
+			}
+		
+			if (l3.size()!= 13)
+	            return false;
+
+	        else
+	        {
+	            Double eval = 0.0;
+	            for (int i = 0; i < 6; i++)
+	            {
+	                eval += (7 - i) * (l3.get(i) + l3.get(i + 6));
+	            }
+	            return l3.get(12) == 11 - eval % 11;
+	        }
+		}
+		else return false;
 	}
 
 	public static Boolean validirajSifru(String t1) {
@@ -153,6 +181,7 @@ public class DodavanjeKorisnika extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @wbp.parser.constructor
 	 */
 	public DodavanjeKorisnika(JFrame pf, GlavniProzor gp) {
 		parentFrame = pf;
@@ -262,16 +291,16 @@ public class DodavanjeKorisnika extends JFrame {
 					flag = true;
 					textPane_4.setText("Polje ne smije biti prazno");
 				}
-				if (validirajPrazno(textField_3.getText())) {
-					if (validirajJmbg(textField_3, textPane_4)) {
-						textPane_4.setText("");
-					}
+				if(validirajJmbg(textField_3.getText()))
+				{
+					textPane_4.setText("");	
 				}
-				if (validirajPrazno(textField_3.getText())) {
-					if (!validirajJmbg(textField_3, textPane_4)) {
-						flag = true;
-					}
+				else
+				{
+					textPane_4.setText("JMBG ne odgovara traženom formatu");	
+					flag = true;
 				}
+
 				if (!flag) {
 					Korisnik k = new Korisnik();
 					k.setKorisnickoIme(textField.getText());
@@ -397,50 +426,46 @@ public class DodavanjeKorisnika extends JFrame {
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(txtpnifra, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(162, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(txtpnKorisnikoIme, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(101, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-							.addGap(19))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(txtpnIme, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(151, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(txtpnPrezime, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(174, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(textPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
 								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
 							.addGap(19))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textPane_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(11, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textPane_2, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(11, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textPane_3, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(11, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-							.addGap(19))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(txtpnJmbg, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap(183, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textPane_4, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(11, Short.MAX_VALUE))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textPane_3, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+								.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
 							.addGap(19))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textPane_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+								.addComponent(textField_1, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+							.addGap(19))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textPane_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+								.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+							.addGap(19))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textPane_4, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+								.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
 							.addGap(19))))
 		);
 		gl_panel.setVerticalGroup(
@@ -591,15 +616,14 @@ public class DodavanjeKorisnika extends JFrame {
 					flag = true;
 					textPane_4.setText("Polje ne smije biti prazno");
 				}
-				if (validirajPrazno(textField_3.getText())) {
-					if (validirajJmbg(textField_3, textPane_4)) {
-						textPane_4.setText("");
-					}
+				if(validirajJmbg(textField_3.getText()))
+				{
+					textPane_4.setText("");	
 				}
-				if (validirajPrazno(textField_3.getText())) {
-					if (!validirajJmbg(textField_3, textPane_4)) {
-						flag = true;
-					}
+				else
+				{
+					textPane_4.setText("JMBG ne odgovara traženom formatu");	
+					flag = true;
 				}
 				if (!flag) {
 

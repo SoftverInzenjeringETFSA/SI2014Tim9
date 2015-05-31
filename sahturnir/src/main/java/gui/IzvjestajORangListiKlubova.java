@@ -210,7 +210,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 				return c;
 			}
 		});
-		comboBox.setVisible(false);
+//		comboBox.setVisible(false);
 		final List<Klub> kluboviTurnira = new ArrayList<Klub>();
 		
 		comboBox.addActionListener(new ActionListener() {
