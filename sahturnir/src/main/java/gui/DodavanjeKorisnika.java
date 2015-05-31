@@ -324,10 +324,33 @@ public class DodavanjeKorisnika extends JFrame {
 					k.setPrezime(textField_2.getText());
 					k.setJmbg(textField_3.getText());
 					KorisnikDAO kdao = new KorisnikDAO();
-					kdao.create(k);
-					JOptionPane.showMessageDialog(null,
-							"Uspješno ste dodali korisnika!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+					List<Korisnik> korisnici1 = new ArrayList<Korisnik>();
+					korisnici1 = kdao.getAll(Korisnik.class);
+					boolean fleg = false;
+					boolean flek = false;
+					for(int i = 0; i< korisnici1.size(); i++)
+					{
+						if (k.getKorisnickoIme().equals(korisnici1.get(i).getKorisnickoIme()))
+							fleg = true;
+						else if (k.getJmbg().equals(korisnici1.get(i).getJmbg()))
+							flek = true;
+					}
+					
+					if(fleg)
+					{
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim nalogom!", "Info", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if (flek)
+					{
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Info", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else
+					{
+						kdao.create(k);
+						JOptionPane.showMessageDialog(null,
+								"Uspješno ste dodali korisnika!", "Potvrda",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
 					thisFrame.dispose();
