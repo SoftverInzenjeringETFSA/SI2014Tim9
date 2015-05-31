@@ -80,35 +80,45 @@ public class DodavanjeKluba extends JFrame {
 	}
 	
     public static Boolean validirajImePrezime(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
-		//String a = t1.getText();
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(t1);
+    	if (t1.length() > 30) return false;
+		String[] niz = t1.split(" ");
 		
-		if(!(m.matches())) {
-			izlaz = false;//t2textPane.setText("Neispravni karakteri");
+		for (int i = 0; i<niz.length; i++) {
+			String dio = niz[i];
+			String[] patt = dio.split("-");
+			for (int j= 0; j<patt.length; j++) {
+				if (!patt[j].equals("di") && !patt[j].equals("I") &&
+						!patt[j].equals("II") && !patt[j].equals("III") &&
+						!patt[j].equals("IV") && !patt[j].equals("V")) {
+					Pattern pattern = Pattern.compile("^[A-Z|Č|Ć|Ž|Š|Đ]{1}[a-z|č|ć|ž|š|đ]{2,}$");
+					Matcher matcher = pattern.matcher(patt[j]);
+					Boolean istina =  matcher.matches();
+					if (!istina) return false;
+				}
+			}
 		}
-		else
-			izlaz = true;
-		
-		return izlaz;
+		return true;
     }
     
     public static Boolean validirajAlphaNum(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^[a-zA-Z0-9 ]*";
-		//String a = t1.getText();
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(t1);
+    	if (t1.length() > 30) return false;
+		String[] niz = t1.split(" ");
 		
-		if(!(m.matches())) {
-			izlaz = false;//t2textPane.setText("Neispravni karakteri");
+		for (int i = 0; i<niz.length; i++) {
+			String dio = niz[i];
+			String[] patt = dio.split("-");
+			for (int j= 0; j<patt.length; j++) {
+				if (!patt[j].equals("di") && !patt[j].equals("I") &&
+						!patt[j].equals("II") && !patt[j].equals("III") &&
+						!patt[j].equals("IV") && !patt[j].equals("V")) {
+					Pattern pattern = Pattern.compile("^[A-Z0-9|Č|Ć|Ž|Š|Đ]{1}[a-z0-9|č|ć|ž|š|đ]{2,}$");
+					Matcher matcher = pattern.matcher(patt[j]);
+					Boolean istina =  matcher.matches();
+					if (!istina) return false;
+				}
+			}
 		}
-		else
-			izlaz = true;
-		
-		return izlaz;
+		return true;
     }
 	
 
@@ -235,7 +245,7 @@ public class DodavanjeKluba extends JFrame {
 					k.setDatumOsnivanja((Date)spinner.getValue());
 
 					kdao.create(k);
-			        JOptionPane.showMessageDialog(null, "Uspje�no ste dodali klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
+			        JOptionPane.showMessageDialog(null, "Uspje�no ste dodali klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
 					thisFrame.dispose();
@@ -480,7 +490,7 @@ public class DodavanjeKluba extends JFrame {
 					k.setDatumOsnivanja((Date)spinner.getValue());
 
 					kdao.update(k);
-			        JOptionPane.showMessageDialog(null, "Uspje�no ste promjenili klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
+			        JOptionPane.showMessageDialog(null, "Uspje�no ste promjenili klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
 					thisFrame.dispose();
