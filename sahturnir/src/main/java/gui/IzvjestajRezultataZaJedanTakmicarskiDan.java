@@ -134,7 +134,6 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		txtpnDatum.setEditable(false);
 		txtpnDatum.setText("Datum:");
 		
-		spinner.setModel(new SpinnerDateModel(new Date(1431986400000L), null, null, Calendar.DAY_OF_YEAR));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -144,6 +143,7 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
+		spinner.setModel(new SpinnerDateModel(new Date(1431986400000L), new Date(1431986400000L), new Date(1433109600000L), Calendar.DAY_OF_YEAR));
 		
 		JTextPane txtpnIzvjetajRezultataZa_1 = new JTextPane();
 		txtpnIzvjetajRezultataZa_1.setEditable(false);
@@ -198,7 +198,6 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 				PrepareTableDesign(table);*/
 		        
 		        
-		        
 		        //btnPrint.setEnabled(true);
 		        String selectedTurnir = (String) combo.getSelectedItem();
 		        textField.setText(LocalDateTime.now().toString());
@@ -208,9 +207,16 @@ public class IzvjestajRezultataZaJedanTakmicarskiDan extends JFrame {
 					if (turniri.get(i).getNaziv().equals(selectedTurnir)) 
 					{
 						t=turniri.get(i).getId();
-					}
+				        long plusDani = turniri.get(i).getTrajanje()*1000*60*60*24;				        
 						
+						long l = turniri.get(i).getDatumPocetka().getTime();
+
+						long maxDate = l + plusDani;
+						spinner.setModel(new SpinnerDateModel(new Date(l), new Date(l), new Date(maxDate), Calendar.DAY_OF_YEAR));
+					}		
 				}
+
+		        
 		        ((DefaultTableModel) table.getModel()).setRowCount(0);
 		        PrepareTableDesign(table);
 		        
