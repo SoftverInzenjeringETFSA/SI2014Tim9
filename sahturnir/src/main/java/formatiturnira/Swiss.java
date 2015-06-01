@@ -41,7 +41,9 @@ public class Swiss {
 		
 		/*Sort*/
 		Collections.sort(takmicari);
-		
+		long ofset = 1*1000*60*60*3;
+		int brojac = 0;
+	
 		for(int i=0;i<takmicari.size();i++)
 		{
 			if(i%2==0)
