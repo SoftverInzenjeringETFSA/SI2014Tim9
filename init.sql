@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `sahovski_klub_pijun` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_slovenian_ci */;
-USE `sahovski_klub_pijun`;
+CREATE DATABASE  IF NOT EXISTS `Tim9` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_slovenian_ci */;
+USE `Tim9`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
--- Host: localhost    Database: sahovski_klub_pijun
+-- Host: localhost    Database: Tim9
 -- ------------------------------------------------------
 -- Server version	5.6.17
 
