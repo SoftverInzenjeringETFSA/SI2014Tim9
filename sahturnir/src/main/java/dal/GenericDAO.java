@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public class GenericDAO<T> {
 
 	protected String driver = "com.mysql.jdbc.Driver";
-	protected String cs1 = "jdbc:mysql://localhost/sahovski_klub_pijun";
-	protected String cs2 = "siuser";
-	protected String cs3 = "password123";
+	protected String cs1 = "jdbc:mysql://localhost/Tim9";
+	protected String cs2 = "EtfSI2014";
+	protected String cs3 = "2014SIEtf";
 	private static final Logger logger = Logger.getLogger(GenericDAO.class);
 	public boolean create(T o) {
 		Session session = null;
