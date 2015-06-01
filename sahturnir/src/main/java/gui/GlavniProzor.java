@@ -54,6 +54,7 @@ import javax.swing.JTable;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -110,6 +111,9 @@ public class GlavniProzor extends JFrame {
 	private JButton button_1 = new JButton("Pretra\u017Ei");
 	private JButton button = new JButton("Pretra\u017Ei");
 	private Korisnik korisnik;
+	List<Takmicar> takmicari1 = TakmicarDAO.getAll(Takmicar.class);
+	List<Turnir> turniri1 = TurnirDAO.getAll(Turnir.class);
+	//takmicari1 = 
 	/**
 	 * Launch the application.
 	 */
@@ -720,10 +724,21 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o podacima takmi\u010Dara");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				////
+				/*List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
+				takmicari1 = TakmicarDAO.getAll(Takmicar.class);*/
+				if(takmicari1.isEmpty()){
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+				}else{
+				
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
 				IzvjestajOPodacimaTakmicara rep = new IzvjestajOPodacimaTakmicara(parentFrame);
 				rep.setVisible(true);
+				}
 			}
 		});
 
@@ -731,10 +746,20 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o podacima klubova");
 		btnIzvjetajOPodacima.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				////
+				List<Klub> klubovi = new ArrayList<Klub>();
+				klubovi = TakmicarDAO.getAll(Klub.class);
+				if(klubovi.isEmpty()||takmicari1.isEmpty()){
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce pokrenuti izvjestaj bez klubova u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
 				IzvjestajOPodacimaKlubova rep = new IzvjestajOPodacimaKlubova(parentFrame);
 				rep.setVisible(true);
+				}
 			}
 		});
 
@@ -742,10 +767,16 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj za jedan takmi\u010Darski dan");
 		btnIzvjetajZaJedan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(takmicari1.isEmpty()||turniri1.isEmpty()){
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
 				IzvjestajRezultataZaJedanTakmicarskiDan rep = new IzvjestajRezultataZaJedanTakmicarskiDan(parentFrame);
-				rep.setVisible(true);
+				rep.setVisible(true);}
 			}
 		});
 
@@ -753,10 +784,16 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o rasporedu i satnici turnira\r\n");
 		btnIzvjetajORasporedu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(takmicari1.isEmpty()||turniri1.isEmpty()){
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
 				IzvjestajORasporeduISatniciTurnira rep = new IzvjestajORasporeduISatniciTurnira(parentFrame);
-				rep.setVisible(true);
+				rep.setVisible(true);}
 			}
 		});
 
@@ -764,10 +801,16 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o rang listi takmi\u010Dara");
 		btnIzvjetajORang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(takmicari1.isEmpty()||turniri1.isEmpty()){
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
 				IzvjestajORangListiTakmicara rep = new IzvjestajORangListiTakmicara(parentFrame);
-				rep.setVisible(true);
+				rep.setVisible(true);}
 			}
 		});
 
@@ -775,10 +818,16 @@ public class GlavniProzor extends JFrame {
 				"Izvje\u0161taj o rang listi klubova");
 		btnIzvjetajORang_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(takmicari1.isEmpty()||turniri1.isEmpty()){
+					JOptionPane.showMessageDialog(null,
+							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
 				IzvjestajORangListiKlubova rep = new IzvjestajORangListiKlubova(parentFrame);
-				rep.setVisible(true);
+				rep.setVisible(true);}
 			}
 		});
 		
