@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `sahovski_klub_pijun` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `sahovski_klub_pijun` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_slovenian_ci */;
 USE `sahovski_klub_pijun`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
@@ -31,9 +31,8 @@ CREATE TABLE `klubovi` (
   `datumOsnivanja` datetime NOT NULL,
   `predsjednik` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `naziv_UNIQUE` (`naziv`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +76,7 @@ CREATE TABLE `mecevi` (
   CONSTRAINT `idt` FOREIGN KEY (`turnir`) REFERENCES `turniri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `idt1` FOREIGN KEY (`takmicar1`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `idt2` FOREIGN KEY (`takmicar2`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +94,7 @@ CREATE TABLE `osobe` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idosobe_UNIQUE` (`id`),
   UNIQUE KEY `jmbg_UNIQUE` (`jmbg`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,7 +135,7 @@ CREATE TABLE `turnir_takmicar_veza` (
   KEY `idta_idx` (`takmicar`),
   CONSTRAINT `idta` FOREIGN KEY (`takmicar`) REFERENCES `takmicari` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `idtu` FOREIGN KEY (`turnir`) REFERENCES `turniri` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +154,7 @@ CREATE TABLE `turniri` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `naziv_UNIQUE` (`naziv`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -167,4 +166,4 @@ CREATE TABLE `turniri` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-24 15:49:46
+-- Dump completed on 2015-06-02  0:14:14
