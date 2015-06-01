@@ -1,5 +1,6 @@
 package gui;
 
+import formatiturnira.DvostrukaEliminacija;
 import formatiturnira.JednostrukaEliminacija;
 import formatiturnira.Swiss;
 import gui.GlavniProzor.ImageRendererDelete;
@@ -329,6 +330,33 @@ public class RezultatiMecevaTabela extends JFrame {
 							{
 								dvostrukaLuzeri.get(0).setBrojTitula(dvostrukaLuzeri.get(0).getBrojTitula()+1);
 							}
+						}
+						DvostrukaEliminacija de = new DvostrukaEliminacija();
+						List<Mec> mecevi = new ArrayList<Mec>();
+						List<Mec> mecevi2 = new ArrayList<Mec>();
+						MecDAO mdao = new MecDAO();
+						try 
+						{
+							mecevi = de.GenerisiRunduWinners( takmicari , t1);
+							for (int i = 0; i < mecevi.size(); i++)
+							{
+					 	 		System.out.println("UŠAO");
+								mdao.create(mecevi.get(i));
+							}
+							mecevi2 = de.GenerisiRunduWinners( dvostrukaLuzeri, t1);
+							for(int j = 0; j<mecevi2.size();j++)
+							{
+								mdao.create(mecevi2.get(j));
+							}
+							JFrame thisFrame = (JFrame) SwingUtilities
+									.getRoot(textField);
+							thisFrame.dispose();
+							parentFrame.setEnabled(true);
+							gpf.RefreshTables();
+						} 
+						catch (Exception e1) 
+						{
+							logger.error("Došlo je do greške!", e1);
 						}
 					}
 					else if (t1.getFormatTakmicenja().equals("Swiss"))
