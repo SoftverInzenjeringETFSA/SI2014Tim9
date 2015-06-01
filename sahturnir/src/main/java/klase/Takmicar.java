@@ -49,7 +49,13 @@ public class Takmicar extends Osoba implements java.io.Serializable , Comparable
 	}
 
 	public void setBrojBodova(double brojBodova) {
-		this.brojBodova = brojBodova;
+		TakmicarDAO tdao = new TakmicarDAO();
+        int[] omjer =  tdao.getMatchSummary(this.getId());
+		 int brojPobjeda = omjer[0];
+		 int brojNerijesenih = omjer[1];
+		 int brojPoraza = omjer[2];
+		 double bodovi = brojPobjeda*1.0d + brojNerijesenih*0.5d;
+		this.brojBodova = bodovi;
 	}
 
 	public Klub getKlub() {

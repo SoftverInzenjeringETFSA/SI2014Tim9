@@ -148,14 +148,15 @@ public class IzvjestajORangListiKlubova extends JFrame {
 			new Object[][] {
 			},
 			new String[] { "Pozicija", "Naziv kluba",
-					"Broj takmièara","Predsjednik" ,"Ukupan broj bodova" }
+					"Broj takmièara","Predsjednik" ,"Broj bodova na turniru" ,"Ukupan broj bodova" }
 		));
 		
 		table.getColumnModel().getColumn(0).setPreferredWidth(25);
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(25);
-		table.getColumnModel().getColumn(3).setPreferredWidth(55);
-		table.getColumnModel().getColumn(4).setPreferredWidth(25);
+		table.getColumnModel().getColumn(3).setPreferredWidth(35);
+		table.getColumnModel().getColumn(4).setPreferredWidth(55);
+		table.getColumnModel().getColumn(5).setPreferredWidth(55);
 		
 		scrollPane.setViewportView(table);
 		
@@ -246,13 +247,16 @@ public class IzvjestajORangListiKlubova extends JFrame {
 				
 				int prebroj = 0;
 				double sumaBodova = 0.0d;
+				double turnirBodovi = 0.0d;
+				String[][] data = new String[klubovi1.size()][6];
+
 				
-				String[][] data = new String[klubovi1.size()][5];
-		 		Collections.sort(klubovi1);
+				Collections.sort(klubovi1);
 		 		
 		 		((DefaultTableModel) table.getModel()).setRowCount(0);
 		        PrepareTableDesign(table);
 		        
+		        TakmicarDAO trdao = new TakmicarDAO();
 		 		
 				for (int i = 0; i < klubovi1.size(); i++) {
 					data[i][0] = Integer.toString(i + 1);
@@ -261,27 +265,29 @@ public class IzvjestajORangListiKlubova extends JFrame {
 						if (takmicari1.get(j).getKlub().getId() == klubovi1.get(i).getId()) {
 							sumaBodova = sumaBodova + takmicari1.get(j).getBrojBodova();
 							prebroj++;
+
+		   			         turnirBodovi += trdao.getTournamentPoints(takmicari1.get(j).getId(), tx.getId());
 						}
 					}
+					
+					
 					data[i][2] = Integer.toString(prebroj);
 					data[i][3] = klubovi1.get(i).getPredsjednik();
-					data[i][4] = Double.toString(sumaBodova);
-					
-					
+					data[i][4] = Double.toString(turnirBodovi);
+					data[i][5] = Double.toString(sumaBodova);
 					
 					KlubDAO g=new KlubDAO();
 					
 					
 				((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
-        			klubovi1.get(i).getNaziv() + " " + g.getNumberOfContestantsForClub(klubovi1.get(i).getId()), 
+        			klubovi1.get(i).getNaziv(), 
         			g.getNumberOfContestantsForClub(klubovi1.get(i).getId()),
-        			klubovi1.get(i).getPredsjednik(),
+        			klubovi1.get(i).getPredsjednik(), turnirBodovi,
         			sumaBodova });
 			
-					
-					
 					sumaBodova = 0;
 					prebroj = 0;
+					turnirBodovi = 0;
 				}
 		    
 		    
