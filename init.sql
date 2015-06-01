@@ -36,6 +36,15 @@ CREATE TABLE `klubovi` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `klubovi`
+--
+
+LOCK TABLES `klubovi` WRITE;
+/*!40000 ALTER TABLE `klubovi` DISABLE KEYS */;
+/*!40000 ALTER TABLE `klubovi` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `korisnici`
 --
 
@@ -52,6 +61,16 @@ CREATE TABLE `korisnici` (
   CONSTRAINT `ido1` FOREIGN KEY (`id`) REFERENCES `osobe` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `korisnici`
+--
+
+LOCK TABLES `korisnici` WRITE;
+/*!40000 ALTER TABLE `korisnici` DISABLE KEYS */;
+INSERT INTO `korisnici` VALUES (1000,'amehanovic1','b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86');
+/*!40000 ALTER TABLE `korisnici` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `mecevi`
@@ -80,6 +99,15 @@ CREATE TABLE `mecevi` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `mecevi`
+--
+
+LOCK TABLES `mecevi` WRITE;
+/*!40000 ALTER TABLE `mecevi` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mecevi` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `osobe`
 --
 
@@ -96,6 +124,16 @@ CREATE TABLE `osobe` (
   UNIQUE KEY `jmbg_UNIQUE` (`jmbg`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `osobe`
+--
+
+LOCK TABLES `osobe` WRITE;
+/*!40000 ALTER TABLE `osobe` DISABLE KEYS */;
+INSERT INTO `osobe` VALUES (1000,'Adnan','Mehanoviæ','3009993190002');
+/*!40000 ALTER TABLE `osobe` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `takmicari`
@@ -119,6 +157,15 @@ CREATE TABLE `takmicari` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `takmicari`
+--
+
+LOCK TABLES `takmicari` WRITE;
+/*!40000 ALTER TABLE `takmicari` DISABLE KEYS */;
+/*!40000 ALTER TABLE `takmicari` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `turnir_takmicar_veza`
 --
 
@@ -139,6 +186,15 @@ CREATE TABLE `turnir_takmicar_veza` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `turnir_takmicar_veza`
+--
+
+LOCK TABLES `turnir_takmicar_veza` WRITE;
+/*!40000 ALTER TABLE `turnir_takmicar_veza` DISABLE KEYS */;
+/*!40000 ALTER TABLE `turnir_takmicar_veza` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `turniri`
 --
 
@@ -156,6 +212,15 @@ CREATE TABLE `turniri` (
   UNIQUE KEY `naziv_UNIQUE` (`naziv`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `turniri`
+--
+
+LOCK TABLES `turniri` WRITE;
+/*!40000 ALTER TABLE `turniri` DISABLE KEYS */;
+/*!40000 ALTER TABLE `turniri` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -166,4 +231,4 @@ CREATE TABLE `turniri` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-02  0:14:14
+-- Dump completed on 2015-06-02  0:25:06
