@@ -320,6 +320,11 @@ public class RezultatiMecevaTabela extends JFrame {
 								dvostrukaLuzeri.remove(j);
 								j--;
 							}
+							else if (!takdao.throwOut(dvostrukaLuzeri.get(j).getId(), t1.getId()))
+							{
+								dvostrukaLuzeri.remove(j);
+								j--;								
+							}
 						}
 						if(takmicari.size() + dvostrukaLuzeri.size() == 1)
 						{
@@ -348,7 +353,7 @@ public class RezultatiMecevaTabela extends JFrame {
 							mecevi2 = de.GenerisiRunduWinners( dvostrukaLuzeri, t1);
 							for(int j = 0; j<mecevi2.size();j++)
 							{
-								mdao.create(mecevi2.get(j));
+									mdao.create(mecevi2.get(j));
 							}
 							RefreshTable();
 						} 
