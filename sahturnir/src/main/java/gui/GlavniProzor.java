@@ -372,11 +372,9 @@ public class GlavniProzor extends JFrame {
 				}
 				else {
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce dodati takmicara bez klubova u sistemu!", "Potvrda",
+							"Nemoguæe dodati takmicara bez klubova u sistemu!", "Potvrda",
 							JOptionPane.INFORMATION_MESSAGE);
-				}
-				
-				
+				}	
 			}
 		});
 		
@@ -524,8 +522,8 @@ public class GlavniProzor extends JFrame {
 				}
 				else {
 					JOptionPane.showMessageDialog(null,
-							"Nemogucæe dodati turnir bez takmièara u sistemu!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+							"Nemoguæe dodati turnir bez takmièara u sistemu!", "Greška",
+							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -728,11 +726,10 @@ public class GlavniProzor extends JFrame {
 				takmicari1 = TakmicarDAO.getAll(Takmicar.class);*/
 				if(takmicari1.isEmpty()){
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+							"Nemoguæe pokrenuti izvještaj bez takmièara u sistemu!", "Greška",
+							JOptionPane.ERROR_MESSAGE);
 					
 				}else{
-				
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
 				parentFrame.setEnabled(false);
 				IzvjestajOPodacimaTakmicara rep = new IzvjestajOPodacimaTakmicara(parentFrame);
@@ -750,8 +747,8 @@ public class GlavniProzor extends JFrame {
 				klubovi = TakmicarDAO.getAll(Klub.class);
 				if(klubovi.isEmpty()||takmicari1.isEmpty()){
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce pokrenuti izvjestaj bez klubova u sistemu!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+							"Nemoguæe pokrenuti izvještaj bez takmièara u sistemu!", "Greška",
+							JOptionPane.ERROR_MESSAGE);
 					
 				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
@@ -768,8 +765,8 @@ public class GlavniProzor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(takmicari1.isEmpty()||turniri1.isEmpty()){
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+							"Nemoguæe pokrenuti izvještaj bez takmièara u sistemu!", "Greška",
+							JOptionPane.ERROR_MESSAGE);
 					
 				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
@@ -785,8 +782,8 @@ public class GlavniProzor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(takmicari1.isEmpty()||turniri1.isEmpty()){
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+							"Nemoguæe pokrenuti izvještaj bez takmièara u sistemu!", "Greška",
+							JOptionPane.ERROR_MESSAGE);
 					
 				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
@@ -802,8 +799,8 @@ public class GlavniProzor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(takmicari1.isEmpty()||turniri1.isEmpty()){
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+							"Nemoguæe pokrenuti izvještaj bez takmièara u sistemu!", "Greška",
+							JOptionPane.ERROR_MESSAGE);
 					
 				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
@@ -819,8 +816,8 @@ public class GlavniProzor extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(takmicari1.isEmpty()||turniri1.isEmpty()){
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce pokrenuti izvjestaj bez takmicara u sistemu!", "Potvrda",
-							JOptionPane.INFORMATION_MESSAGE);
+							"Nemoguæe pokrenuti izvještaj bez takmièara u sistemu!", "Greška",
+							JOptionPane.ERROR_MESSAGE);
 					
 				}else{
 				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
@@ -939,7 +936,7 @@ public class GlavniProzor extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				JOptionPane.showMessageDialog(null,
-					    "Jeste li proèitali uputstvo o korištenju? \n\n Za odjavu sa aplikacije pritinuti krajnje desno dugme! \n\n Za podešavanje korisnièkog raèuna pritisnuti srednje dugme! \n\n Za sve ostale akcije u aplikaciji pratiti obavještenja dobivena od aplikacije.",
+					    "Jeste li proèitali uputstvo za korištenje? \n\n Za odjavu sa aplikacije pritinuti krajnje desno dugme! \n\n Za podešavanje korisnièkog raèuna pritisnuti srednje dugme! \n\n Za sve ostale akcije u aplikaciji pratiti obavještenja dobivena od aplikacije.",
 					    "Info",
 					    JOptionPane.INFORMATION_MESSAGE, null); 
 			}
@@ -1000,8 +997,8 @@ public class GlavniProzor extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
 							.addComponent(label)))
 					.addGap(21)
-					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(10))
+					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+					.addGap(6))
 		);
 		JTextPane txtpnKriterijZaPretraivanje_1 = new JTextPane();
 		txtpnKriterijZaPretraivanje_1.setBackground(UIManager

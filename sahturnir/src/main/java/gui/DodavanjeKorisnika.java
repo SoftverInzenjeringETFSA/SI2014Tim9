@@ -92,7 +92,7 @@ public class DodavanjeKorisnika extends JFrame {
 	}
 
 	public static Boolean validirajAlpha(String t1) {
-    	if (t1.length() > 30) return false;
+    	if (t1.length() > 50) return false;
 		String[] niz = t1.split(" ");
 		
 		for (int i = 0; i<niz.length; i++) {

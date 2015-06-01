@@ -115,10 +115,17 @@ public class RezultatiMecevaTabela extends JFrame {
 		}
 	}
 	
-	public void RefreshTables()
+	public void RefreshTable()
 	{
 		table.setModel(jtutil.populateJTableMecevi(t1));
 		PrepareTableDesign(table);
+		btnNovaRunda.setEnabled(true);	
+		for (int i = 0; i < table.getRowCount(); i++)
+			if(table.getModel().getValueAt(i, 3).equals("0.0 : 0.0"))
+			{
+				btnNovaRunda.setEnabled(false);	
+				break;
+			}		
 	}
 
 	private void PrepareTableDesign(JTable table) {
@@ -141,6 +148,7 @@ public class RezultatiMecevaTabela extends JFrame {
 				return c;
 			}
 		});
+		
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer())
@@ -180,7 +188,7 @@ public class RezultatiMecevaTabela extends JFrame {
 		{
 			btnNovaRunda.setEnabled(true);
 		}
-		
+					
 		setTitle("\u0160ahovski klub Pijun");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 				RezultatiMecevaTabela.class.getResource("/gui/logo.png")));
@@ -202,8 +210,7 @@ public class RezultatiMecevaTabela extends JFrame {
 		txtpnMeeviZaKoje.setEditable(false);
 		txtpnMeeviZaKoje.setText("Me\u010Devi turnira:");
 		JPanel panel = new JPanel();
-		table.setModel(jtutil.populateJTableMecevi(t1));
-		PrepareTableDesign(table);
+		RefreshTable();
 		panel.setLayout(new BorderLayout());
 		panel.add(table.getTableHeader(), BorderLayout.NORTH);
 		panel.add(new JScrollPane(table), BorderLayout.CENTER);
@@ -279,11 +286,6 @@ public class RezultatiMecevaTabela extends JFrame {
 					 	 		System.out.println("UŠAO");
 								mdao.create(mecevi.get(i));
 							}
-							
-							JFrame thisFrame = (JFrame) SwingUtilities
-									.getRoot(textField);
-							thisFrame.dispose();
-							parentFrame.setEnabled(true);
 							gpf.RefreshTables();
 							
 						} 

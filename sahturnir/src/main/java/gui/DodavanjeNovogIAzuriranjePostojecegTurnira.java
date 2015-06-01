@@ -108,55 +108,46 @@ public class DodavanjeNovogIAzuriranjePostojecegTurnira extends JFrame {
 		return izlaz;
 	}
 
-	public static Boolean validirajJmbg(String t1) {
-		Boolean izlaz = false;
-		if (!(t1.length() == 13)) {
-			izlaz = false;
-		} else
-			izlaz = true;
-		return izlaz;
-	}
-
-	public static Boolean validirajImePrezime(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
-		Pattern p = Pattern.compile(pattern);
-		java.util.regex.Matcher m = p.matcher(t1);
-
-		if (!(m.matches())) {
-			izlaz = false;
-		} else
-			izlaz = true;
-
-		return izlaz;
-	}
-
 	public static Boolean validirajAlpha(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^([A-Z][a-z]*)";
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(t1);
-
-		if (!(m.matches())) {
-			izlaz = false;
-		} else
-			izlaz = true;
-
-		return izlaz;
+    	if (t1.length() > 50) return false;
+		String[] niz = t1.split(" ");
+		
+		for (int i = 0; i<niz.length; i++) {
+			String dio = niz[i];
+			String[] patt = dio.split("-");
+			for (int j= 0; j<patt.length; j++) {
+				if (!patt[j].equals("di") && !patt[j].equals("I") &&
+						!patt[j].equals("II") && !patt[j].equals("III") &&
+						!patt[j].equals("IV") && !patt[j].equals("V")) {
+					Pattern pattern = Pattern.compile("^[A-Z|È|Æ|Ž|Š|Ð]{1}[a-z|è|æ|ž|š|ð]{2,}$");
+					Matcher matcher = pattern.matcher(patt[j]);
+					Boolean istina =  matcher.matches();
+					if (!istina) return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public static Boolean validirajAlphaNum(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^[a-zA-Z0-9 ]*";
-		Pattern p = Pattern.compile(pattern);
-		java.util.regex.Matcher m = p.matcher(t1);
-
-		if (!(m.matches())) {
-			izlaz = false;
-		} else
-			izlaz = true;
-
-		return izlaz;
+    	if (t1.length() > 50) return false;
+		String[] niz = t1.split(" ");
+		
+		for (int i = 0; i<niz.length; i++) {
+			String dio = niz[i];
+			String[] patt = dio.split("-");
+			for (int j= 0; j<patt.length; j++) {
+				if (!patt[j].equals("di") && !patt[j].equals("I") &&
+						!patt[j].equals("II") && !patt[j].equals("III") &&
+						!patt[j].equals("IV") && !patt[j].equals("V")) {
+					Pattern pattern = Pattern.compile("^[A-Z0-9|È|Æ|Ž|Š|Ð]{1}[a-z0-9|è|æ|ž|š|ð]{2,}$");
+					Matcher matcher = pattern.matcher(patt[j]);
+					Boolean istina =  matcher.matches();
+					if (!istina) return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public static Boolean validirajBrojTakmicara(String tip, int spinner) {

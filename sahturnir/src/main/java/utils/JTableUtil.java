@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
@@ -23,7 +24,15 @@ import dal.MecDAO;
 import dal.TakmicarDAO;
 import dal.TurnirDAO;
 
+
+
 public class JTableUtil {
+	
+	Comparator<Mec> comparator = new Comparator<Mec>() {
+	    public int compare(Mec m1, Mec m2) {
+	        return (int)(m1.getId() - m2.getId()); // use your logic
+	    }
+	};
 
 	public TableModel populateJTableTakmicari() {
 		List<Takmicar> takmicari = new ArrayList<Takmicar>();
@@ -317,6 +326,7 @@ public class JTableUtil {
 		for (int i = 0; i < mecevi.size(); i++)
 			if (mecevi.get(i).getTurnir().getId() == t.getId())
 				size++;
+		Collections.sort(mecevi, comparator);
 		Object[][] data = new Object[size][7];
 		for (int i = 0; i < mecevi.size(); i++)
 			if (mecevi.get(i).getTurnir().getId() == t.getId()) {

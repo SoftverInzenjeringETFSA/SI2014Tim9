@@ -24,22 +24,6 @@ public class DodavanjeNovogIAzuriranjePostojecegTurniraTest {
 	}
 	
 	@Test
-	public void testValidirajImePrezime1() {
-		
-		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajImePrezime(""));
-	}
-	@Test
-	public void testValidirajImePrezime2() {
-		
-		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajImePrezime(" "));
-	}
-	@Test
-	public void testValidirajImePrezime3() {
-		
-		assertTrue(DodavanjeNovogIAzuriranjePostojecegTurnira.validirajImePrezime("Elma Kusundzija"));
-	}
-	
-	@Test
 	public void testvalidirajAlpha1() {
 		
 		assertTrue(DodavanjeNovogIAzuriranjePostojecegTurnira.validirajAlpha("Elma"));
@@ -65,16 +49,6 @@ public class DodavanjeNovogIAzuriranjePostojecegTurniraTest {
 	@Test
 	public void testvalidirajJmbg1() {
 		
-	}
-	@Test
-	public void testvalidirajJmbg2() {
-		
-		assertTrue(!DodavanjeNovogIAzuriranjePostojecegTurnira.validirajJmbg(" "));
-	}
-	@Test
-	public void testvalidirajJmbg3() {
-		
-		assertTrue(DodavanjeNovogIAzuriranjePostojecegTurnira.validirajJmbg("1234567891234"));
 	}
 	
 	@Test

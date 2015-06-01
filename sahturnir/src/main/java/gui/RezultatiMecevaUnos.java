@@ -101,7 +101,7 @@ public class RezultatiMecevaUnos extends JFrame {
 						.getRoot(textField_1);
 				thisFrame.dispose();
 				parentFrame.setEnabled(true);
-				gpf.RefreshTables();
+				gpf.RefreshTable();
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -302,7 +302,7 @@ public class RezultatiMecevaUnos extends JFrame {
 						.getRoot(textField_1);
 				thisFrame.dispose();
 				parentFrame.setEnabled(true);
-				gpf.RefreshTables();
+				gpf.RefreshTable();
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
