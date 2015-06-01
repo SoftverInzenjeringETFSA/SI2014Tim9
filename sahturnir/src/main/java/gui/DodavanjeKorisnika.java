@@ -92,18 +92,24 @@ public class DodavanjeKorisnika extends JFrame {
 	}
 
 	public static Boolean validirajAlpha(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^([A-Z][a-z]*)";
-		// String a = t1.getText();
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(t1);
-
-		if (!(m.matches())) {
-			izlaz = false;// t2textPane.setText("Neispravni karakteri");
-		} else
-			izlaz = true;
-
-		return izlaz;
+    	if (t1.length() > 30) return false;
+		String[] niz = t1.split(" ");
+		
+		for (int i = 0; i<niz.length; i++) {
+			String dio = niz[i];
+			String[] patt = dio.split("-");
+			for (int j= 0; j<patt.length; j++) {
+				if (!patt[j].equals("di") && !patt[j].equals("I") &&
+						!patt[j].equals("II") && !patt[j].equals("III") &&
+						!patt[j].equals("IV") && !patt[j].equals("V")) {
+					Pattern pattern = Pattern.compile("^[A-Z|È|Æ|Ž|Š|Ð]{1}[a-z|è|æ|ž|š|ð]{2,}$");
+					Matcher matcher = pattern.matcher(patt[j]);
+					Boolean istina =  matcher.matches();
+					if (!istina) return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public static Boolean validirajAlphaNum(JTextField t1, JTextPane t2) {
@@ -305,7 +311,6 @@ public class DodavanjeKorisnika extends JFrame {
 				if (!flag) {
 					Korisnik k = new Korisnik();
 					k.setKorisnickoIme(textField.getText());
-					String s = new String(passwordField.getPassword());
 					MessageDigest md = null;
 					byte[] hash = null;
 					try {
@@ -338,11 +343,11 @@ public class DodavanjeKorisnika extends JFrame {
 					
 					if(fleg)
 					{
-						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim nalogom!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim nalogom!", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
 					else if (flek)
 					{
-						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
 					else
 					{
@@ -350,12 +355,12 @@ public class DodavanjeKorisnika extends JFrame {
 						JOptionPane.showMessageDialog(null,
 								"Uspješno ste dodali korisnika!", "Potvrda",
 								JOptionPane.INFORMATION_MESSAGE);
+						JFrame thisFrame = (JFrame) SwingUtilities
+								.getRoot(textField_1);
+						thisFrame.dispose();
+						parentFrame.setEnabled(true);
+						gpf.RefreshTables();
 					}
-					JFrame thisFrame = (JFrame) SwingUtilities
-							.getRoot(textField_1);
-					thisFrame.dispose();
-					parentFrame.setEnabled(true);
-					gpf.RefreshTables();
 				}
 			}
 		});
@@ -649,10 +654,25 @@ public class DodavanjeKorisnika extends JFrame {
 					textPane_4.setText("JMBG ne odgovara traženom formatu");	
 					flag = true;
 				}
+				
+				if (validirajPraznoPass(passwordField.getPassword())) {
+					if (validirajSifru(new String(passwordField.getPassword()))) {
+						textPane_1.setText("");
+					} else {
+						textPane_1
+								.setText("Morate unijeti barem jedan broj i minimalno 6 karaktera");
+						flag = true;
+					}
+				}
+				
+				if (!validirajPraznoPass(passwordField.getPassword())) {
+					textPane_1.setText("");
+				}
+				
+				
 				if (!flag) {
 
-					Korisnik kor = GenericDAO.loadById(Korisnik.class,
-							k.getId());
+					Korisnik kor = GenericDAO.loadById(Korisnik.class, k.getId());
 
 					KorisnikDAO kdao = new KorisnikDAO();
 
@@ -660,26 +680,41 @@ public class DodavanjeKorisnika extends JFrame {
 					kor.setIme(textField_1.getText());
 					kor.setPrezime(textField_2.getText());
 					kor.setJmbg(textField_3.getText());
-
+					
+					MessageDigest md = null;
+					byte[] hash = null;
+					try {
+						md = MessageDigest.getInstance("SHA-512");
+						hash = md.digest(String.valueOf(
+								passwordField.getPassword()).getBytes("UTF-8"));
+					} catch (NoSuchAlgorithmException exception) {
+						// e.printStackTrace();
+						logger.error("Došlo je do greške!", exception);
+					} catch (UnsupportedEncodingException exception) {
+						// e.printStackTrace();
+						logger.error("Došlo je do greške!", exception);
+					}
+					kor.setSifra(utils.SHA512Hash.convertToHex(hash));
+					
 					List<Korisnik> korisnici1 = new ArrayList<Korisnik>();
 					korisnici1 = kdao.getAll(Korisnik.class);
 					boolean fleg = false;
 					boolean flek = false;
 					for(int i = 0; i< korisnici1.size(); i++)
 					{
-						if (k.getKorisnickoIme().equals(korisnici1.get(i).getKorisnickoIme()))
+						if (kor.getKorisnickoIme().equals(korisnici1.get(i).getKorisnickoIme()) && kor.getId() != korisnici1.get(i).getId())
 							fleg = true;
-						else if (k.getJmbg().equals(korisnici1.get(i).getJmbg()))
+						else if (kor.getJmbg().equals(korisnici1.get(i).getJmbg()) && kor.getId() != korisnici1.get(i).getId())
 							flek = true;
 					}
 					
 					if(fleg)
 					{
-						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim nalogom!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim nalogom!", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
 					else if (flek)
 					{
-						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
 					else
 					{
@@ -687,12 +722,12 @@ public class DodavanjeKorisnika extends JFrame {
 						JOptionPane.showMessageDialog(null,
 								"Uspješno ste izmijenili korisnika!", "Potvrda",
 								JOptionPane.INFORMATION_MESSAGE);
+						JFrame thisFrame = (JFrame) SwingUtilities
+								.getRoot(textField_1);
+						thisFrame.dispose();
+						parentFrame.setEnabled(true);
+						gpf.RefreshTables();
 					}
-					JFrame thisFrame = (JFrame) SwingUtilities
-							.getRoot(textField_1);
-					thisFrame.dispose();
-					parentFrame.setEnabled(true);
-					gpf.RefreshTables();
 				}
 			}
 		});
@@ -762,7 +797,6 @@ public class DodavanjeKorisnika extends JFrame {
 		textField_2.setColumns(10);
 
 		JTextPane txtpnJmbg = new JTextPane();
-		txtpnJmbg.setEditable(false);
 		txtpnJmbg.setText("JMBG:*");
 
 		textField_3 = new JTextField();
@@ -770,7 +804,6 @@ public class DodavanjeKorisnika extends JFrame {
 
 		textField.setText(k.getKorisnickoIme());
 		passwordField.setText("");
-		passwordField.setEnabled(false);
 		textField_1.setText(k.getIme());
 		textField_2.setText(k.getPrezime());
 		textField_3.setText(k.getJmbg());

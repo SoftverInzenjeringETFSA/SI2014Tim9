@@ -131,53 +131,49 @@ public class DodavanjeTakmicara extends JFrame {
 		}
 		else return false;
 	}
-	
-    public static Boolean validirajImePrezime(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^([A-Z][a-z]* +[A-Z][a-z]*)";
-		Pattern p = Pattern.compile(pattern);
-		java.util.regex.Matcher m = p.matcher(t1);
-		
-		if(!(m.matches())) {
-			izlaz = false;
-		}
-		else
-			izlaz = true;
-		
-		return izlaz;
-    }
 
     public static Boolean validirajAlpha(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^([A-Z][a-z]*)";
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(t1);
+    	if (t1.length() > 30) return false;
+		String[] niz = t1.split(" ");
 		
-		if(!(m.matches())) {
-			izlaz = false;
+		for (int i = 0; i<niz.length; i++) {
+			String dio = niz[i];
+			String[] patt = dio.split("-");
+			for (int j= 0; j<patt.length; j++) {
+				if (!patt[j].equals("di") && !patt[j].equals("I") &&
+						!patt[j].equals("II") && !patt[j].equals("III") &&
+						!patt[j].equals("IV") && !patt[j].equals("V")) {
+					Pattern pattern = Pattern.compile("^[A-Z|È|Æ|Ž|Š|Ð]{1}[a-z|è|æ|ž|š|ð]{2,}$");
+					Matcher matcher = pattern.matcher(patt[j]);
+					Boolean istina =  matcher.matches();
+					if (!istina) return false;
+				}
+			}
 		}
-		else
-			izlaz = true;
-		
-		return izlaz;
+		return true;
     }
     
     public static Boolean validirajAlphaNum(String t1) {
-		Boolean izlaz = false;
-		String pattern = "^[a-zA-Z0-9 ]*";
-		Pattern p = Pattern.compile(pattern);
-		java.util.regex.Matcher m = p.matcher(t1);
+    	if (t1.length() > 30) return false;
+		String[] niz = t1.split(" ");
 		
-		if(!(m.matches())) {
-			izlaz = false;
+		for (int i = 0; i<niz.length; i++) {
+			String dio = niz[i];
+			String[] patt = dio.split("-");
+			for (int j= 0; j<patt.length; j++) {
+				if (!patt[j].equals("di") && !patt[j].equals("I") &&
+						!patt[j].equals("II") && !patt[j].equals("III") &&
+						!patt[j].equals("IV") && !patt[j].equals("V")) {
+					Pattern pattern = Pattern.compile("^[A-Z0-9|È|Æ|Ž|Š|Ð]{1}[a-z0-9|è|æ|ž|š|ð]{2,}$");
+					Matcher matcher = pattern.matcher(patt[j]);
+					Boolean istina =  matcher.matches();
+					if (!istina) return false;
+				}
+			}
 		}
-		else
-			izlaz = true;
-		
-		return izlaz;
+		return true;
     }
 	
-
 	/**
 	 * Create the frame.
 	 */
@@ -350,7 +346,7 @@ public class DodavanjeTakmicara extends JFrame {
 					}
 					if (flek)
 					{
-						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
 					else
 					{
@@ -358,14 +354,14 @@ public class DodavanjeTakmicara extends JFrame {
 						{
 							tdao.create(t);
 							JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+							JFrame thisFrame = (JFrame) SwingUtilities
+									.getRoot(textField_1);
+							thisFrame.dispose();
+							parentFrame.setEnabled(true);
+							gpf.RefreshTables();
 						}
-						else JOptionPane.showMessageDialog(null, "Matièni broj i datum roðenja nisu usklaðeni!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						else JOptionPane.showMessageDialog(null, "Matièni broj i datum roðenja nisu usklaðeni!", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
-					JFrame thisFrame = (JFrame) SwingUtilities
-							.getRoot(textField_1);
-					thisFrame.dispose();
-					parentFrame.setEnabled(true);
-					gpf.RefreshTables();
 				}
 			}
 		});
@@ -664,38 +660,37 @@ public class DodavanjeTakmicara extends JFrame {
 							tak.setKlub(klubovi.get(i));
 							break;
 						}
-					}
-					
-					
+					}			
 					
 					List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
 					takmicari1 = takdao.getAll(Takmicar.class);
 					boolean flek = false;
 					for(int i = 0; i< takmicari1.size(); i++)
 					{
-						if (tak.getJmbg().equals(takmicari1.get(i).getJmbg()))
+						if (tak.getJmbg().equals(takmicari1.get(i).getJmbg()) && tak.getId() != takmicari1.get(i).getId())
 							flek = true;
 					}
 					if (flek)
 					{
-						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Postoji veæ korisnik s tim matiènim brojem!", "Greška", JOptionPane.ERROR_MESSAGE);
 					}
 					else
 					{
 						if(flax)
 						{
 							takdao.update(tak);
-							JOptionPane.showMessageDialog(null, "Uspješno ste dodali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+							JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+							JFrame thisFrame = (JFrame) SwingUtilities
+									.getRoot(textField_1);
+							thisFrame.dispose();
+							parentFrame.setEnabled(true);
+							gpf.RefreshTables();
 						}
-						else JOptionPane.showMessageDialog(null, "Matièni broj i datum roðenja nisu usklaðeni!", "Info", JOptionPane.INFORMATION_MESSAGE);
+						else JOptionPane.showMessageDialog(null, "Matièni broj i datum roðenja nisu usklaðeni!", "Greška", JOptionPane.ERROR_MESSAGE);
 
-						JOptionPane.showMessageDialog(null, "Uspješno ste modifikovali takmièara!", "OK", JOptionPane.INFORMATION_MESSAGE);										
+					
+
 					}
-					JFrame thisFrame = (JFrame) SwingUtilities
-							.getRoot(textField_1);
-					thisFrame.dispose();
-					parentFrame.setEnabled(true);
-					gpf.RefreshTables();
 				}
 			}
 		});

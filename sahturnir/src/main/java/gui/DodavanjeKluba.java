@@ -245,7 +245,7 @@ public class DodavanjeKluba extends JFrame {
 					k.setDatumOsnivanja((Date)spinner.getValue());
 
 					kdao.create(k);
-			        JOptionPane.showMessageDialog(null, "Uspje�no ste dodali klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
+			        JOptionPane.showMessageDialog(null, "Uspješno ste dodali klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
 					thisFrame.dispose();
@@ -490,7 +490,7 @@ public class DodavanjeKluba extends JFrame {
 					k.setDatumOsnivanja((Date)spinner.getValue());
 
 					kdao.update(k);
-			        JOptionPane.showMessageDialog(null, "Uspje�no ste promjenili klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
+			        JOptionPane.showMessageDialog(null, "Uspješno ste promjenili klub!", "OK", JOptionPane.INFORMATION_MESSAGE);
 					JFrame thisFrame = (JFrame) SwingUtilities
 							.getRoot(textField_1);
 					thisFrame.dispose();

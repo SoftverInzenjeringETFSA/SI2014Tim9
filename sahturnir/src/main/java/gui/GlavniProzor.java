@@ -359,13 +359,12 @@ public class GlavniProzor extends JFrame {
 		label_3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
-				parentFrame.setEnabled(false);
 				List<Klub> klubovi=GenericDAO.getAll(Klub.class);
 				if(!klubovi.isEmpty()){
+				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+				parentFrame.setEnabled(false);
 				DodavanjeTakmicara dt = new DodavanjeTakmicara(parentFrame, (GlavniProzor) parentFrame);
 				dt.setVisible(true);
-
 				}
 				else {
 					JOptionPane.showMessageDialog(null,
@@ -511,17 +510,17 @@ public class GlavniProzor extends JFrame {
 		label_8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
-				parentFrame.setEnabled(false);
+
 				List<Takmicar> takmicari=GenericDAO.getAll(Takmicar.class);
 				if(!takmicari.isEmpty()){
+					JFrame parentFrame = (JFrame) SwingUtilities.getRoot(textField_2);
+					parentFrame.setEnabled(false);
 					DodavanjeNovogIAzuriranjePostojecegTurnira dt = new DodavanjeNovogIAzuriranjePostojecegTurnira(parentFrame, (GlavniProzor) parentFrame);
 					dt.setVisible(true);
-
 				}
 				else {
 					JOptionPane.showMessageDialog(null,
-							"Nemoguce dodati turnir bez takmicara u sistemu!", "Potvrda",
+							"Nemogucæe dodati turnir bez takmièara u sistemu!", "Potvrda",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 
