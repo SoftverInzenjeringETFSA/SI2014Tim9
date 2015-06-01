@@ -1,5 +1,6 @@
 package gui;
 
+import formatiturnira.DvostrukaEliminacija;
 import formatiturnira.JednostrukaEliminacija;
 import formatiturnira.Swiss;
 import gui.GlavniProzor.ImageRendererDelete;
@@ -257,6 +258,7 @@ public class RezultatiMecevaTabela extends JFrame {
 					TurnirDAO tdao = new TurnirDAO();
 					List <Takmicar> takmicari = new ArrayList<Takmicar>();
 					takmicari = tdao.getAllContestants(t1.getId());
+					List<Takmicar> dvostrukaLuzeri = new ArrayList<Takmicar>();
 					TakmicarDAO takdao = new TakmicarDAO();
 		 	 		if(t1.getFormatTakmicenja().equals("Jednostruki eliminacioni"))
 					{
@@ -273,7 +275,7 @@ public class RezultatiMecevaTabela extends JFrame {
 						if(takmicari.size() == 1)
 						{
 							btnNovaRunda.setEnabled(false);
-
+							takmicari.get(0).setBrojTitula(takmicari.get(0).getBrojTitula() + 1);
 						}
 						JednostrukaEliminacija je = new JednostrukaEliminacija();
 						List<Mec> mecevi = new ArrayList<Mec>();
@@ -294,11 +296,72 @@ public class RezultatiMecevaTabela extends JFrame {
 							logger.error("Došlo je do greške!", e1);
 						}
 					}
-/*					else if(t1.getFormatTakmicenja().equals("Dvostruka eliminacija"))
+					else if(t1.getFormatTakmicenja().equals("Dvostruki eliminacioni"))
 					{
 						
+						for (int i =0; i< takmicari.size(); i++)
+						{
+							if (takdao.throwOutLooser(takmicari.get(i).getId(), t1.getId()))
+							{
+								dvostrukaLuzeri.add(takmicari.get(i));
+								takmicari.remove(i);
+								i--;
+							}
+							else if (takdao.throwOutDoubleLooser(takmicari.get(i).getId(), t1.getId()))
+							{
+								takmicari.remove(i);
+								i--;
+							}
+						}
+						for (int j = 0; j < dvostrukaLuzeri.size(); j++)
+						{
+							if (takdao.throwOutDoubleLooser(dvostrukaLuzeri.get(j).getId(), t1.getId()))
+							{
+								dvostrukaLuzeri.remove(j);
+								j--;
+							}
+						}
+						if(takmicari.size() + dvostrukaLuzeri.size() == 1)
+						{
+							btnNovaRunda.setEnabled(false);
+							if(takmicari.size() == 1)
+							{
+								takmicari.get(0).setBrojTitula(takmicari.get(0).getBrojTitula()+1);
+							}
+							else if (dvostrukaLuzeri.size() == 1)
+							{
+								dvostrukaLuzeri.get(0).setBrojTitula(dvostrukaLuzeri.get(0).getBrojTitula()+1);
+							}
+						}
+						DvostrukaEliminacija de = new DvostrukaEliminacija();
+						List<Mec> mecevi = new ArrayList<Mec>();
+						List<Mec> mecevi2 = new ArrayList<Mec>();
+						MecDAO mdao = new MecDAO();
+						try 
+						{
+							mecevi = de.GenerisiRunduWinners( takmicari , t1);
+							for (int i = 0; i < mecevi.size(); i++)
+							{
+					 	 		System.out.println("UŠAO");
+								mdao.create(mecevi.get(i));
+							}
+							mecevi2 = de.GenerisiRunduWinners( dvostrukaLuzeri, t1);
+							for(int j = 0; j<mecevi2.size();j++)
+							{
+								mdao.create(mecevi2.get(j));
+							}
+							JFrame thisFrame = (JFrame) SwingUtilities
+									.getRoot(textField);
+							thisFrame.dispose();
+							parentFrame.setEnabled(true);
+							gpf.RefreshTables();
+						} 
+						catch (Exception e1) 
+						{
+							logger.error("Došlo je do greške!", e1);
+						}
 					}
-*/					else if (t1.getFormatTakmicenja().equals("Swiss"))
+					else if (t1.getFormatTakmicenja().equals("Swiss"))
 					{
 						System.out.println("UŠAO");
 						swiss++;

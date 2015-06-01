@@ -28,7 +28,7 @@ public class DvostrukaEliminacija {
 			return mecevi;		
 	}
 	
-	List<Mec> GenerisiRunduWinners(List<Takmicar> winners, Turnir turnir) throws Exception
+	public List<Mec> GenerisiRunduWinners(List<Takmicar> winners, Turnir turnir) throws Exception
 	{
 		mecevi = jel.GenerisiRundu(winners, turnir, false);
 		return mecevi;
