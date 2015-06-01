@@ -1,6 +1,7 @@
 package formatiturnira;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class RoundRobin { // NIJE TESTIRANO, TREBA PROVJERITI
 		tmp.addAll(takmicari);
 		int half = tmp.size() / 2;
 		int rounds = tmp.size() - 1;
-
+		long ofset = 1*1000*60*60*3;
+		int brojac = 0;
 		for(int k = 0; k < rounds; k++)
 		{
 			for(int i = 0; i < half; i++)
@@ -41,11 +43,14 @@ public class RoundRobin { // NIJE TESTIRANO, TREBA PROVJERITI
 				m.setRezultat1((double)0);
 				m.setRezultat2((double)0);
 				m.setTurnir(t);
-				m.setDatumPocetka(t.getDatumPocetka());
+				long termin = t.getDatumPocetka().getTime() + ofset*brojac;
+				Date datum = new Date(termin);
+				m.setDatumPocetka(datum);
 				mecevi.add(m);
 			}
 			tmp.add(1, tmp.get(tmp.size()-1));
 			tmp.remove(tmp.size()-1);
+			brojac++;
 		}
 		return mecevi;
 	}

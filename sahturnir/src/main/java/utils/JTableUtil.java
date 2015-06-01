@@ -166,7 +166,7 @@ public class JTableUtil {
 		int prebroj = 0;
 		double sumaBodova = 0.0d;
 		String[] columnNames = { "Pozicija", "Naziv kluba",
-				"Broj takmièara","Predsjednik" ,"Ukupan broj bodova" };
+				"Broj takmièara","Predsjednik","Bodovi na turniru" ,"Ukupan broj bodova" };
 		String[][] data = new String[klubovi.size()][5];
  		Collections.sort(klubovi);
 		for (int i = 0; i < klubovi.size(); i++) {
@@ -180,7 +180,7 @@ public class JTableUtil {
 			}
 			data[i][2] = Integer.toString(prebroj);
 			data[i][3] = klubovi.get(i).getPredsjednik();
-			data[i][4] = Double.toString(sumaBodova);
+			data[i][5] = Double.toString(sumaBodova);
 			sumaBodova = 0;
 			prebroj = 0;
 		}

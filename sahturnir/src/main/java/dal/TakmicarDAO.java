@@ -154,6 +154,56 @@ public class TakmicarDAO extends GenericDAO {
 		return cifra;
 	}
 	
+	public double getTournamentPoints (long id, long turnirID)
+	{
+		double bodovi = 0.0d;
+		final Logger logger = Logger.getLogger(KlubDAO.class);
+		try {
+			Class.forName(driver);
+				Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
+				try{
+					PreparedStatement statement3;
+					statement3 = connection
+							.prepareStatement("select sum(rezultat1) from mecevi where mecevi.turnir = ? AND mecevi.takmicar1 = ?;");
+		
+					statement3.setLong(1, turnirID);
+					statement3.setLong(2, id);
+					ResultSet result3 = statement3.executeQuery();
+					result3.next();
+					String sum3 = result3.getString(1);
+					if(sum3 != null)
+						bodovi += Double.parseDouble(sum3);
+
+					
+					PreparedStatement statement4;
+					statement4 = connection
+							.prepareStatement("select sum(rezultat2) from mecevi where mecevi.turnir = ? AND mecevi.takmicar2 = ?;");
+		
+					statement4.setLong(1, turnirID);
+					statement4.setLong(2, id);
+					ResultSet result4 = statement4.executeQuery();
+					result4.next();
+					String sum4 = result4.getString(1);
+					if(sum4 != null)
+						bodovi += Double.parseDouble(sum4);
+					
+				} catch (Exception e) {
+					throw e;
+				}
+				finally{
+					connection.close();
+				}
+			
+		} 
+		catch (Exception e) {
+			logger.error("Greška", e);
+		}
+		finally{}
+		
+		
+		return bodovi;
+	}
+	
 	public boolean validate(long id, long turnirID)
 	{
 		final Logger logger = Logger.getLogger(KlubDAO.class);

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import klase.Klub;
+import klase.Takmicar;
 
 public class KlubDAO extends GenericDAO {
 
@@ -47,28 +48,22 @@ public class KlubDAO extends GenericDAO {
 	public double calculateClubPoints(long id) {
 		final Logger logger = Logger.getLogger(KlubDAO.class);
 		double resultValue = 0.;
-		try {
-			Class.forName(driver);
-			Connection connection = DriverManager.getConnection(cs1, cs2, cs3);
-			try {
-				PreparedStatement statement = connection
-						.prepareStatement("SELECT sum(t.brojBodova) FROM takmicari t WHERE t.klub = ?;");
-				statement.setLong(1, id);
-				ResultSet result = statement.executeQuery();
-				result.next();
-				String sum = result.getString(1);
-				if(sum != null)
-					resultValue = Double.parseDouble(sum);
-			} catch (Exception e) {
-				throw e;
-			} finally {
-				connection.close();
+		double bodoviKluba = 0.0d;
+				
+		TakmicarDAO trdao = new TakmicarDAO();
+		List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
+		for(int i=0;i<takmicari1.size();i++)
+		{
+			if(takmicari1.get(i).getKlub().getId() == id)
+			{
+				int[] omjer =  trdao.getMatchSummary(takmicari1.get(i).getId());
+				int brojPobjeda = omjer[0];
+				int brojNerijesenih = omjer[1];
+				bodoviKluba += brojPobjeda*1.0d + brojNerijesenih*0.5d;
 			}
-		} catch (Exception e) {
-			logger.error("Došlo je do greške!", e);
-		} finally {
 		}
-		return resultValue;
+				
+		return bodoviKluba;
 	}
 	
 	public int getNumberOfTournamentsForClub(long id) {

@@ -26,6 +26,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -35,7 +36,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.awt.SystemColor;
 import java.awt.Font;
 
@@ -76,6 +79,31 @@ public class IzvjestajORangListiKlubova extends JFrame {
 	private transient KlubDAO klubdao;
 	private JFrame parentFrame;
 	private JButton btnPrint = new JButton("Print");
+	
+	/**
+	 * Launch the application.
+	 */
+	private void PrepareTableDesign(JTable table) {
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table,
+					Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				Color c1 = new Color(0x67FD9A);
+				Color c2 = new Color(0xC0C0C0);
+				Color c3 = new Color(0x343434);
+				final Component c = super.getTableCellRendererComponent(table,
+						value, isSelected, hasFocus, row, column);
+				c.setBackground(row % 2 == 0 ? c1 : c2);
+				table.setRowHeight(row, 40);
+				JTableHeader h = table.getTableHeader();
+				h.setOpaque(false);
+				h.setBackground(c3);
+				h.setForeground(Color.white);
+				return c;
+			}
+		});
+	}
 
 	public IzvjestajORangListiKlubova(JFrame pf) {
 		parentFrame = pf;
@@ -114,7 +142,27 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		txtpnIzvjetajORang_1.setText("Izvje\u0161taj o rang listi klubova");
 		txtpnIzvjetajORang_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtpnIzvjetajORang_1.setBackground(Color.WHITE);
+		//////////////////////////////////////////
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] { "Pozicija", "Naziv kluba",
+					"Broj takmièara","Predsjednik" ,"Broj bodova na turniru" ,"Ukupan broj bodova" }
+		));
 		
+		table.getColumnModel().getColumn(0).setPreferredWidth(25);
+		table.getColumnModel().getColumn(1).setPreferredWidth(90);
+		table.getColumnModel().getColumn(2).setPreferredWidth(25);
+		table.getColumnModel().getColumn(3).setPreferredWidth(35);
+		table.getColumnModel().getColumn(4).setPreferredWidth(55);
+		table.getColumnModel().getColumn(5).setPreferredWidth(55);
+		
+		scrollPane.setViewportView(table);
+		
+		
+		
+		////////////////////////////////////////////
 		jtutil = new JTableUtil();
 		final List<Klub> klubovi = jtutil.populateComboBoxKlubovi();
 	
@@ -133,6 +181,120 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		
 		klubdao = new KlubDAO();
 		
+		
+		
+		comboBox.addActionListener(new ActionListener() {
+			 
+		    public void actionPerformed(ActionEvent event) {
+		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
+		        String selectedTurnir = (String) combo.getSelectedItem();
+		        
+		        //////////////////////////////////////////
+		        ////////////////////////////////////////////
+		        List<Takmicar> takmicari = new ArrayList<Takmicar>();
+				Set<Takmicar> hs = new HashSet<Takmicar>();
+				Set<Klub> hs1 = new HashSet<Klub>();
+				List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
+				List<Klub> klubovi = new ArrayList<Klub>();
+				List<Klub> klubovi1 = new ArrayList<Klub>();
+				List<Mec> mecevi = new ArrayList<Mec>();
+				List<Mec> mecevi1 = new ArrayList<Mec>();
+				
+				takmicari = TakmicarDAO.getAll(Takmicar.class);
+				
+
+				klubovi = KlubDAO.getAll(Klub.class);
+				Turnir tx = new Turnir();
+				
+				mecevi = MecDAO.getAll(Mec.class);
+				for(int i=0;i<mecevi.size();i++)
+				{
+					if(mecevi.get(i).getTurnir().getNaziv().equals(selectedTurnir))
+					{
+						mecevi1.add(mecevi.get(i));
+						tx = mecevi.get(i).getTurnir();
+					}
+				}
+			
+				for(int i=0;i<mecevi1.size();i++)
+				{
+					for(int j=0;j<takmicari.size();j++)
+					{
+						if(mecevi1.get(i).getTakmicar1().getId()==takmicari.get(j).getId())
+							takmicari1.add(takmicari.get(j));
+						if(mecevi1.get(i).getTakmicar2().getId()==takmicari.get(j).getId())
+							takmicari1.add(takmicari.get(j));
+					}
+					
+				}
+				hs.addAll(takmicari1);
+				takmicari1.clear();
+				takmicari1.addAll(hs);
+				
+				/*for(int i=0;i<klubovi.size();i++)
+				{*/
+					for(int j=0;j<takmicari1.size();j++)
+					{
+						//if(klubovi.get(i).getId()==takmicari.get(j).getKlub().getId())
+							klubovi1.add(takmicari1.get(j).getKlub());
+						
+					}
+				//}
+				hs1.addAll(klubovi1);
+				klubovi1.clear();
+				klubovi1.addAll(hs1);
+			
+				
+				int prebroj = 0;
+				double sumaBodova = 0.0d;
+				double turnirBodovi = 0.0d;
+				String[][] data = new String[klubovi1.size()][6];
+
+				
+				Collections.sort(klubovi1);
+		 		
+		 		((DefaultTableModel) table.getModel()).setRowCount(0);
+		        PrepareTableDesign(table);
+		        
+		        TakmicarDAO trdao = new TakmicarDAO();
+		 		
+				for (int i = 0; i < klubovi1.size(); i++) {
+					data[i][0] = Integer.toString(i + 1);
+					data[i][1] = klubovi1.get(i).getNaziv();
+					for (int j = 0; j < takmicari1.size(); j++) {
+						if (takmicari1.get(j).getKlub().getId() == klubovi1.get(i).getId()) {
+							sumaBodova = sumaBodova + takmicari1.get(j).getBrojBodova();
+							prebroj++;
+
+		   			         turnirBodovi += trdao.getTournamentPoints(takmicari1.get(j).getId(), tx.getId());
+						}
+					}
+					
+					
+					data[i][2] = Integer.toString(prebroj);
+					data[i][3] = klubovi1.get(i).getPredsjednik();
+					data[i][4] = Double.toString(turnirBodovi);
+					data[i][5] = Double.toString(sumaBodova);
+					
+					KlubDAO g=new KlubDAO();
+					
+					
+				((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
+        			klubovi1.get(i).getNaziv(), 
+        			g.getNumberOfContestantsForClub(klubovi1.get(i).getId()),
+        			klubovi1.get(i).getPredsjednik(), turnirBodovi,
+        			sumaBodova });
+			
+					sumaBodova = 0;
+					prebroj = 0;
+					turnirBodovi = 0;
+				}
+		    
+		    
+		    
+		    
+		    
+		    }});
 //		btnPrint.setEnabled(false);
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -181,7 +343,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 					.addContainerGap())
 		);
 		
-		table = new JTable();
+		/*table = new JTable();
 		JTableUtil jtutil = new JTableUtil();
 		table.setModel(jtutil.populateJTableRangListaKlubovi());
 		table.getColumnModel().getColumn(0).setPreferredWidth(25);
@@ -189,8 +351,9 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		table.getColumnModel().getColumn(2).setPreferredWidth(25);
 		table.getColumnModel().getColumn(3).setPreferredWidth(55);
 		table.getColumnModel().getColumn(4).setPreferredWidth(25);
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(table);*/
 		contentPane.setLayout(gl_contentPane);
+		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			@Override
 			public Component getTableCellRendererComponent(JTable table,
@@ -213,11 +376,8 @@ public class IzvjestajORangListiKlubova extends JFrame {
 //		comboBox.setVisible(false);
 		final List<Klub> kluboviTurnira = new ArrayList<Klub>();
 		
-		comboBox.addActionListener(new ActionListener() {
-			 
-		    public void actionPerformed(ActionEvent event) {
-		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
-		        String selectedTurnir = (String) combo.getSelectedItem();
+		
+		       /* String selectedTurnir = (String) combo.getSelectedItem();
 		        btnPrint.setEnabled(true);
 		        for (int i=0; i<turniri.size(); i++)
 		        {
@@ -284,7 +444,7 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		 		       	}  	
 		 		       	textField.setText(LocalDateTime.now().toString());
 		        	 }  
-		        }
-		    }});			
+		        }*/
+		   			
 	}
 }
