@@ -59,6 +59,7 @@ public class RezultatiMecevaUnos extends JFrame {
 	private JSpinner spinner = new JSpinner();		
 	private JSpinner spinner_1 = new JSpinner();
 	private JSpinner spinner_2 = new JSpinner();
+	private JSpinner spinner_3 = new JSpinner();
 	transient Mec m1;
 	transient Turnir t1;
 	private JFrame parentFrame;
@@ -284,7 +285,8 @@ public class RezultatiMecevaUnos extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Podaci o me\u010Du", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBackground(Color.WHITE);
@@ -295,6 +297,7 @@ public class RezultatiMecevaUnos extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				m1.setRezultat1((Double)spinner.getValue());
 				m1.setRezultat2((Double)spinner_1.getValue());
+				m1.setDatumPocetka((Date)spinner_3.getValue());
 				MecDAO mdao = new MecDAO();
 				mdao.update(m1);
 		        JOptionPane.showMessageDialog(null, "Uspješno ste izmijenili podatke o meèu!", "OK", JOptionPane.INFORMATION_MESSAGE);
@@ -311,27 +314,23 @@ public class RezultatiMecevaUnos extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(10))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(btnPotvrdi)
-							.addContainerGap())))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
+						.addComponent(btnPotvrdi, Alignment.TRAILING))
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 275, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnPotvrdi)
-					.addContainerGap())
+					.addGap(18))
 		);
 		
 		JTextPane txtpnNazivTurnira = new JTextPane();
 		txtpnNazivTurnira.setEditable(false);
 		txtpnNazivTurnira.setText("Naziv turnira:");
-		
 		textField = new JTextField();
 		textField.setColumns(10);
 		
@@ -356,7 +355,6 @@ public class RezultatiMecevaUnos extends JFrame {
 		JTextPane txtpnTakmiar_1 = new JTextPane();
 		txtpnTakmiar_1.setEditable(false);
 		txtpnTakmiar_1.setText("Takmi\u010Dar 2:");
-		//spinner_2.setValue(m.getDatumPocetka());
 		spinner.setValue(m.getRezultat1());
 		spinner_1.setValue(m.getRezultat2());
 		textField_3 = new JTextField();
@@ -405,24 +403,35 @@ public class RezultatiMecevaUnos extends JFrame {
 		});
 		spinner_1.setModel(new SpinnerNumberModel(0, 0, 1, 0.5d));
 		spinner_1.setValue(1.0d);
+		
+		
+		spinner_3.setModel(new SpinnerDateModel(m.getDatumPocetka(), null, null, Calendar.DAY_OF_YEAR));
+		
+		JTextPane txtpnPoetakMea = new JTextPane();
+		txtpnPoetakMea.setText("Vrijeme po\u010Detka:");
+		txtpnPoetakMea.setEditable(false);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(txtpnTakmiar_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, Alignment.LEADING)
-						.addComponent(textField_1, Alignment.LEADING)
-						.addComponent(txtpnNazivTurnira, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-						.addComponent(txtpnTakmiar, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtpnKategorija, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_3, Alignment.LEADING))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtpnPoetakMea, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(spinner_3, Alignment.LEADING)
+								.addComponent(txtpnTakmiar_1, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField, Alignment.LEADING)
+								.addComponent(textField_1, Alignment.LEADING)
+								.addComponent(txtpnNazivTurnira, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+								.addComponent(txtpnTakmiar, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpnKategorija, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_3, Alignment.LEADING))
+							.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+								.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
@@ -447,7 +456,10 @@ public class RezultatiMecevaUnos extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(spinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(92, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(txtpnPoetakMea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(spinner_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);

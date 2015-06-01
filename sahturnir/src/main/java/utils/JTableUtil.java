@@ -321,7 +321,7 @@ public class JTableUtil {
 		MecDAO tdao = new MecDAO();
 		mecevi = tdao.getAll(Mec.class);
 		String[] columnNames = { "ID", "Takmièar 1", "Takmièar 2", "Rezultat",
-				"Datum poèetka", "", "" };
+				"Vrijeme poèetka", "", "" };
 		int size = 0, j = 0;
 		for (int i = 0; i < mecevi.size(); i++)
 			if (mecevi.get(i).getTurnir().getId() == t.getId())
@@ -337,7 +337,7 @@ public class JTableUtil {
 						+ mecevi.get(i).getTakmicar2().getPrezime();
 				data[j][3] = String.valueOf(mecevi.get(i).getRezultat1())
 						+ " : " + String.valueOf(mecevi.get(i).getRezultat2());
-				String datumPocetka = new SimpleDateFormat("dd.MM.yyyy.")
+				String datumPocetka = new SimpleDateFormat("dd.MM.yyyy. HH:mm")
 						.format(mecevi.get(i).getDatumPocetka());
 				data[j][4] = datumPocetka;
 				j++;

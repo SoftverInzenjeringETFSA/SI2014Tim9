@@ -288,7 +288,7 @@ public class RezultatiMecevaTabela extends JFrame {
 					 	 		System.out.println("UŠAO");
 								mdao.create(mecevi.get(i));
 							}
-							gpf.RefreshTables();
+							RefreshTable();
 							
 						} 
 						catch (Exception e1) 
@@ -350,11 +350,7 @@ public class RezultatiMecevaTabela extends JFrame {
 							{
 								mdao.create(mecevi2.get(j));
 							}
-							JFrame thisFrame = (JFrame) SwingUtilities
-									.getRoot(textField);
-							thisFrame.dispose();
-							parentFrame.setEnabled(true);
-							gpf.RefreshTables();
+							RefreshTable();
 						} 
 						catch (Exception e1) 
 						{
