@@ -26,6 +26,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
@@ -35,7 +36,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.awt.SystemColor;
 import java.awt.Font;
 
@@ -185,43 +188,95 @@ public class IzvjestajORangListiKlubova extends JFrame {
 		        JComboBox<String> combo = (JComboBox<String>) event.getSource();
 		        String selectedTurnir = (String) combo.getSelectedItem();
 		        
-		        
+		        //////////////////////////////////////////
+		        ////////////////////////////////////////////
 		        List<Takmicar> takmicari = new ArrayList<Takmicar>();
+				Set<Takmicar> hs = new HashSet<Takmicar>();
+				Set<Klub> hs1 = new HashSet<Klub>();
+				List<Takmicar> takmicari1 = new ArrayList<Takmicar>();
 				List<Klub> klubovi = new ArrayList<Klub>();
-
-				takmicari = TakmicarDAO .getAll(Takmicar.class);
+				List<Klub> klubovi1 = new ArrayList<Klub>();
+				List<Mec> mecevi = new ArrayList<Mec>();
+				List<Mec> mecevi1 = new ArrayList<Mec>();
+				
+				takmicari = TakmicarDAO.getAll(Takmicar.class);
+				
 
 				klubovi = KlubDAO.getAll(Klub.class);
+				Turnir tx = new Turnir();
+				
+				mecevi = MecDAO.getAll(Mec.class);
+				for(int i=0;i<mecevi.size();i++)
+				{
+					if(mecevi.get(i).getTurnir().getNaziv().equals(selectedTurnir))
+					{
+						mecevi1.add(mecevi.get(i));
+						tx = mecevi.get(i).getTurnir();
+					}
+				}
+			
+				for(int i=0;i<mecevi1.size();i++)
+				{
+					for(int j=0;j<takmicari.size();j++)
+					{
+						if(mecevi1.get(i).getTakmicar1().getId()==takmicari.get(j).getId())
+							takmicari1.add(takmicari.get(j));
+						if(mecevi1.get(i).getTakmicar2().getId()==takmicari.get(j).getId())
+							takmicari1.add(takmicari.get(j));
+					}
+					
+				}
+				hs.addAll(takmicari1);
+				takmicari1.clear();
+				takmicari1.addAll(hs);
+				
+				/*for(int i=0;i<klubovi.size();i++)
+				{*/
+					for(int j=0;j<takmicari1.size();j++)
+					{
+						//if(klubovi.get(i).getId()==takmicari.get(j).getKlub().getId())
+							klubovi1.add(takmicari1.get(j).getKlub());
+						
+					}
+				//}
+				hs1.addAll(klubovi1);
+				klubovi1.clear();
+				klubovi1.addAll(hs1);
+			
 				
 				int prebroj = 0;
 				double sumaBodova = 0.0d;
 				
-				String[][] data = new String[klubovi.size()][5];
-		 		Collections.sort(klubovi);
+				String[][] data = new String[klubovi1.size()][5];
+		 		Collections.sort(klubovi1);
 		 		
 		 		((DefaultTableModel) table.getModel()).setRowCount(0);
 		        PrepareTableDesign(table);
+		        
 		 		
-				for (int i = 0; i < klubovi.size(); i++) {
+				for (int i = 0; i < klubovi1.size(); i++) {
 					data[i][0] = Integer.toString(i + 1);
-					data[i][1] = klubovi.get(i).getNaziv();
-					for (int j = 0; j < takmicari.size(); j++) {
-						if (takmicari.get(j).getKlub().getId() == klubovi.get(i).getId()) {
-							sumaBodova = sumaBodova + takmicari.get(j).getBrojBodova();
+					data[i][1] = klubovi1.get(i).getNaziv();
+					for (int j = 0; j < takmicari1.size(); j++) {
+						if (takmicari1.get(j).getKlub().getId() == klubovi1.get(i).getId()) {
+							sumaBodova = sumaBodova + takmicari1.get(j).getBrojBodova();
 							prebroj++;
 						}
 					}
 					data[i][2] = Integer.toString(prebroj);
-					data[i][3] = klubovi.get(i).getPredsjednik();
+					data[i][3] = klubovi1.get(i).getPredsjednik();
 					data[i][4] = Double.toString(sumaBodova);
+					
+					
 					
 					KlubDAO g=new KlubDAO();
 					
 					
 				((DefaultTableModel) table.getModel()).addRow(new Object[] {i+1, 
-        			klubovi.get(i).getNaziv() + " " + g.getNumberOfContestantsForClub(klubovi.get(i).getId()), 
-        			klubovi.get(i).getPredsjednik(),
-        			sumaBodova});
+        			klubovi1.get(i).getNaziv() + " " + g.getNumberOfContestantsForClub(klubovi1.get(i).getId()), 
+        			g.getNumberOfContestantsForClub(klubovi1.get(i).getId()),
+        			klubovi1.get(i).getPredsjednik(),
+        			sumaBodova });
 			
 					
 					
